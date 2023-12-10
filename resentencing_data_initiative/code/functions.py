@@ -10,7 +10,7 @@ import datetime
 from tqdm import tqdm
 
 # Functions
-def extract_data(main_path, county_name, file_name, month = None, index = False): 
+def extract_data(main_path, county_name, file_name, month = None): 
     """
 
     Parameters
@@ -24,8 +24,6 @@ def extract_data(main_path, county_name, file_name, month = None, index = False)
         Name of the .xlsx or .csv file to extract, ex: 'sorting_criteria.xlsx'
     month : str, optional
         Year and month for which data should be extracted, ex: '2023_06'
-    index : boolean, optional
-        To store the index of the file or not. The default is False.
 
     Returns
     -------
@@ -33,8 +31,14 @@ def extract_data(main_path, county_name, file_name, month = None, index = False)
         Dataframe with the data from the file path
 
     """
-    sheet_name = '/'.join([main_path, county_name, month, file_name])
-    df = pd.read_excel(sheet_name)
+    # If the month parameter is passed
+    if month: 
+        sheet_name = '/'.join([main_path, county_name, month, file_name])
+        df = pd.read_excel(sheet_name)
+    else:
+        sheet_name = '/'.join([main_path, county_name, file_name])
+        df = pd.read_excel(sheet_name)
+        
     return df
 
 
