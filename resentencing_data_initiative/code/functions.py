@@ -32,7 +32,7 @@ def extract_data(main_path, county_name, file_name, index = False):
 
     """
     sheet_name = '/'.join([main_path, county_name, file_name])
-    df = pd.read_excel(sheet_name, index = False)
+    df = pd.read_excel(sheet_name)
     return df
 
 
