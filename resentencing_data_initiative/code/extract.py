@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from google.colab import drive
-drive.mount('/content/drive')
 from functions import *
 from config import *
 import pandas as pd
