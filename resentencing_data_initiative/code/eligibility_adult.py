@@ -36,6 +36,7 @@ Minors Tried as Adults
 # Add all of the time variables to the demographic data necessary for classification - years served, sentence length, age, etc.
 demographics, errors = gen_time_vars(demographics = demographics, merge = True)
 # Show CDCR numbers and data of individuals with no age or time-served information
+print('These CDCR numbers do not have age or time-served information associated with them due to an error in the calculation for time variables')
 print(errors)
 
 """ 
