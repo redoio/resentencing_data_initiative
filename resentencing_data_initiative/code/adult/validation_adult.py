@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from functions import *
-from config import *
-from extract import *
+from .functions import *
+from .config import *
+from .extract import *
 from eligibility_adult import adult_el_cdcr_nums
 import pandas as pd
 import numpy as np
