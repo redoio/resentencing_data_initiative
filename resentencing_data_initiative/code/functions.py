@@ -10,7 +10,7 @@ import datetime
 from tqdm import tqdm
 
 # Functions
-def extract_data(main_path, county_name, file_name, month = None): 
+def extract_data(main_path, county_name, file_name, month = None, pickle = False): 
     """
 
     Parameters
@@ -24,11 +24,13 @@ def extract_data(main_path, county_name, file_name, month = None):
         Name of the .xlsx or .csv file to extract, ex: 'sorting_criteria.xlsx'
     month : str, optional
         Year and month for which data should be extracted, ex: '2023_06'
-
+    pickle: boolean, optional
+        Specify whether to store dataframe output as a pickle file or not
+        
     Returns
     -------
     df : pandas dataframe
-        Dataframe with the data from the file path
+        Dataframe using the file path and the pickle output if specified 
 
     """
     # If the month parameter is passed
@@ -36,10 +38,14 @@ def extract_data(main_path, county_name, file_name, month = None):
         sheet_name = '/'.join([main_path, county_name, month, file_name])
         df = pd.read_excel(sheet_name)
         print('Finished extracting data from: '+file_name)
+        if pickle:
+            df.to_pickle(sheet_name+".pkl")
     else:
         sheet_name = '/'.join([main_path, county_name, file_name])
         df = pd.read_excel(sheet_name)
         print('Finished extracting data from: '+file_name)
+        if pickle:
+            df.to_pickle(sheet_name+".pkl")
     return df
 
 

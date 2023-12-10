@@ -2,7 +2,7 @@
 
 from functions import *
 from config import *
-from extract import sorting_criteria, demographics, merit_credit, milestone_credit, rehab_credit, voced_credit, rv_report, current_commits, prior_commits
+from extract import *
 import pandas as pd
 import numpy as np
 import datetime
