@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from .functions import *
-from .config import *
-from .extract import *
+from functions import *
+from config import *
+from extract import *
 import pandas as pd
 import numpy as np
 import datetime

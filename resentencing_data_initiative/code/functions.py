@@ -35,10 +35,11 @@ def extract_data(main_path, county_name, file_name, month = None):
     if month: 
         sheet_name = '/'.join([main_path, county_name, month, file_name])
         df = pd.read_excel(sheet_name)
+        print('Finished extracting data for'+file_name)
     else:
         sheet_name = '/'.join([main_path, county_name, file_name])
         df = pd.read_excel(sheet_name)
-        
+        print('Finished extracting data for'+file_name)
     return df
 
 
