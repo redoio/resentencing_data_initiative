@@ -1,13 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Wed Nov 22 18:07:35 2023
-
-@author: apkom
-"""
-import pandas as pd
-import numpy as np
-import datetime
-from tqdm import tqdm
 
 # Functions
 def extract_data(main_path, county_name, file_name, month = None, pickle = False): 
@@ -203,8 +194,7 @@ def det_inel_off(offenses,
       
 
 def gen_summary(df, current_commits, prior_commits, merit_credit, 
-                milestone_credit, rehab_credit, voced_credit, rv_report, 
-                write_path, to_excel = True):
+                milestone_credit, rehab_credit, voced_credit, rv_report):
     # Initialize lists for other variables
     current_conv = []
     prior_conv = []
@@ -230,9 +220,5 @@ def gen_summary(df, current_commits, prior_commits, merit_credit,
     df['Prior Convictions'] = prior_conv
     df['Programming'] = programming
     df['Rules Violations'] = rvr
-    
-    if to_excel:
-        # Write data to excel files
-        df.to_excel(write_path, index = False)
         
     return df

@@ -3,7 +3,6 @@
 from functions import *
 from config import *
 from extract import *
-from eligibility_adult import adult_el_cdcr_nums
 import pandas as pd
 import numpy as np
 import datetime
@@ -15,7 +14,23 @@ Validation of Cohort 1 results with OpenLattice results
 
 """
 
+# Fix path and date range
+county_name = 'Los Angeles'
+month = '/'.join(['Rough', 'Data_05_2021', '21_05'])
+data_path = '/content/drive/My Drive/Stanford Law 3XP/Data'
+code_path = '/content/drive/My Drive/Stanford Law 3XP/Code'
+
+# CDCR numbers eligible for resentencing according to OpenLattice
 ol_el_cdcr_nums = pd.read_excel('/'.join([data_path, county_name, 'Rough/LA_DA_Cohort1_Update_05_2021.xlsx']))['CDCR..'].to_list()
+
+# CDCR numbers eligible for resentencing according to our logic
+errors, adult_el_cdcr_nums = gen_adult_eligibility(demographics, 
+                                                   current_commits, 
+                                                   prior_commits, 
+                                                   data_path = data_path, 
+                                                   county_name = county_name, 
+                                                   month = month,
+                                                   to_excel = False)
 
 # Find CDCR numbers eligible in OpenLattice script that are ineligible in this script
 missing_nums = []
