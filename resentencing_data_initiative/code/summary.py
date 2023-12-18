@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from helpers import *
+
 def gen_eligible_summary(el_cdcr_nums, 
                          demographics,
                          current_commits, 
