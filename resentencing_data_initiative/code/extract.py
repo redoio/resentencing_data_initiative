@@ -6,7 +6,7 @@ import numpy as np
 import datetime
 from tqdm import tqdm
 
-def get_input(data_path, county_name, pickle):
+def get_input(data_path, month, county_name, pickle):
     # Criteria for selection
     sorting_criteria = extract_data(main_path = data_path, 
                                     county_name = county_name, 
