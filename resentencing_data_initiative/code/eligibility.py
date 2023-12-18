@@ -190,8 +190,8 @@ def gen_juvenile_eligibility(demographics,
 
 
 def viz_eligibility(adult_el_cdcr_nums, 
-                        juvenile_el_cdcr_nums, 
-                        demographics):
+                    juvenile_el_cdcr_nums, 
+                    demographics):
     
     # Adult eligible demographics
     print('Top 20 offenses of individuals in Cohort 1 who meet all 5 eligibility conditions (from demographics data)')
