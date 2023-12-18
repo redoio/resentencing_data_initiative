@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
 
+import pandas as pd
+import numpy as np
+import datetime
+from tqdm import tqdm
+
 # Functions
 def extract_data(main_path, county_name, file_name, month = None, pickle = False): 
     """
