@@ -32,6 +32,7 @@ Minors Tried as Adults
 """
 
 def gen_adult_eligibility(demographics, 
+                          sorting_criteria,
                           current_commits, 
                           prior_commits, 
                           data_path, 
@@ -112,6 +113,7 @@ def gen_adult_eligibility(demographics,
 
 
 def gen_juvenile_eligibility(demographics, 
+                             sorting_criteria,
                              current_commits, 
                              prior_commits, 
                              data_path, 
@@ -201,19 +203,19 @@ def viz_eligibility(adult_el_cdcr_nums,
     
     # Adult eligible demographics
     print('Top 20 offenses of individuals in Cohort 1 who meet all 5 eligibility conditions (from demographics data)')
-    print(demographics[demographics['CDCR #'].isin(el_cdcr_nums_5)]['Description'].value_counts()[0:20])
+    print(demographics[demographics['CDCR #'].isin(adult_el_cdcr_nums)]['Description'].value_counts()[0:20])
 
     print('Top 20 offenses of individuals in Cohort 1 who meet all 5 eligibility conditions (from demographics data)')
-    demographics[demographics['CDCR #'].isin(el_cdcr_nums_5)]['Controlling Offense'].value_counts()[0:20]
+    demographics[demographics['CDCR #'].isin(adult_el_cdcr_nums)]['Controlling Offense'].value_counts()[0:20]
 
     print('Top 20 offenses of individuals in Cohort 1 who meet all 5 eligibility conditions (from current commits data)')
-    current_commits[current_commits['CDCR #'].isin(el_cdcr_nums_5)]['Offense'].value_counts()[0:20]
+    current_commits[current_commits['CDCR #'].isin(adult_el_cdcr_nums)]['Offense'].value_counts()[0:20]
 
     print('Sex offenses of individuals in Cohort 1 who meet all 5 eligibility conditions')
-    print(demographics[demographics['CDCR #'].isin(el_cdcr_nums_5)]['Sex Registrant'].value_counts())
+    print(demographics[demographics['CDCR #'].isin(adult_el_cdcr_nums)]['Sex Registrant'].value_counts())
 
     print('Type of offenses of individuals in Cohort 1 who meet all 5 eligibility conditions')
-    print(demographics[demographics['CDCR #'].isin(el_cdcr_nums_5)]['Offense Category'].value_counts())
+    print(demographics[demographics['CDCR #'].isin(adult_el_cdcr_nums)]['Offense Category'].value_counts())
 
     ####
     
