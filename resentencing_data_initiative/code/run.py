@@ -23,7 +23,7 @@ sorting_criteria, demographics, merit_credit, milestone_credit, rehab_credit, vo
 
 # Identify eligible CDCR numbers for adults and juveniles
 errors, adult_el_cdcr_nums = gen_adult_eligibility(demographics = demographics, 
-                                                   sorting_criteria = sorting_crieria,
+                                                   sorting_criteria = sorting_criteria,
                                                    current_commits = current_commits, 
                                                    prior_commits = prior_commits, 
                                                    data_path = config.data_path, 
@@ -32,7 +32,7 @@ errors, adult_el_cdcr_nums = gen_adult_eligibility(demographics = demographics,
                                                    to_excel = True)
 
 errors, juvenile_el_cdcr_nums = gen_juvenile_eligibility(demographics = demographics, 
-                                                         sorting_criteria = sorting_crieria,
+                                                         sorting_criteria = sorting_criteria,
                                                          current_commits = current_commits, 
                                                          prior_commits = prior_commits, 
                                                          data_path = config.data_path, 
