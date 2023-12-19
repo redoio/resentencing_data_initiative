@@ -53,7 +53,8 @@ adult_summary = gen_eligible_summary(el_cdcr_nums = adult_el_cdcr_nums,
                                      data_path = config.data_path,
                                      county_name = config.county_name, 
                                      month = config.month,
-                                     file_name = 'summary_adult',
+                                     file_name = 'summary_adult.xlsx',
+                                     write_path = None
                                      to_excel = True)
 
 juvenile_summary = gen_eligible_summary(el_cdcr_nums = juvenile_el_cdcr_nums, 
@@ -68,5 +69,6 @@ juvenile_summary = gen_eligible_summary(el_cdcr_nums = juvenile_el_cdcr_nums,
                                         data_path = config.data_path,
                                         county_name = config.county_name, 
                                         month = config.month,
-                                        file_name = 'summary_juvenile',
+                                        file_name = 'summary_juvenile.xlsx',
+                                        write_path = None
                                         to_excel = True)
