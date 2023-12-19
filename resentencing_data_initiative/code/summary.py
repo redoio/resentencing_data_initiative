@@ -71,9 +71,7 @@ def gen_eligible_summary(el_cdcr_nums,
     """
     
     # Get demographics data of eligible individuals
-    el_df = demographics.loc[demographics['CDCR #'].isin(el_cdcr_nums)][['CDCR #', 'Current Security Level', 'Controlling Offense',
-                                                                         'Current Classication Score', 'Classification Score 5 Years\nAgo',
-                                                                         'Mental Health Level of Care', 'DPPV Disability - Mobility']]
+    el_df = demographics.loc[demographics['CDCR #'].isin(el_cdcr_nums)]
     
     # Remove new-line character in demographics column name
     el_df.rename(columns = {'Classification Score 5 Years\nAgo': 'Classification Score 5 Years Ago'}, 
