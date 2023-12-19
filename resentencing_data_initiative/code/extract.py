@@ -6,7 +6,7 @@ import numpy as np
 import datetime
 from tqdm import tqdm
 
-def get_input(data_path, month, county_name, write_path = None, pickle = False):
+def get_input(data_path, month, county_name, count = 9, write_path = None, pickle = False):
     """
 
     Parameters
@@ -18,6 +18,8 @@ def get_input(data_path, month, county_name, write_path = None, pickle = False):
         Becomes a part of the file path
     month : str
         Year and month for which data should be extracted, ex: '2023_06'
+    count : int
+        Number of inputs to extract, i.e. number of times to call the extract_data() function
     write_path : str, optional 
         Specify the path where the pickle outputs should be written. 
         If pickle = True but write_path = None, data outputs are written to the county_name folder by default. To avoid this behavior, pass a value to write_path.
@@ -53,6 +55,7 @@ def get_input(data_path, month, county_name, write_path = None, pickle = False):
                                     file_name = 'Criteria/sorting_criteria.xlsx', 
                                     write_path = write_path, 
                                     pickle = pickle) 
+    print('\n Extraction 1/'+str(count)+' complete \n')
     
     # Demographics of individuals incarcerated
     demographics = extract_data(main_path = data_path, 
@@ -61,6 +64,7 @@ def get_input(data_path, month, county_name, write_path = None, pickle = False):
                                 month = month,
                                 write_path = write_path,
                                 pickle = pickle)
+    print('\n Extraction 2/'+str(count)+' complete \n')
     
     # Education merit
     merit_credit = extract_data(main_path = data_path, 
@@ -69,6 +73,7 @@ def get_input(data_path, month, county_name, write_path = None, pickle = False):
                                 month = month,
                                 write_path = write_path,
                                 pickle = pickle)
+    print('\n Extraction 3/'+str(count)+' complete \n')
     
     # Milestone credit
     milestone_credit = extract_data(main_path = data_path, 
@@ -77,6 +82,7 @@ def get_input(data_path, month, county_name, write_path = None, pickle = False):
                                     month = month,
                                     write_path = write_path,
                                     pickle = pickle)
+    print('\n Extraction 4/'+str(count)+' complete \n')
     
     # Rehab credit
     rehab_credit = extract_data(main_path = data_path, 
@@ -85,6 +91,7 @@ def get_input(data_path, month, county_name, write_path = None, pickle = False):
                                 month = month,
                                 write_path = write_path,
                                 pickle = pickle)
+    print('\n Extraction 5/'+str(count)+' complete \n')
     
     # Vocational education credit
     voced_credit = extract_data(main_path = data_path, 
@@ -93,6 +100,7 @@ def get_input(data_path, month, county_name, write_path = None, pickle = False):
                                 month = month,
                                 write_path = write_path,
                                 pickle = pickle)
+    print('\n Extraction 6/'+str(count)+' complete \n')
     
     # Rule violations
     rv_report = extract_data(main_path = data_path, 
@@ -101,6 +109,7 @@ def get_input(data_path, month, county_name, write_path = None, pickle = False):
                             month = month,
                             write_path = write_path,
                             pickle = pickle)
+    print('\n Extraction 7/'+str(count)+' complete \n')
     
     # Current commitments
     current_commits = extract_data(main_path = data_path, 
@@ -109,6 +118,7 @@ def get_input(data_path, month, county_name, write_path = None, pickle = False):
                             month = month,
                             write_path = write_path,
                             pickle = pickle)
+    print('\n Extraction 8/'+str(count)+' complete \n')
     
     # Previous commitments
     prior_commits = extract_data(main_path = data_path, 
@@ -117,6 +127,7 @@ def get_input(data_path, month, county_name, write_path = None, pickle = False):
                             month = month,
                             write_path = write_path,
                             pickle = pickle)
+    print('\n Extraction 9/'+str(count)+' complete \n')
     
     return sorting_criteria, demographics, merit_credit, milestone_credit, rehab_credit, voced_credit, rv_report, current_commits, prior_commits 
     

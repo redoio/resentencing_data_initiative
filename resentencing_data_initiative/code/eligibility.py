@@ -79,7 +79,7 @@ def gen_adult_eligibility(demographics,
 
     """
     # Add all of the time variables to the demographic data necessary for classification - years served, sentence length, age, etc.
-    demographics, errors = gen_time_vars(demographics = demographics, merge = True)
+    demographics, errors = gen_time_vars(df = demographics, merge = True)
     
     ####
     
@@ -203,7 +203,7 @@ def gen_juvenile_eligibility(demographics,
 
     """
     # Add all of the time variables to the demographic data necessary for classification - years served, sentence length, age, etc.
-    demographics, errors = gen_time_vars(demographics = demographics, merge = True)
+    demographics, errors = gen_time_vars(df = demographics, merge = True)
     
     ####
     
