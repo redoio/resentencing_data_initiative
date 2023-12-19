@@ -19,7 +19,7 @@ from tqdm import tqdm
 sorting_criteria, demographics, merit_credit, milestone_credit, rehab_credit, voced_credit, rv_report, current_commits, prior_commits = get_input(data_path = config.data_path, 
                                                                                                                                                   month = config.month,
                                                                                                                                                   county_name = config.county_name, 
-                                                                                                                                                  pickle = False) 
+                                                                                                                                                  pickle = True) 
 
 # Identify eligible CDCR numbers for adults and juveniles
 errors, adult_el_cdcr_nums = gen_adult_eligibility(demographics = demographics, 
@@ -54,7 +54,7 @@ adult_summary = gen_eligible_summary(el_cdcr_nums = adult_el_cdcr_nums,
                                      county_name = config.county_name, 
                                      month = config.month,
                                      file_name = 'summary_adult.xlsx',
-                                     write_path = None
+                                     write_path = None,
                                      to_excel = True)
 
 juvenile_summary = gen_eligible_summary(el_cdcr_nums = juvenile_el_cdcr_nums, 
@@ -70,5 +70,5 @@ juvenile_summary = gen_eligible_summary(el_cdcr_nums = juvenile_el_cdcr_nums,
                                         county_name = config.county_name, 
                                         month = config.month,
                                         file_name = 'summary_juvenile.xlsx',
-                                        write_path = None
+                                        write_path = None,
                                         to_excel = True)

@@ -6,7 +6,7 @@ import numpy as np
 import datetime
 from tqdm import tqdm
 
-def get_input(data_path, month, county_name, write_path = None, pickle = None):
+def get_input(data_path, month, county_name, write_path = None, pickle = False):
     """
 
     Parameters
@@ -23,7 +23,8 @@ def get_input(data_path, month, county_name, write_path = None, pickle = None):
         If pickle = True but write_path = None, data outputs are written to the county_name folder by default. To avoid this behavior, pass a value to write_path.
     pickle: boolean, optional
         Specify whether to store dataframe output as a pickle file or not
-       
+        Default is False.
+        
     Returns
     -------
     sorting_criteria : pandas dataframe

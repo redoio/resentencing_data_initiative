@@ -5,7 +5,7 @@ import numpy as np
 import datetime
 from tqdm import tqdm
 
-def extract_data(main_path, county_name, file_name, month = None, write_path = None, pickle = None): 
+def extract_data(main_path, county_name, file_name, month = None, write_path = None, pickle = False): 
     """
 
     Parameters
@@ -24,6 +24,7 @@ def extract_data(main_path, county_name, file_name, month = None, write_path = N
         If pickle = True but write_path = None, data outputs are written to the county_name + month folder by default. To avoid this behavior, pass a value to write_path.
     pickle : boolean, optional
         Specify whether to store dataframe output as a pickle file or not
+        Default is False.
         
     Returns
     -------
@@ -167,7 +168,7 @@ def clean_offense_blk(data):
 def gen_inel_off(inel_offenses, clean = True, 
                  impl = {'all': ["/att", "(664)", "2nd"], '459': ["/att", "(664)"]}, 
                  perm = 2):
-  """
+    """
 
     Parameters
     ----------
@@ -193,42 +194,41 @@ def gen_inel_off(inel_offenses, clean = True,
         List of ineligible offenses including both the baseline ineligible offenses passed in the input (with or without cleaning) and the implied ineligible offenses
 
     """
-  
-  # Clean the offense data if specified
-  if clean:
-    inel_offenses = clean_offense_blk(inel_offenses)
-
-  def gen_impl_off():
-    # Generate new list of offenses based on the implied ineligibility
-    add = []
-    # Loop through all offenses in the ineligible offenses list
-    for off in inel_offenses:
-      # Check the two conditions: generic or exception
-      matching = [key for key in impl.keys() if key in off]
-      # If offense is not called out separately (exception)
-      if (len(matching) == 0) and ('all' in impl.keys()):
-        for impl_val in impl['all']:
-          # If any additions are not already in the offense, ex: PC 123(664) does not need PC 123(664)(664) to be added
-          if impl_val not in off:
-            add.append(off+impl_val)
-      # If offense is called out separately (exception)
-      elif len(matching) != 0:
-        for impl_val in impl[matching[0]]:
-          # If any additions are not already in the offense, ex: PC 123(664) does not need PC 123(664)(664) to be added
-          if impl_val not in off:
-            add.append(off+impl_val)
-    # Combine newly identified ineligible offenses to the list of existing ineligible offenses and return result
-    return list(set.union(set(inel_offenses), set(add)))
-
-  # Generate permutations of the ineligible offenses
-  i = 1
-  while i <= perm:
-    # Run the function to generate implied ineligibility
-    inel_offenses = gen_impl_off()
-    i = i + 1
-
-  # Return the final results after all permutations
-  return inel_offenses
+    # Clean the offense data if specified
+    if clean:
+        inel_offenses = clean_offense_blk(inel_offenses)
+    
+    def gen_impl_off():
+      # Generate new list of offenses based on the implied ineligibility
+      add = []
+      # Loop through all offenses in the ineligible offenses list
+      for off in inel_offenses:
+        # Check the two conditions: generic or exception
+        matching = [key for key in impl.keys() if key in off]
+        # If offense is not called out separately (exception)
+        if (len(matching) == 0) and ('all' in impl.keys()):
+          for impl_val in impl['all']:
+            # If any additions are not already in the offense, ex: PC 123(664) does not need PC 123(664)(664) to be added
+            if impl_val not in off:
+              add.append(off+impl_val)
+        # If offense is called out separately (exception)
+        elif len(matching) != 0:
+          for impl_val in impl[matching[0]]:
+            # If any additions are not already in the offense, ex: PC 123(664) does not need PC 123(664)(664) to be added
+            if impl_val not in off:
+              add.append(off+impl_val)
+      # Combine newly identified ineligible offenses to the list of existing ineligible offenses and return result
+      return list(set.union(set(inel_offenses), set(add)))
+    
+    # Generate permutations of the ineligible offenses
+    i = 1
+    while i <= perm:
+      # Run the function to generate implied ineligibility
+      inel_offenses = gen_impl_off()
+      i = i + 1
+    
+    # Return the final results after all permutations
+    return inel_offenses
 
 
 def det_inel_off(offenses, 
