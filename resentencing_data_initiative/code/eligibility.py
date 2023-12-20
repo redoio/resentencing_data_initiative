@@ -85,7 +85,7 @@ def gen_adult_eligibility(demographics,
     ####
     
     # Conditions to search: 1., 2. and 3. for Cohort 1
-    print('Checking eligibility for Cohort 1: Adults')
+    print('Checking eligibility for cohort 1: adult population')
     print('Checking eligibility for conditions 1, 2 and 3')
     # Extracting CDCR numbers with eligible ages
     el_cdcr_nums_1 = demographics[demographics['Age in years'] >= 50]['CDCR #']
@@ -137,7 +137,7 @@ def gen_adult_eligibility(demographics,
     # Store eligible CDCR numbers in adult population
     adult_el_cdcr_nums = el_cdcr_nums_5
     print('Completed search for eligible CDCR numbers in cohort 1 for adults')
-    print('Number of CDCR#s that are older than 50 years, sentenced to over 20 years, served over 10 years, have eligible current offenses and eligible prior offenses: ', len(adult_el_cdcr_nums))
+    print('Number of individuals who meet all 5 eligibility conditions: they are older than 50 years, sentenced to over 20 years, served over 10 years, have eligible current offenses and eligible prior offenses: ', len(adult_el_cdcr_nums))
     
     ####
     
@@ -212,7 +212,7 @@ def gen_juvenile_eligibility(demographics,
     
     # Conditions to search: 1. for Cohort 2
     
-    print('Checking eligibility for Cohort 2: Minors tried as adults')
+    print('Checking eligibility for cohort 2: minors tried as adults')
     print('Checking eligibility for condition 1')
     # Extracting CDCR numbers that meet the age criteria
     el_cdcr_nums_1 = []
@@ -244,7 +244,6 @@ def gen_juvenile_eligibility(demographics,
     # Extracting CDCR numbers that met the age and offense criteria that also meet the time served criteria
     el_cdcr_nums_3 = []
     el_cdcr_nums_3 = demographics[(demographics['Time served in years'] >= 10) & demographics['CDCR #'].isin(el_cdcr_nums_2)]['CDCR #'].to_list()
-    print('Number of CDCR#s that committed offenses at age 14 and 15, have eligible current offenses and served more than 10 years: ', len(el_cdcr_nums_3))
     
     ####
     
@@ -266,7 +265,7 @@ def gen_juvenile_eligibility(demographics,
     # Store eligible CDCR numbers in cohort 2 or juvenile population
     juvenile_el_cdcr_nums = el_cdcr_nums_4
     print('Completed search for eligible CDCR numbers in cohort 2 for juveniles sentenced as adults')
-    print('Number of CDCR#s that committed offenses at age 14 and 15, have eligible current and prior offenses, and served more than 10 years: ', len(juvenile_el_cdcr_nums))
+    print('Number of individuals who meet all 4 eligibility conditions: they committed offenses at age 14 and 15, have eligible current and prior offenses, and served more than 10 years: ', len(juvenile_el_cdcr_nums))
     
     ####
     

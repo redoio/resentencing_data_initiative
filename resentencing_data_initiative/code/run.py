@@ -16,13 +16,26 @@ import datetime
 from tqdm import tqdm
 import copy
 
+print('\n ################################################')
+print('###################### START ######################')
+print('#################### Extraction ###################')
+print('###################################################\n')
+
 # Extract all the relevant datasets from the path
 sorting_criteria, demographics, merit_credit, milestone_credit, rehab_credit, voced_credit, rv_report, current_commits, prior_commits = get_input(data_path = config.data_path, 
                                                                                                                                                   month = config.month,
                                                                                                                                                   county_name = config.county_name, 
                                                                                                                                                   pickle = True) 
 
-print('\n ############ Extraction complete ############# \n')
+print('\n ################################################')
+print('###################### COMPLETE ###################')
+print('##################### Extraction ##################')
+print('###################################################\n')
+
+print('\n#################################################')
+print('###################### START ######################')
+print('################ Adult eligibility ################')
+print('###################################################\n')
 
 # Identify eligible CDCR numbers for adults and juveniles
 errors, adult_el_cdcr_nums = gen_adult_eligibility(demographics = demographics, 
@@ -34,7 +47,15 @@ errors, adult_el_cdcr_nums = gen_adult_eligibility(demographics = demographics,
                                                    month = config.month,
                                                    to_excel = True)
 
-print('\n ############ Adult eligibility check complete ############# \n')
+print('\n #################################################')
+print('###################### COMPLETE ####################')
+print('################ Adult eligibility #################')
+print('####################################################\n')
+
+print('\n #################################################')
+print('####################### START ######################')
+print('############### Juvenile eligibility ###############')
+print('####################################################\n')
 
 errors, juvenile_el_cdcr_nums = gen_juvenile_eligibility(demographics = demographics, 
                                                          sorting_criteria = sorting_criteria,
@@ -45,7 +66,15 @@ errors, juvenile_el_cdcr_nums = gen_juvenile_eligibility(demographics = demograp
                                                          month = config.month,
                                                          to_excel = True)
 
-print('\n ############ Juvenile eligibility check complete ############# \n')
+print('\n##################################################')
+print('##################### COMPLETE #####################')
+print('############### Juvenile eligibility ###############')
+print('####################################################\n')
+
+print('\n##################################################')
+print('###################### START #######################')
+print('############# Eligible adult summaries #############')
+print('####################################################\n')
 
 # Generate summaries of eligible individuals in the CDCR system
 adult_summary = gen_eligible_summary(el_cdcr_nums = adult_el_cdcr_nums, 
@@ -64,8 +93,15 @@ adult_summary = gen_eligible_summary(el_cdcr_nums = adult_el_cdcr_nums,
                                      write_path = None,
                                      to_excel = True)
 
-print('\n ############ Adult summaries complete ############# \n')
+print('\n#####################################################')
+print('###################### COMPLETE #######################')
+print('############## Eligible adult summaries ###############')
+print('#######################################################\n')
 
+print('\n#####################################################')
+print('######################## START ########################')
+print('############# Eligible juvenile summaries #############')
+print('#######################################################\n')
 
 juvenile_summary = gen_eligible_summary(el_cdcr_nums = juvenile_el_cdcr_nums, 
                                         demographics = demographics,
@@ -83,5 +119,7 @@ juvenile_summary = gen_eligible_summary(el_cdcr_nums = juvenile_el_cdcr_nums,
                                         write_path = None,
                                         to_excel = True)
 
-print('\n ############ Juvenile summaries complete ############# \n')
-
+print('\n#####################################################')
+print('####################### COMPLETE ######################')
+print('############# Eligible juvenile summaries #############')
+print('#######################################################\n')
