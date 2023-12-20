@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 import datetime
 from tqdm import tqdm
+import copy
 
 def get_input(data_path, month, county_name, count = 9, write_path = None, pickle = False):
     """
