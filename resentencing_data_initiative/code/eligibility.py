@@ -85,7 +85,6 @@ def gen_adult_eligibility(demographics,
     ####
     
     # Conditions to search: 1., 2. and 3. for Cohort 1
-    
     print('Checking eligibility for Cohort 1: Adults')
     print('Checking eligibility for conditions 1, 2 and 3')
     # Extracting CDCR numbers with eligible ages
@@ -137,6 +136,7 @@ def gen_adult_eligibility(demographics,
         
     # Store eligible CDCR numbers in adult population
     adult_el_cdcr_nums = el_cdcr_nums_5
+    print('Completed search for eligible CDCR numbers in cohort 1 for adults')
     print('Number of CDCR#s that are older than 50 years, sentenced to over 20 years, served over 10 years, have eligible current offenses and eligible prior offenses: ', len(adult_el_cdcr_nums))
     
     ####
@@ -152,7 +152,9 @@ def gen_adult_eligibility(demographics,
             # Write data to excel files
             demographics[demographics['CDCR #'].isin(adult_el_cdcr_nums)].to_excel(write_path+'/'+'adult_eligible_demographics.xlsx', index = False)
             current_commits[current_commits['CDCR #'].isin(adult_el_cdcr_nums)].to_excel(write_path+'/'+'adult_eligible_currentcommits.xlsx', index = False)
-        
+        print('Current commits of eligible individuals written to: ', write_path+'/'+'adult_eligible_currentcommits.xlsx')
+        print('Demographics of eligible individuals written to: ', write_path+'/'+'adult_eligible_currentcommits.xlsx')
+    
     return errors, adult_el_cdcr_nums
 
 
@@ -263,6 +265,7 @@ def gen_juvenile_eligibility(demographics,
     
     # Store eligible CDCR numbers in cohort 2 or juvenile population
     juvenile_el_cdcr_nums = el_cdcr_nums_4
+    print('Completed search for eligible CDCR numbers in cohort 2 for juveniles sentenced as adults')
     print('Number of CDCR#s that committed offenses at age 14 and 15, have eligible current and prior offenses, and served more than 10 years: ', len(juvenile_el_cdcr_nums))
     
     ####
@@ -278,6 +281,8 @@ def gen_juvenile_eligibility(demographics,
             # Write data to excel files
             demographics[demographics['CDCR #'].isin(juvenile_el_cdcr_nums)].to_excel(write_path+'/'+'juvenile_eligible_demographics.xlsx', index = False)
             current_commits[current_commits['CDCR #'].isin(juvenile_el_cdcr_nums)].to_excel(write_path+'/'+'juvenile_eligible_currentcommits.xlsx', index = False)
+        print('Current commits of eligible individuals written to: ', write_path+'/'+'juvenile_eligible_currentcommits.xlsx')
+        print('Demographics of eligible individuals written to: ', write_path+'/'+'juvenile_eligible_currentcommits.xlsx')
     
     return errors, juvenile_el_cdcr_nums
 

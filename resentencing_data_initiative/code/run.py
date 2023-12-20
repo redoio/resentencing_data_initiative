@@ -22,6 +22,8 @@ sorting_criteria, demographics, merit_credit, milestone_credit, rehab_credit, vo
                                                                                                                                                   county_name = config.county_name, 
                                                                                                                                                   pickle = True) 
 
+print('\n ############ Extraction complete ############# \n')
+
 # Identify eligible CDCR numbers for adults and juveniles
 errors, adult_el_cdcr_nums = gen_adult_eligibility(demographics = demographics, 
                                                    sorting_criteria = sorting_criteria,
@@ -32,6 +34,8 @@ errors, adult_el_cdcr_nums = gen_adult_eligibility(demographics = demographics,
                                                    month = config.month,
                                                    to_excel = True)
 
+print('\n ############ Adult eligibility check complete ############# \n')
+
 errors, juvenile_el_cdcr_nums = gen_juvenile_eligibility(demographics = demographics, 
                                                          sorting_criteria = sorting_criteria,
                                                          current_commits = current_commits, 
@@ -40,6 +44,8 @@ errors, juvenile_el_cdcr_nums = gen_juvenile_eligibility(demographics = demograp
                                                          county_name = config.county_name, 
                                                          month = config.month,
                                                          to_excel = True)
+
+print('\n ############ Juvenile eligibility check complete ############# \n')
 
 # Generate summaries of eligible individuals in the CDCR system
 adult_summary = gen_eligible_summary(el_cdcr_nums = adult_el_cdcr_nums, 
@@ -58,6 +64,9 @@ adult_summary = gen_eligible_summary(el_cdcr_nums = adult_el_cdcr_nums,
                                      write_path = None,
                                      to_excel = True)
 
+print('\n ############ Adult summaries complete ############# \n')
+
+
 juvenile_summary = gen_eligible_summary(el_cdcr_nums = juvenile_el_cdcr_nums, 
                                         demographics = demographics,
                                         current_commits = current_commits, 
@@ -73,3 +82,6 @@ juvenile_summary = gen_eligible_summary(el_cdcr_nums = juvenile_el_cdcr_nums,
                                         file_name = 'summary_juvenile.xlsx',
                                         write_path = None,
                                         to_excel = True)
+
+print('\n ############ Juvenile summaries complete ############# \n')
+
