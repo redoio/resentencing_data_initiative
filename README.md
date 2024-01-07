@@ -5,6 +5,8 @@
 - [Introduction](#introduction)
 - [Background](#background)
 - [Our tool](#our-tool)
+  * [Summary](#summary)
+  * [Execution](#execution)
 - [Data](#data)
   * [(a). Current commitments<br>](#-a--current-commitments-br-)
     + [Variables<br>](#variables-br-)
@@ -17,7 +19,7 @@
   * [(c). Demographics<br>](#-c--demographics-br-)
     + [Variables<br>](#variables-br--2)
 - [More information](#more-information)
-- [Contact](#contact)
+- [Opportunities](#opportunities)
 
 # Introduction
 
@@ -31,11 +33,21 @@ But, given that there are over 100,000 incarcerated people in California, how do
 
 # Our tool
 
-A data model to determine eligibility for resentencing:
+## Summary 
+
+A data model to determine eligibility for resentencing
+
+What it is:
 - A deterministic model with a rules-based framework established by legal experts and district attorney offices
-- Interpretability and explainability is key
-- Users can easily request changes to eligibility criteria and see updated results
-- Not  a blackbox prediction model
+- Easily interpretable and explainable
+- Responsive to user requests, i.e. an attorney can request changes to the eligibility criteria and see updated results
+- A tool that increases the efficiency and productivity of attorneys
+
+What it is not:
+- A blackbox prediction model
+- The decisionmaker or selector for which cases end up being resentenced
+
+## Execution
 
 Running the data model for the prison population:
 - Leveraging an AWS EC2 instance on Stanford secure servers
@@ -96,7 +108,7 @@ Three Strikes Law and Prosecutor-Initiated Resentencing:
 - https://law.stanford.edu/three-strikes-project/three-strikes-basics/ 
 - https://capitalbnews.org/prosecutor-resentencing-law/
 
-# Contact
+# Opportunities
 
-Reach out to Aparna Komarla (aparna.komarla@gmail.com) with any questions
+Currently looking for interns and developers to join our team. Reach out to Aparna Komarla (aparna.komarla@gmail.com) if you are interested!
  
