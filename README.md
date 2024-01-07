@@ -23,7 +23,7 @@
 
 # Introduction
 
-A data analysis tool for the Three Strikes Project at the Stanford University School of Law that proactively and automatically identifies individuals who are eligible for re-sentencing in California's prison system. 
+A data analysis tool for the Three Strikes Project at the Stanford University School of Law that proactively and automatically identifies non-violent offendors in California's prison system who are eligible for re-sentencing. 
 
 # Background
 
@@ -38,27 +38,27 @@ But, given that there are over 100,000 incarcerated people in California, how do
 A data model to determine eligibility for resentencing
 
 What it is:
-- A deterministic model with a rules-based framework established by legal experts and district attorney offices
+- A deterministic model with a rules-based framework established by legal experts and District Attorney offices
 - Easily interpretable and explainable
 - Responsive to user requests, i.e. an attorney can request changes to the eligibility criteria and see updated results
 - A tool that increases the efficiency and productivity of attorneys
 
 What it is not:
 - A blackbox prediction model
-- The decisionmaker or selector for which cases end up being resentenced
+- The decisionmaker for which cases are ultimately resentenced
 
 ## Execution
 
 Running the data model for the prison population:
 - Leveraging an AWS EC2 instance on Stanford secure servers
 - Ingest all of the demographics and offenses of individuals in California Department of Corrections and Rehabilitation (CDCR) custody
-- Execute the model
+- Execute the eligibility model
 - Provide attorneys easy-to-understand profiles of eligible individuals
-- Re-run when new data on the population is available from the district attorney's office
+- Re-run when new data on the population is available from the District Attorney's office
 
 # Data 
 
-The raw data for the model comes from the Three Strikes Project and the participating district attorney offices. We utilize the following information on the prison population from these datasets:
+The raw data for the model comes from the Three Strikes Project and the participating District Attorney offices. We utilize the following information on the prison population from these datasets:
 
 ## (a). Current commitments<br>
 Information on an invidual's offenses that they are currently serving time for.
