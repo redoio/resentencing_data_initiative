@@ -90,8 +90,8 @@ Information on an invidual's offenses that they are no longer serving time for.
 ### Note<br>
 Each row will include the details on ONE offense committed by the individual, i.e. if an individual has committed 6 offenses under 2 separate case numbers, there will be 6 rows in total associated with their CDCR identification number.
 ### Further details<br>
-'Relationship' variable specifies the nature of a sentence and takes the following values: 'Initial', 'Concurrent', 'Consecutive' or 'Stayed'<br>
-'In-prison' variable specifies if an offense was committed in prison or not and takes the following values: 'Yes' or 'No'
+`Relationship` variable specifies the nature of a sentence and takes the following values: 'Initial', 'Concurrent', 'Consecutive' or 'Stayed'<br>
+`In-prison` variable specifies if an offense was committed in prison or not and takes the following values: 'Yes' or 'No'
 
 ## (c). Demographics<br>
 Personal information on the individual.
