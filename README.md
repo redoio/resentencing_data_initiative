@@ -1,4 +1,4 @@
-<img src= "https://github.com/redoio/three_strikes_project/assets/124313756/9f54f1f8-e1ff-4ce3-a575-807187824d76" width = "20%" height = "20%">
+<img src= "https://github.com/redoio/three_strikes_project/assets/124313756/9f54f1f8-e1ff-4ce3-a575-807187824d76" width = "35%" height = "35%">
 
 # Table of Contents
 
