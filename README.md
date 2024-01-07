@@ -19,6 +19,11 @@ AWS data pipeline
 - Run the model
 - Provide attorneys easy-to-understand profiles of eligible individuals
 
+# More information
+
+https://law.stanford.edu/three-strikes-project/three-strikes-basics/ 
+https://capitalbnews.org/prosecutor-resentencing-law/
+
 # Contact
 
 Reach out to Aparna Komarla (aparna.komarla@gmail.com) with any questions
