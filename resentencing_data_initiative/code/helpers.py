@@ -139,31 +139,31 @@ def clean_offense(off):
 
 
 def clean_offense_blk(data):
-  """
+    """
 
     Parameters
     ----------
     data : str, list or pandas series
-        A single string, a list or Pandas Series with strings
+        Bulk data on offenses wherein each value is a single string
 
     Returns
     -------
     data : str, list or pandas series (corresponding to input)
-        Applies the clean_offense() function on each string in the input and returns the modified values in same input type
+        Applies the clean_offense() function on each string in the input and returns the modified values with the same input type, i.e. if a pandas series is passed the result will be a pandas series with modified strings
 
     """
-  # If input is a single string
-  if isinstance(data, str):
-    return clean_offense(data)
-  # If input is a list of strings
-  elif isinstance(data, list):
-    off_clean = []
-    for off in data:
-      off_clean.append(clean_offense(off))
-    return off_clean
-  # If input is a column of a pandas dataframe
-  elif isinstance(data, pd.Series):
-    return data.apply(clean_offense)
+    # If input is a single string
+    if isinstance(data, str):
+      return clean_offense(data)
+    # If input is a list of strings
+    elif isinstance(data, list):
+      off_clean = []
+      for off in data:
+        off_clean.append(clean_offense(off))
+      return off_clean
+    # If input is a column of a pandas dataframe
+    elif isinstance(data, pd.Series):
+      return data.apply(clean_offense)
 
 
 def gen_inel_off(inel_offenses, clean = True, 
