@@ -35,17 +35,17 @@ But, given that there are over 100,000 incarcerated people in California, how do
 
 ## Summary 
 
-A data model to determine eligibility for resentencing
+A data model to determine eligibility for resentencing in the California criminal legal system.
 
 What it is:
 - A deterministic model with a rules-based framework established by legal experts and District Attorney offices
-- Easily interpretable and explainable
+- Easily interpretable and explainable for non-technical users and audience
 - Responsive to user requests, i.e. an attorney can request changes to the eligibility criteria and see updated results
 - A tool that increases the efficiency and productivity of attorneys
 
 What it is not:
 - A blackbox prediction model
-- The decisionmaker for which cases are ultimately resentenced
+- The decision-maker for which cases are ultimately resentenced
 
 ## Execution
 
