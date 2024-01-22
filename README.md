@@ -110,5 +110,5 @@ Three Strikes Law and Prosecutor-Initiated Resentencing:
 
 # Opportunities
 
-Currently looking for interns and developers to join our team. Reach out to Aparna Komarla (aparna.komarla@gmail.com) if you are interested!
+Currently looking for interns and developers to join our team. Here is a short summary of available projects: opportunities.md. Reach out to Aparna Komarla (aparna.komarla@gmail.com) if you are interested!
  
