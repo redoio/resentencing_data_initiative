@@ -102,14 +102,14 @@ def gen_eligible_summary(el_cdcr_nums,
         if write_path: 
             pass
         else: 
-            write_path = '/'.join(l for l in [read_path, county_name, month, 'output', get_todays_date(sep = '_'), pop+'_summary.xlsx'] if l)
+            write_path = '/'.join(l for l in [read_path, county_name, month, 'output', get_todays_date(sep = '_')] if l)
             
         # If director does not exist, then first create it
         if not os.path.exists(write_path):
             os.mkdir(write_path)
                 
         # Write data to excel files
-        el_summary.to_excel(write_path, index = False)
+        el_summary.to_excel('/'.join(write_path, pop+'_summary.xlsx'), index = False)
         print('Summary of eligible individuals written to: ', write_path)
         
     return el_summary
