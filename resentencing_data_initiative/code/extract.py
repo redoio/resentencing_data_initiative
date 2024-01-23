@@ -6,6 +6,8 @@ import numpy as np
 import datetime
 from tqdm import tqdm
 import copy
+import os
+
 
 def get_input(read_path, month, county_name, count = 9, write_path = None, pickle = False):
     """

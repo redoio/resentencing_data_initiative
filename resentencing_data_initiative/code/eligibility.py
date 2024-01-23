@@ -7,6 +7,8 @@ import numpy as np
 import datetime
 from tqdm import tqdm
 import copy
+import os
+
 
 
 def viz_eligibility(adult_el_cdcr_nums, 
@@ -190,6 +192,11 @@ def gen_eligibility(demographics,
             pass
         else:
             write_path = '/'.join(l for l in [read_path, county_name, month, 'output', get_todays_date()] if l)
+        
+        # If director does not exist, then first create it
+        if not os.path.exists(outdir):
+            os.mkdir(write_path)
+            
         # Write data to excel files
         demographics[demographics['CDCR #'].isin(el_cdcr_nums)].to_excel(write_path+'/'+pop+'_eligible_demographics.xlsx', index = False)
         current_commits[current_commits['CDCR #'].isin(el_cdcr_nums)].to_excel(write_path+'/'+pop+'_eligible_currentcommits.xlsx', index = False)

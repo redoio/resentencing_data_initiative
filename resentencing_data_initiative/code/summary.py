@@ -6,6 +6,7 @@ import numpy as np
 import datetime
 import copy
 from tqdm import tqdm
+import os
 
 
 def gen_eligible_summary(el_cdcr_nums, 
@@ -102,7 +103,11 @@ def gen_eligible_summary(el_cdcr_nums,
             pass
         else: 
             write_path = '/'.join(l for l in [read_path, county_name, month, 'output', get_todays_date(), pop+'_summary.xlsx'] if l)
-
+            
+        # If director does not exist, then first create it
+        if not os.path.exists(outdir):
+            os.mkdir(write_path)
+                
         # Write data to excel files
         el_summary.to_excel(write_path, index = False)
         print('Summary of eligible individuals written to: ', write_path)
