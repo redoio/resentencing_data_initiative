@@ -105,7 +105,7 @@ def gen_eligible_summary(el_cdcr_nums,
             write_path = '/'.join(l for l in [read_path, county_name, month, 'output', get_todays_date(), pop+'_summary.xlsx'] if l)
             
         # If director does not exist, then first create it
-        if not os.path.exists(outdir):
+        if not os.path.exists(write_path):
             os.mkdir(write_path)
                 
         # Write data to excel files
