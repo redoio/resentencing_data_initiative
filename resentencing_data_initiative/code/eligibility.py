@@ -235,7 +235,7 @@ def gen_juvenile_eligibility(demographics,
     el_cdcr_nums_4 = []
     for cdcr_num in tqdm(el_cdcr_nums_3):
       offenses = prior_commits[prior_commits['CDCR #'] == cdcr_num]['Offense cleaned'].unique()
-      if len(det_inel_off(offenses = offenses, inel_offenses = inel_offenses, pop = 'juvenile')) == 0:
+      if len(det_inel_off(offenses = offenses, inel_offenses = inel_offenses)) == 0:
         el_cdcr_nums_4.append(cdcr_num)
     
     # Store eligible CDCR numbers in cohort 2 or juvenile population

@@ -233,8 +233,7 @@ def gen_inel_off(inel_offenses, clean = True,
 
 
 def det_inel_off(offenses, 
-                 inel_offenses, 
-                 pop = None):
+                 inel_offenses):
     """
 
     Parameters
@@ -243,9 +242,6 @@ def det_inel_off(offenses,
         Contains strings of offenses to be evaluated (i.e. whether they are ineligible for resentencing or not)
     inel_offenses : list, pandas series
         Contains strings of ineligible offenses
-    pop : str, optional
-        Nature of the population group (for example, 'adult' or 'juvenile'). 
-        Default is None.
 
     Returns
     -------
@@ -254,11 +250,7 @@ def det_inel_off(offenses,
 
     """
     # Return offenses that are ineligible for adults and juveniles
-    if pop == 'adult' or pop == 'juvenile':
-      return set(offenses).intersection(set(inel_offenses))
-    # If none of the conditions are met
-    else:
-      print('No offenses processed. Please double check inputs and re-run')
+    return set(offenses).intersection(set(inel_offenses))
       
 
 def gen_summary(df, current_commits, prior_commits, merit_credit, 
