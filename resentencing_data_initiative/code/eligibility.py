@@ -76,6 +76,41 @@ def gen_eligibility(demographics,
                     month = None,
                     to_excel = False, 
                     write_path = None):
+    """
+    Parameters
+    ----------
+    sorting_criteria : pandas dataframe
+        Data on offenses and their categories or tables
+    demographics : pandas dataframe
+        Data on individuals currently incarcerated
+    current_commits : pandas dataframe
+        Data on current offenses of incarcerated individuals wherein each row pertains to a single offense
+    prior_commits : pandas dataframe
+        Data on prior offenses of incarcerated individuals wherein each row pertains to a single offense
+    data_path : str, optional
+        Full path where output data should be written (all parent folders)
+        Default is None.
+    county_name : str, optional
+        Name of the county for which eligibility was evaluated, ex: 'Los Angeles County'
+        Default is None.
+    month : str, optional
+        Year and month for which eligibility was evaluated, ex: '2023_06'
+        Default is None.
+    to_excel : boolean, optional
+        Specify whether to write current commitments and demographics of eligible individuals to Excel files.
+        If True, specify the path information to write the output
+        Default is False.
+    write_path : str, optional 
+        Specify the full path where the Excel outputs should be written. 
+        If to_excel = True but write_path = None, data outputs are written to the county_name/month/output/date folder by default. To avoid this behavior, pass a value to write_path.
+    
+    Returns
+    -------
+    errors : pandas dataframe
+        Data in the demographics dataframe for which time variables could not be computed
+    el_cdcr_nums : list of strs
+        List of CDCR numbers that are eligible for resentencing 
+    """
     
     # Add all of the time variables to the demographic data necessary for classification - years served, sentence length, age, etc.
     demographics, errors = gen_time_vars(df = demographics, merge = True)
@@ -131,13 +166,13 @@ def gen_eligibility(demographics,
                                      clean = True, 
                                      impl = eligibility_conditions['r_5']['implied ineligibility'], 
                                      perm = eligibility_conditions['r_5']['perm'])
-       # Extracting prior commits data with eligible offenses
+        # Extracting prior commits data with eligible offenses
         el_cdcr_nums_5 = []
         for cdcr_num in tqdm(el_cdcr_nums):
-          # Extract offenses of the CDCR number
-          offenses = prior_commits[prior_commits['CDCR #'] == cdcr_num]['Offense cleaned'].unique()
-          if len(det_inel_off(offenses = offenses, inel_offenses = inel_offenses)) == 0:
-            el_cdcr_nums_5.append(cdcr_num)
+            # Extract offenses of the CDCR number
+            offenses = prior_commits[prior_commits['CDCR #'] == cdcr_num]['Offense cleaned'].unique()
+            if len(det_inel_off(offenses = offenses, inel_offenses = inel_offenses)) == 0:
+                el_cdcr_nums_5.append(cdcr_num)
         # Store eligible CDCR numbers
         el_cdcr_nums = el_cdcr_nums_5
         
@@ -154,13 +189,14 @@ def gen_eligibility(demographics,
                                      clean = True, 
                                      impl = eligibility_conditions['r_7']['implied ineligibility'], 
                                      perm = eligibility_conditions['r_7']['perm'])
-      # Extracting CDCR numbers that meet the age criteria and offense eligibility
+        # Extracting CDCR numbers that meet the age criteria and offense eligibility
         el_cdcr_nums_7 = []
         for cdcr_num in tqdm(el_cdcr_nums):
-          # Extracting offenses of the CDCR number
-          offenses = current_commits[current_commits['CDCR #'] == cdcr_num]['Offense cleaned'].unique()
-          if len(det_inel_off(offenses = offenses, inel_offenses = inel_offenses)) == 0:
-            el_cdcr_nums_7.append(cdcr_num)
+            # Extracting offenses of the CDCR number
+            offenses = current_commits[current_commits['CDCR #'] == cdcr_num]['Offense cleaned'].unique()
+            if len(det_inel_off(offenses = offenses, inel_offenses = inel_offenses)) == 0:
+                el_cdcr_nums_7.append(cdcr_num)
+        
         # Store eligible CDCR numbers
         el_cdcr_nums = el_cdcr_nums_7
         
@@ -185,7 +221,22 @@ def gen_eligibility(demographics,
             el_cdcr_nums_9.append(cdcr_num)
         # Store eligible CDCR numbers in cohort 2 or juvenile population
         el_cdcr_nums = el_cdcr_nums_9
-    
+        
+    if eligibility_conditions['r_10']['use']:
+        print('Finding CDCR numbers that meet rule: ', eligibility_conditions['r_10']['desc'])
+        # Extracting specified offenses from sorting criteria
+        sel_offenses = sorting_criteria[sorting_criteria['Table'].isin(['Table F'])]['Offenses'].tolist()
+        sel_offenses = clean_offense_blk(data = sel_offenses)
+        # Extracting CDCR numbers that meet the age criteria and offense eligibility
+        el_cdcr_nums_10 = []
+        for cdcr_num in tqdm(el_cdcr_nums):
+            # Extracting offenses of the CDCR number
+            offenses = current_commits[current_commits['CDCR #'] == cdcr_num]['Offense cleaned'].unique()
+            if len(set(offenses).intersection(set(sel_offenses))) >= 1:
+                el_cdcr_nums_10.append(cdcr_num)
+        # Store eligible CDCR numbers
+        el_cdcr_nums = el_cdcr_nums_10        
+        
     # Write demophraphics and current commits of eligible individuals to Excel output
     if to_excel:
         if write_path:
@@ -193,13 +244,13 @@ def gen_eligibility(demographics,
         else:
             write_path = '/'.join(l for l in [read_path, county_name, month, 'output', get_todays_date()] if l)
         
-        # If director does not exist, then first create it
+        # If directory does not exist, then first create it
         if not os.path.exists(outdir):
             os.mkdir(write_path)
             
         # Write data to excel files
-        demographics[demographics['CDCR #'].isin(el_cdcr_nums)].to_excel(write_path+'/'+pop+'_eligible_demographics.xlsx', index = False)
-        current_commits[current_commits['CDCR #'].isin(el_cdcr_nums)].to_excel(write_path+'/'+pop+'_eligible_currentcommits.xlsx', index = False)
+        demographics[demographics['CDCR #'].isin(el_cdcr_nums)].to_excel(write_path+'/'+pop+'_eligible_demographics.xlsx', sheet_name = 'Cohort', index = False)
+        current_commits[current_commits['CDCR #'].isin(el_cdcr_nums)].to_excel(write_path+'/'+pop+'_eligible_currentcommits.xlsx', sheet_name = 'Cohort', index = False)
 
         print('Current commits of eligible individuals written to: ', write_path+'/'+pop+'_eligible_currentcommits.xlsx')
         print('Demographics of eligible individuals written to: ', write_path+'/'+pop+'_eligible_demographics.xlsx')

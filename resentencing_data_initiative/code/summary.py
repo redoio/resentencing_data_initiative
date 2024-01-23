@@ -64,7 +64,7 @@ def gen_eligible_summary(el_cdcr_nums,
         Default is False.
    write_path : str, optional 
         Specify the full path where the Excel outputs should be written. 
-        If to_excel = True but write_path = None, data outputs are written to the county_name + month folder by default. To avoid this behavior, pass a value to write_path.
+        If to_excel = True but write_path = None, data outputs are written to the county_name/month/output/date folder by default. To avoid this behavior, pass a value to write_path.
     
     Returns
     -------
