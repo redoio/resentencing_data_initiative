@@ -109,7 +109,7 @@ def gen_eligible_summary(el_cdcr_nums,
             os.mkdir(write_path)
                 
         # Write data to excel files
-        el_summary.to_excel('/'.join(write_path, pop+'_summary.xlsx'), index = False)
-        print('Summary of eligible individuals written to: ', write_path)
+        el_summary.to_excel('/'.join([write_path, pop+'_summary.xlsx']), index = False)
+        print('Summary of eligible individuals written to: ', '/'.join(write_path, pop+'_summary.xlsx'))
         
     return el_summary
