@@ -3,7 +3,7 @@ import rules
 
 county_name = 'Los Angeles'
 month = '/'.join(['Rough', 'Data_05_2021', '21_05'])
-read_data_path = '/content/drive/My Drive/Stanford Law 3XP/Data'
+read_data_path = '/content/drive/My Drive/Redo.io/Stanford Law 3XP/Data'
 write_data_path = ''
 
 el_cond_adult = {'r_1': {'use': True, 'desc': rules.r_1},
