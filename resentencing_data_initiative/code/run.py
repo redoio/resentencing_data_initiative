@@ -47,7 +47,7 @@ print('############################################## Extraction ###############
 print('######################################################################################################\n')
 
 # Extract all the relevant datasets from the path
-sorting_criteria, demographics, merit_credit, milestone_credit, rehab_credit, voced_credit, rv_report, current_commits, prior_commits = get_input(read_path = config.read_data_path, 
+sorting_criteria, demographics, merit_credit, milestone_credit, rehab_credit, voced_credit, rv_report, current_commits, prior_commits = get_input(main_path = config.read_data_path, 
                                                                                                                                                   month = config.month,
                                                                                                                                                   county_name = config.county_name, 
                                                                                                                                                   pickle = True) 
@@ -88,7 +88,7 @@ errors, juvenile_el_cdcr_nums = gen_eligibility(demographics = demographics,
                                                 sorting_criteria = sorting_criteria,
                                                 current_commits = current_commits, 
                                                 prior_commits = prior_commits, 
-                                                data_path = config.data_path, 
+                                                read_path = config.data_path, 
                                                 county_name = config.county_name, 
                                                 month = config.month,
                                                 eligibility_conditions = config.el_cond_juv,
@@ -115,7 +115,7 @@ adult_summary = gen_eligible_summary(el_cdcr_nums = adult_el_cdcr_nums,
                                      rehab_credit = rehab_credit, 
                                      voced_credit = voced_credit, 
                                      rv_report = rv_report, 
-                                     data_path = config.data_path,
+                                     read_path = config.data_path,
                                      county_name = config.county_name, 
                                      month = config.month,
                                      file_name = 'summary_adult.xlsx',
