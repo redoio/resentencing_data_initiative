@@ -7,12 +7,12 @@ import datetime
 from tqdm import tqdm
 import copy
 
-def get_input(data_path, month, county_name, count = 9, write_path = None, pickle = False):
+def get_input(read_path, month, county_name, count = 9, write_path = None, pickle = False):
     """
 
     Parameters
     ----------
-    data_path : str
+    read_path : str
         Full path of the file to extract data from (all parent folders)
     county_name : str
         Name of the county folder to extract data for, ex: 'Los Angeles County'
@@ -51,7 +51,7 @@ def get_input(data_path, month, county_name, count = 9, write_path = None, pickl
 
     """
     # Criteria for selection
-    sorting_criteria = extract_data(main_path = data_path, 
+    sorting_criteria = extract_data(main_path = read_path, 
                                     county_name = county_name, 
                                     file_name = 'Criteria/sorting_criteria.xlsx', 
                                     write_path = write_path, 
@@ -59,7 +59,7 @@ def get_input(data_path, month, county_name, count = 9, write_path = None, pickl
     print('\n Extraction 1/'+str(count)+' complete \n')
     
     # Demographics of individuals incarcerated
-    demographics = extract_data(main_path = data_path, 
+    demographics = extract_data(main_path = read_path, 
                                 county_name = county_name, 
                                 file_name = 'demographics.xlsx', 
                                 month = month,
@@ -68,7 +68,7 @@ def get_input(data_path, month, county_name, count = 9, write_path = None, pickl
     print('\n Extraction 2/'+str(count)+' complete \n')
     
     # Education merit
-    merit_credit = extract_data(main_path = data_path, 
+    merit_credit = extract_data(main_path = read_path, 
                                 county_name = county_name, 
                                 file_name = 'EducationMeritCredits.xlsx', 
                                 month = month,
@@ -77,7 +77,7 @@ def get_input(data_path, month, county_name, count = 9, write_path = None, pickl
     print('\n Extraction 3/'+str(count)+' complete \n')
     
     # Milestone credit
-    milestone_credit = extract_data(main_path = data_path, 
+    milestone_credit = extract_data(main_path = read_path, 
                                     county_name = county_name, 
                                     file_name = 'MilestoneCompletionCredits.xlsx', 
                                     month = month,
@@ -86,7 +86,7 @@ def get_input(data_path, month, county_name, count = 9, write_path = None, pickl
     print('\n Extraction 4/'+str(count)+' complete \n')
     
     # Rehab credit
-    rehab_credit = extract_data(main_path = data_path, 
+    rehab_credit = extract_data(main_path = read_path, 
                                 county_name = county_name, 
                                 file_name = 'RehabilitiveAchievementCredits.xlsx', 
                                 month = month,
@@ -95,7 +95,7 @@ def get_input(data_path, month, county_name, count = 9, write_path = None, pickl
     print('\n Extraction 5/'+str(count)+' complete \n')
     
     # Vocational education credit
-    voced_credit = extract_data(main_path = data_path, 
+    voced_credit = extract_data(main_path = read_path, 
                                 county_name = county_name, 
                                 file_name = 'VocEd_TrainingCerts.xlsx', 
                                 month = month,
@@ -104,7 +104,7 @@ def get_input(data_path, month, county_name, count = 9, write_path = None, pickl
     print('\n Extraction 6/'+str(count)+' complete \n')
     
     # Rule violations
-    rv_report = extract_data(main_path = data_path, 
+    rv_report = extract_data(main_path = read_path, 
                             county_name = county_name, 
                             file_name = 'RVRs.xlsx', 
                             month = month,
@@ -113,7 +113,7 @@ def get_input(data_path, month, county_name, count = 9, write_path = None, pickl
     print('\n Extraction 7/'+str(count)+' complete \n')
     
     # Current commitments
-    current_commits = extract_data(main_path = data_path, 
+    current_commits = extract_data(main_path = read_path, 
                             county_name = county_name, 
                             file_name = 'currentcommitments.xlsx', 
                             month = month,
@@ -122,7 +122,7 @@ def get_input(data_path, month, county_name, count = 9, write_path = None, pickl
     print('\n Extraction 8/'+str(count)+' complete \n')
     
     # Previous commitments
-    prior_commits = extract_data(main_path = data_path, 
+    prior_commits = extract_data(main_path = read_path, 
                             county_name = county_name, 
                             file_name = 'priorcommitments.xlsx', 
                             month = month,
