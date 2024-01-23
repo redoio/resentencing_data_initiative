@@ -16,13 +16,38 @@ import datetime
 from tqdm import tqdm
 import copy
 
+""" 
+
+Conditions for Qualification
+
+Cohort 1
+
+Adults
+
+1.   Age 50 and older; AND
+2.   Sentenced to 20 years or more; AND
+3.   Served a minimum of 10 years in custody; AND
+4.   Is not serving a current sentence for any offense listed in Table A, B, C, or D, AND
+5.   Does not have a prior conviction for any offense listed in Tables C & D
+
+Cohort 2
+
+Minors Tried as Adults
+
+1.   Sentenced for a crime that was committed at age 14 or 15; AND
+2.   Not serving current sentence for any offense listed in Table D and E; AND
+3.   Has served a minimum of 10 years in custody; AND
+4.   Does not have a prior conviction for any offense listed in Table D.
+
+"""
+
 print('\n#####################################################################################################')
 print('################################################# START ##############################################')
 print('############################################## Extraction ############################################')
 print('######################################################################################################\n')
 
 # Extract all the relevant datasets from the path
-sorting_criteria, demographics, merit_credit, milestone_credit, rehab_credit, voced_credit, rv_report, current_commits, prior_commits = get_input(data_path = config.data_path, 
+sorting_criteria, demographics, merit_credit, milestone_credit, rehab_credit, voced_credit, rv_report, current_commits, prior_commits = get_input(read_path = config.read_data_path, 
                                                                                                                                                   month = config.month,
                                                                                                                                                   county_name = config.county_name, 
                                                                                                                                                   pickle = True) 
@@ -38,14 +63,16 @@ print('########################################### Adult eligibility ###########
 print('######################################################################################################\n')
 
 # Identify eligible CDCR numbers for adults and juveniles
-errors, adult_el_cdcr_nums = gen_adult_eligibility(demographics = demographics, 
-                                                   sorting_criteria = sorting_criteria,
-                                                   current_commits = current_commits, 
-                                                   prior_commits = prior_commits, 
-                                                   data_path = config.data_path, 
-                                                   county_name = config.county_name, 
-                                                   month = config.month,
-                                                   to_excel = True)
+errors, adult_el_cdcr_nums = gen_eligibility(demographics = demographics, 
+                                             sorting_criteria = sorting_criteria,
+                                             current_commits = current_commits, 
+                                             prior_commits = prior_commits, 
+                                             data_path = config.data_path, 
+                                             county_name = config.county_name, 
+                                             month = config.month,
+                                             eligibility_conditions = config.el_cond_adult,
+                                             pop = 'adult',
+                                             to_excel = True)
 
 print('\n#####################################################################################################')
 print('################################################ COMPLETE ############################################')
@@ -57,14 +84,16 @@ print('################################################## START ################
 print('############################################ Juvenile eligibility ####################################')
 print('######################################################################################################\n')
 
-errors, juvenile_el_cdcr_nums = gen_juvenile_eligibility(demographics = demographics, 
-                                                         sorting_criteria = sorting_criteria,
-                                                         current_commits = current_commits, 
-                                                         prior_commits = prior_commits, 
-                                                         data_path = config.data_path, 
-                                                         county_name = config.county_name, 
-                                                         month = config.month,
-                                                         to_excel = True)
+errors, juvenile_el_cdcr_nums = gen_eligibility(demographics = demographics, 
+                                                sorting_criteria = sorting_criteria,
+                                                current_commits = current_commits, 
+                                                prior_commits = prior_commits, 
+                                                data_path = config.data_path, 
+                                                county_name = config.county_name, 
+                                                month = config.month,
+                                                eligibility_conditions = config.el_cond_juv,
+                                                pop = 'juvenile',
+                                                to_excel = True)
 
 print('\n#####################################################################################################')
 print('################################################# COMPLETE ###########################################')
