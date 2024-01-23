@@ -277,7 +277,8 @@ def gen_summary(df, current_commits, prior_commits, merit_credit,
         Data on rules violations during incarceration
     merge : boolean
         Specify whether to return input dataframe with summary columns or a separate dataframe with just the summary columns
-    
+        Default is True
+        
     Returns
     -------
     df : pandas dataframe
@@ -320,5 +321,35 @@ def gen_summary(df, current_commits, prior_commits, merit_credit,
     # Return only the summary variables
     else:
         return df[['CDCR #', 'Current Convictions', 'Prior Convictions', 'Programming', 'Rules Violations']]
+
+
+def get_todays_date(order = ['year', 'month', 'day'], sep = ''):
+    """
+
+    Parameters
+    ----------
+    order : list, optional
+        The order in which the yyyy, mm and dd should be concatenated.
+        The default is ['year', 'month', 'day'] and results in yyyy[sep]mm[sep]dd
+    sep : str, optional 
+        The character to use to separate the year, month and day values
+        Default is an empty string or no separator
     
+    Returns
+    -------
+    td : str
+        Concatenated month, day and year values with separators and in the order specified
+
+    """
+    # Initialize today's date
+    td = []
+    for val in order:
+        if val[0] == 'y':
+            td.append(str(datetime.date.today().year))
+        if val[0] == 'm':
+            td.append(str(datetime.date.today().month))
+        # Better to use d in case user passes 'date' instead of 'day' in the order variable
+        if val[0] == 'd':
+            td.append(str(datetime.date.today().day))
+    return sep.join(td)
     

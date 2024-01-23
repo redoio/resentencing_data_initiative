@@ -17,10 +17,10 @@ def gen_eligible_summary(el_cdcr_nums,
                          rehab_credit, 
                          voced_credit, 
                          rv_report, 
-                         data_path = None,
+                         read_path = None,
                          county_name = None, 
                          month = None,
-                         file_name = None,
+                         pop = None,
                          write_path = None,
                          to_excel = False):
     """
@@ -45,8 +45,8 @@ def gen_eligible_summary(el_cdcr_nums,
         Data on credits received from institution for participating in vocational training programs
     rv_report : pandas dataframe
         Data on rules violations during incarceration
-    data_path : str, optional
-        Full path where output data should be written (all parent folders)
+    read_path : str, optional
+        Full path from where input data is read (all parent folders)
         Default is None.
     county_name : str, optional
         Name of the county for which eligibility was evaluated, ex: 'Los Angeles County'
@@ -54,9 +54,9 @@ def gen_eligible_summary(el_cdcr_nums,
     month : str, optional
         Year and month for which eligibility was evaluated, ex: '2023_06'
         Default is None.
-   file_name : str, optional
-        Name of the .xlsx or .csv file to write output to, ex: 'adult_eligible_summaries.xlsx'
-        File extension should be included 
+   pop : str, optional
+        Nature of the population being evaluated, ex: 'adult' or 'juvenile'
+        Default is none
    to_excel : boolean, optional
         Specify whether to write the summaries of eligible individuals to Excel files.
         If True, specify the path information to write the output
@@ -98,14 +98,13 @@ def gen_eligible_summary(el_cdcr_nums,
     
     # Write data to excel files
     if to_excel:
-        if not write_path:
-            # Write data to excel files
-            write_path = '/'.join(l for l in [data_path, county_name, month, file_name] if l)
-            el_summary.to_excel(write_path, index = False)
-            print('Summary of eligible individuals written to: ', write_path)
-        elif write_path:
-            # Write data to excel files
-            el_summary.to_excel(write_path, index = False)
-            print('Summary of eligible individuals written to: ', write_path)
+        if write_path: 
+            pass
+        else: 
+            write_path = '/'.join(l for l in [read_path, county_name, month, 'output', get_todays_date(), pop+'_summary.xlsx'] if l)
+
+        # Write data to excel files
+        el_summary.to_excel(write_path, index = False)
+        print('Summary of eligible individuals written to: ', write_path)
         
     return el_summary
