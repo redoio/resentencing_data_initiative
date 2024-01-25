@@ -31,17 +31,21 @@ The Three Strikes Project is legal clinical seminar where law students represent
 
 But, given that there are over 100,000 people in California's prisons, lawyers need efficient and accurate ways to identify those who are eligible for PIR instead of manually reviewing piles of paperwork. Redo.io is solving this problem with an open-source eligibility tool for lawyers to filter their caseload and apply their expertise efficiently. We are currently under a contract with the Stanford School of Law to develop this application.
 
+# Our tool 
+
 ## Summary 
+
+We are designing a rules-based eligibility model with the principles of fairness, accountability and transparency, as well as a user interface for lawyers to generate cohorts of eligible individuals.
 
 What it is:
 - A deterministic model with a rules-based framework established by legal experts and District Attorney offices
 - Easily interpretable and explainable for non-technical users and audience
 - Responsive to user requests, i.e. an attorney can request changes to the eligibility criteria and see updated results
-- A tool that increases the efficiency and productivity of attorneys
+- A tool that increases the efficiency and productivity of attorneys but does not replace them in the process
 
 What it is not:
 - A blackbox prediction model
-- The decision-maker for which cases are ultimately resentenced
+- A final decision-maker that determines which cases are ultimately resentenced
 
 ## Execution
 
