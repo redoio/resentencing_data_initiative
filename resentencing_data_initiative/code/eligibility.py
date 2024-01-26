@@ -119,6 +119,14 @@ def gen_eligibility(demographics,
     el_cdcr_nums = demographics['CDCR #']
     # Clean offense data in current commits file
     current_commits['Offense cleaned'] = clean_offense_blk(data = current_commits['Offense'])
+    # Clean offense data in current commits file
+    current_commits['Off_Enh1 cleaned'] = clean_offense_blk(data = current_commits['Off_Enh1'])
+    # Clean offense data in current commits file
+    current_commits['Off_Enh2 cleaned'] = clean_offense_blk(data = current_commits['Off_Enh2'])
+    # Clean offense data in current commits file
+    current_commits['Off_Enh3 cleaned'] = clean_offense_blk(data = current_commits['Off_Enh3'])
+    # Clean offense data in current commits file
+    current_commits['Off_Enh4 cleaned'] = clean_offense_blk(data = current_commits['Off_Enh4'])
     # Clean offense data in prior commits file
     prior_commits['Offense cleaned'] = clean_offense_blk(data = prior_commits['Offense'])
     
@@ -151,7 +159,7 @@ def gen_eligibility(demographics,
         el_cdcr_nums_4 = []
         for cdcr_num in tqdm(el_cdcr_nums):
           # Extract offenses of the CDCR number
-          offenses = current_commits[current_commits['CDCR #'] == cdcr_num]['Offense cleaned'].unique()
+          offenses = current_commits[current_commits['CDCR #'] == cdcr_num]['Offense cleaned']
           if len(det_inel_off(offenses = offenses, inel_offenses = inel_offenses)) == 0:
             el_cdcr_nums_4.append(cdcr_num)
         # Store eligible CDCR numbers
@@ -170,7 +178,7 @@ def gen_eligibility(demographics,
         el_cdcr_nums_5 = []
         for cdcr_num in tqdm(el_cdcr_nums):
             # Extract offenses of the CDCR number
-            offenses = prior_commits[prior_commits['CDCR #'] == cdcr_num]['Offense cleaned'].unique()
+            offenses = prior_commits[prior_commits['CDCR #'] == cdcr_num]['Offense cleaned']
             if len(det_inel_off(offenses = offenses, inel_offenses = inel_offenses)) == 0:
                 el_cdcr_nums_5.append(cdcr_num)
         # Store eligible CDCR numbers
@@ -193,7 +201,7 @@ def gen_eligibility(demographics,
         el_cdcr_nums_7 = []
         for cdcr_num in tqdm(el_cdcr_nums):
             # Extracting offenses of the CDCR number
-            offenses = current_commits[current_commits['CDCR #'] == cdcr_num]['Offense cleaned'].unique()
+            offenses = current_commits[current_commits['CDCR #'] == cdcr_num]['Offense cleaned']
             if len(det_inel_off(offenses = offenses, inel_offenses = inel_offenses)) == 0:
                 el_cdcr_nums_7.append(cdcr_num)
         
@@ -216,7 +224,7 @@ def gen_eligibility(demographics,
        # Extracting CDCR numbers that met the age, time sentenced and current and prior offense eligibility criteria
         el_cdcr_nums_9 = []
         for cdcr_num in tqdm(el_cdcr_nums):
-          offenses = prior_commits[prior_commits['CDCR #'] == cdcr_num]['Offense cleaned'].unique()
+          offenses = prior_commits[prior_commits['CDCR #'] == cdcr_num]['Offense cleaned']
           if len(det_inel_off(offenses = offenses, inel_offenses = inel_offenses)) == 0:
             el_cdcr_nums_9.append(cdcr_num)
         # Store eligible CDCR numbers in cohort 2 or juvenile population
@@ -231,11 +239,26 @@ def gen_eligibility(demographics,
         el_cdcr_nums_10 = []
         for cdcr_num in tqdm(el_cdcr_nums):
             # Extracting offenses of the CDCR number
-            offenses = current_commits[current_commits['CDCR #'] == cdcr_num]['Offense cleaned'].unique()
+            offenses = current_commits[current_commits['CDCR #'] == cdcr_num]['Offense cleaned']
             if len(set(offenses).intersection(set(sel_offenses))) >= 1:
                 el_cdcr_nums_10.append(cdcr_num)
         # Store eligible CDCR numbers
-        el_cdcr_nums = el_cdcr_nums_10        
+        el_cdcr_nums = el_cdcr_nums_10   
+        
+    if eligibility_conditions['r_11']['use']:
+        print('Finding CDCR numbers that meet rule: ', eligibility_conditions['r_11']['desc'])
+        # Extracting specified offenses from sorting criteria
+        sel_offenses = sorting_criteria[sorting_criteria['Table'].isin(['Table G'])]['Offenses'].tolist()
+        sel_offenses = clean_offense_blk(data = sel_offenses)
+        # Extracting CDCR numbers that meet the age criteria and offense eligibility
+        el_cdcr_nums_11 = []
+        for cdcr_num in tqdm(el_cdcr_nums):
+            # Extracting offenses of the CDCR number
+            offenses = current_commits[current_commits['CDCR #'] == cdcr_num][['Offense cleaned', 'Off_Enh1 cleaned', 'Off_Enh2 cleaned', 'Off_Enh3 cleaned', 'Off_Enh4 cleaned']].values.flatten()
+            if len(set(offenses).intersection(set(sel_offenses))) == 0:
+                el_cdcr_nums_11.append(cdcr_num)
+        # Store eligible CDCR numbers
+        el_cdcr_nums = el_cdcr_nums_11 
         
     # Write demophraphics and current commits of eligible individuals to Excel output
     if to_excel:
