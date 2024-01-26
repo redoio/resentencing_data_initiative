@@ -27,30 +27,30 @@ A data analysis tool for the Three Strikes Project at the Stanford University Sc
 
 # Background
 
-The Three Strikes Project is legal clinical seminar where law students represent individuals serving life sentences for nonviolent crimes under California’s Three Strikes Law. Lawyers assist district attorney’s offices throughout the state who are seeking opportunities to safely and effectively reduce California’s prison population through Prosecutor-Initiated Resentencing. 
+The Three Strikes Project is legal clinical seminar where law students represent individuals serving life sentences for nonviolent crimes under California’s Three Strikes Law. Lawyers assist district attorney’s offices throughout the state who are seeking opportunities to safely and effectively reduce California’s prison population through Prosecutor Initiated Resentencing (PIR).
 
-But, given that there are over 100,000 incarcerated people in California, how do attorneys accurately identify the individuals who are eligible for resentencing? Redo.io is solving this problem through an open-source eligibility tool for attorneys to filter their case load and apply their expertise efficiently. 
+But, given that there are over 100,000 people in California's prisons, lawyers need efficient and accurate ways to identify those who are eligible for PIR instead of manually reviewing piles of paperwork. Redo.io is solving this problem with an open-source eligibility tool for lawyers to filter their caseload and apply their expertise efficiently. We are currently under a contract with the Stanford School of Law to develop this application.
 
-# Our tool
+# Our tool 
 
 ## Summary 
 
-A data model to determine eligibility for resentencing in the California criminal legal system.
+We are designing a rules-based eligibility model with the principles of fairness, accountability and transparency, as well as a user interface for lawyers to generate cohorts of eligible individuals.
 
 What it is:
 - A deterministic model with a rules-based framework established by legal experts and District Attorney offices
 - Easily interpretable and explainable for non-technical users and audience
 - Responsive to user requests, i.e. an attorney can request changes to the eligibility criteria and see updated results
-- A tool that increases the efficiency and productivity of attorneys
+- A tool that increases the efficiency and productivity of attorneys but does not replace them in the process
 
 What it is not:
 - A blackbox prediction model
-- The decision-maker for which cases are ultimately resentenced
+- A final decision-maker that determines which cases are ultimately resentenced
 
 ## Execution
 
-Running the data model for the prison population:
-- Leveraging an AWS EC2 instance on Stanford secure servers
+Running the model for the prison population:
+- Leverage an AWS EC2 instance on Stanford secure servers
 - Ingest all of the demographics and offenses of individuals in California Department of Corrections and Rehabilitation (CDCR) custody
 - Execute the eligibility model
 - Provide attorneys easy-to-understand profiles of eligible individuals
