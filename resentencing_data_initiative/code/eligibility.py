@@ -696,7 +696,7 @@ def gen_eligibility(demographics,
     el_cdcr_nums = demographics['CDCR #'].unique().tolist()
     
     # Clean offense data and enhancements data in current commits   
-    clean_offense_blk(df = current_commits, 
+    clean_offense_blk(data = current_commits, 
                       names = {'Offense': 'Offense cleaned',
                                'Off_Enh1': 'Off_Enh1 cleaned',
                                'Off_Enh2': 'Off_Enh2 cleaned',
@@ -704,11 +704,11 @@ def gen_eligibility(demographics,
                                'Off_Enh4': 'Off_Enh4 cleaned'}, 
                       inplace = True)
     # Clean offense data and enhancements data in prior commits
-    clean_offense_blk(df = prior_commits, 
+    clean_offense_blk(data = prior_commits, 
                       names = {'Offense': 'Offense cleaned'}, 
                       inplace = True)
     # Clean offense data in demographics
-    clean_offense_blk(df = demographics, 
+    clean_offense_blk(data = demographics, 
                       names = {'Controlling Offense': 'Controlling offense cleaned'}, 
                       inplace = True)
     
