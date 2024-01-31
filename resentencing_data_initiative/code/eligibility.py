@@ -736,7 +736,8 @@ def gen_eligibility(demographics,
     demographics, errors = gen_time_vars(df = demographics, merge = True)
     
     # Initialize list of eligible CDCR numbers
-    el_cdcr_nums = demographics['CDCR #']
+    el_cdcr_nums = demographics['CDCR #'].unique().tolist()
+    
     # Clean offense data and enhancements data in current commits   
     clean_offense_cols(df = current_commits, 
                        names = {'Offense': 'Offense cleaned',
