@@ -140,66 +140,59 @@ def clean_offense(off):
     return clean_off
 
 
-def clean_offense_blk(data):
+def clean_offense_blk(data, inplace = None, names = None):
     """
 
     Parameters
     ----------
-    data : str, list or pandas series
+    data : str, list, pandas dataframe or pandas series
         Bulk data on offenses wherein each value is a single string
-
+    names : dict
+        Only applicable when input data is a pandas dataframe
+        Contains key:value pairs wherein keys correspond to columns in the dataframe with offense data and values correspond to the modified columns
+        Default is None
+    inplace : boolean, optional
+        Only applicable when input data is a pandas dataframe
+        Specify whether to return a new dataframe or modify the existing one. 
+        Default is None
+        
     Returns
     -------
-    data : str, list or pandas series (corresponding to input)
+    data : str, list, pandas dataframe or pandas series (corresponding to input)
         Applies the clean_offense() function on each string in the input and returns the modified values with the same input type, i.e. if a pandas series is passed the result will be a pandas series with modified strings
 
     """
     # If input is a single string
     if isinstance(data, str):
-      return clean_offense(data)
+        return clean_offense(data)
+    
     # If input is a list of strings
     elif isinstance(data, list):
-      off_clean = []
-      for off in data:
-        off_clean.append(clean_offense(off))
-      return off_clean
+        off_clean = []
+        for off in data:
+            off_clean.append(clean_offense(off))
+        return off_clean
+    
     # If input is a column of a pandas dataframe
     elif isinstance(data, pd.Series):
-      return data.apply(clean_offense)
-  
+        return data.apply(clean_offense)
     
-def clean_offense_cols(df, names, inplace = True):
-    """
-
-    Parameters
-    ----------
-    df : pandas dataframe
-        Dataframe with columns containing offense data
-    names : dict
-        Contains key:value pairs wherein keys correspond to columns in the df with offense data and values correspond to the modified columns
-    inplace : boolean, optional
-        Specify whether to return a new dataframe or modify the existing one. The default is True.
-
-    Returns
-    -------
-    df
-        Either the original dataframe or a new dataframe with columns modified using the clean_offense() function
-
-    """
-    # Modify the existing dataframe, i.e. add new columns
-    if inplace:
-        # Apply the cleaning function onto each column specified
-        for col in names.keys():
-            df[names[col]] = df[col].apply(clean_offense)
-            return df
-    # Create a separate dataframe with the modified columns and leave the existing one unchanged
-    else:
-        df_new = copy.deepcopy(df)
-        # Apply the cleaning function onto each column specified
-        for col in names.keys():
-            df_new[names[col]] = df[col].apply(clean_offense)
-            return df_new
-
+    # If input is a pandas dataframe
+    elif isinstance(data, pd.DataFrame):
+        # Modify the existing dataframe, i.e. add new columns
+        if inplace:
+            # Apply the cleaning function onto each column specified
+            for col in names.keys():
+                data[names[col]] = data[col].apply(clean_offense)
+                return data
+        # Create a separate dataframe with the modified columns and leave the existing one unchanged
+        else:
+            data_new = copy.deepcopy(data)
+            # Apply the cleaning function onto each column specified
+            for col in names.keys():
+                data_new[names[col]] = data[col].apply(clean_offense)
+                return data_new
+        
 
 def gen_inel_off(inel_offenses, clean = True, 
                  impl = {'all': ["/att", "(664)", "2nd"], '459': ["/att", "(664)"]}, 
@@ -267,25 +260,25 @@ def gen_inel_off(inel_offenses, clean = True,
     return inel_offenses
 
 
-def det_inel_off(offenses, 
-                 inel_offenses):
+def det_sel_off(offenses, 
+                sel_offenses):
     """
 
     Parameters
     ----------
     offenses : list, pandas series
         Contains strings of offenses to be evaluated (i.e. whether they are ineligible for resentencing or not)
-    inel_offenses : list, pandas series
-        Contains strings of ineligible offenses
+    sel_offenses : list, pandas series
+        Contains strings of selected offenses we want to check for in the offenses data
 
     Returns
     -------
     set
-        The offenses in the input that are ineligible
+        The offenses in the input that match with the sel_offenses
 
     """
     # Return offenses that are ineligible for adults and juveniles
-    return set(offenses).intersection(set(inel_offenses))
+    return set(offenses).intersection(set(sel_offenses))
       
 
 def gen_summary(df, current_commits, prior_commits, merit_credit, 
