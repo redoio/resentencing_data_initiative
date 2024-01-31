@@ -166,6 +166,39 @@ def clean_offense_blk(data):
     # If input is a column of a pandas dataframe
     elif isinstance(data, pd.Series):
       return data.apply(clean_offense)
+  
+    
+def clean_offense_cols(df, names, inplace = True):
+    """
+
+    Parameters
+    ----------
+    df : pandas dataframe
+        Dataframe with columns containing offense data
+    names : dict
+        Contains key:value pairs wherein keys correspond to columns in the df with offense data and values correspond to the modified columns
+    inplace : boolean, optional
+        Specify whether to return a new dataframe or modify the existing one. The default is True.
+
+    Returns
+    -------
+    df
+        Either the original dataframe or a new dataframe with columns modified using the clean_offense() function
+
+    """
+    # Modify the existing dataframe, i.e. add new columns
+    if inplace:
+        # Apply the cleaning function onto each column specified
+        for col in names.keys():
+            df[names[col]] = df[col].apply(clean_offense)
+            return df
+    # Create a separate dataframe with the modified columns and leave the existing one unchanged
+    else:
+        df_new = copy.deepcopy(df)
+        # Apply the cleaning function onto each column specified
+        for col in names.keys():
+            df_new[names[col]] = df[col].apply(clean_offense)
+            return df_new
 
 
 def gen_inel_off(inel_offenses, clean = True, 
