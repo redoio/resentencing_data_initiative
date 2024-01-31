@@ -448,8 +448,8 @@ def eligibility_r8(demographics,
     inel_offenses = sorting_criteria[sorting_criteria['Table'].isin(['Table D'])]['Offenses'].tolist()
     inel_offenses = gen_inel_off(inel_offenses, 
                                  clean = True, 
-                                 impl = eligibility_conditions['r_9']['implied ineligibility'], 
-                                 perm = eligibility_conditions['r_9']['perm'])
+                                 impl = eligibility_conditions['r_8']['implied ineligibility'], 
+                                 perm = eligibility_conditions['r_8']['perm'])
     
     # If existing eligible CDCR numbers are passed
     if el_cdcr_nums:
