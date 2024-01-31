@@ -630,7 +630,7 @@ def eligibility_r11(demographics,
     el_cdcr_nums_11 = []
     for cdcr_num in tqdm(eval_cdcr_nums):
         # Extracting offenses of the CDCR number
-        controlling_offense = demographics[demographics['CDCR #'] == cdcr_num]['Controlling offense cleaned']
+        controlling_offense = demographics[demographics['CDCR #'] == cdcr_num]['Controlling offense cleaned'].values[0]
         if controlling_offense not in sel_offenses:
             el_cdcr_nums_11.append(cdcr_num)
     
