@@ -23,10 +23,10 @@ el_cond_adult = {'r_1': {'use': True, 'desc': rules.r_1},
                          'perm': 2}, 
                  'r_6': {'use': False, 'desc': rules.r_6},
                  'r_7': {'use': False, 'desc': rules.r_7},
-                 'r_8': {'use': False, 'desc': rules.r_9}, 
-                 'r_9': {'use': False, 'desc': rules.r_10}, 
-                 'r_10': {'use': False, 'desc': rules.r_11}, 
-                 'r_11': {'use': False, 'desc': rules.r_12}}
+                 'r_8': {'use': False, 'desc': rules.r_8}, 
+                 'r_9': {'use': False, 'desc': rules.r_9}, 
+                 'r_10': {'use': False, 'desc': rules.r_10}, 
+                 'r_11': {'use': False, 'desc': rules.r_11}}
 
 # Juvenile eligibility
 el_cond_juv = {'r_1': {'use': False, 'desc': rules.r_1},
@@ -40,12 +40,12 @@ el_cond_juv = {'r_1': {'use': False, 'desc': rules.r_1},
                        'implied ineligibility': {'187': ["2nd", "(664)"]}, 
                        'perm': 2},
                'r_8': {'use': True, 
-                       'desc': rules.r_9,
+                       'desc': rules.r_8,
                        'implied ineligibility': {'187': ["2nd", "(664)"]}, 
                        'perm': 2}, 
-               'r_9': {'use': False, 'desc': rules.r_10}, 
-               'r_10': {'use': False, 'desc': rules.r_11},
-               'r_11': {'use': False, 'desc': rules.r_12},}
+               'r_9': {'use': False, 'desc': rules.r_9}, 
+               'r_10': {'use': False, 'desc': rules.r_10},
+               'r_11': {'use': False, 'desc': rules.r_11},}
 
 # Both adult and juvenile eligibility (robbery related)
 el_cond_other = {'r_1': {'use': False, 'desc': rules.r_1},
@@ -63,7 +63,7 @@ el_cond_other = {'r_1': {'use': False, 'desc': rules.r_1},
                          'perm': 2}, 
                  'r_6': {'use': False, 'desc': rules.r_6},
                  'r_7': {'use': False, 'desc': rules.r_7},
-                 'r_8': {'use': False, 'desc': rules.r_9}, 
-                 'r_9': {'use': False, 'desc': rules.r_10}, 
-                 'r_10': {'use': True, 'desc': rules.r_11},
+                 'r_8': {'use': False, 'desc': rules.r_8}, 
+                 'r_9': {'use': False, 'desc': rules.r_9}, 
+                 'r_10': {'use': True, 'desc': rules.r_10},
                  'r_11': {'use': True, 'desc': rules.r_11},}
