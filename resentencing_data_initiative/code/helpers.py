@@ -184,14 +184,14 @@ def clean_offense_blk(data, inplace = None, names = None):
             # Apply the cleaning function onto each column specified
             for col in names.keys():
                 data[names[col]] = data[col].apply(clean_offense)
-                return data
+            return data
         # Create a separate dataframe with the modified columns and leave the existing one unchanged
         else:
             data_new = copy.deepcopy(data)
             # Apply the cleaning function onto each column specified
             for col in names.keys():
                 data_new[names[col]] = data[col].apply(clean_offense)
-                return data_new
+            return data_new
         
 
 def gen_inel_off(inel_offenses, clean = True, 
