@@ -560,8 +560,8 @@ def eligibility_r10(demographics,
     print('Finding CDCR numbers that meet rule: ', eligibility_conditions['r_10']['desc'])
     
     # Extracting specified offenses from sorting criteria
-    inel_offenses = sorting_criteria[sorting_criteria['Table'].isin(['Table G'])]['Offenses'].tolist()
-    inel_offenses = clean_offense_blk(data = inel_offenses)
+    sel_offenses = sorting_criteria[sorting_criteria['Table'].isin(['Table F'])]['Offenses'].tolist()
+    sel_offenses = clean_offense_blk(data = sel_offenses)
     
     # If existing eligible CDCR numbers are passed
     if el_cdcr_nums:
@@ -573,15 +573,15 @@ def eligibility_r10(demographics,
     el_cdcr_nums_10 = []
     for cdcr_num in tqdm(eval_cdcr_nums):
         # Extracting offenses of the CDCR number
-        offenses = current_commits[current_commits['CDCR #'] == cdcr_num][['Offense cleaned', 'Off_Enh1 cleaned', 'Off_Enh2 cleaned', 'Off_Enh3 cleaned', 'Off_Enh4 cleaned']].values.flatten()
-        if len(det_sel_off(offenses = offenses, sel_offenses = inel_offenses)) == 0:
+        controlling_offense = demographics[demographics['CDCR #'] == cdcr_num]['Controlling offense cleaned'].values[0]
+        if controlling_offense in sel_offenses:
             el_cdcr_nums_10.append(cdcr_num)
     
     # Store eligible CDCR numbers
     el_cdcr_nums = el_cdcr_nums_10 
     
     return el_cdcr_nums
-
+            
 
 def eligibility_r11(demographics, 
                     sorting_criteria,
@@ -617,8 +617,8 @@ def eligibility_r11(demographics,
     print('Finding CDCR numbers that meet rule: ', eligibility_conditions['r_11']['desc'])
     
     # Extracting specified offenses from sorting criteria
-    sel_offenses = sorting_criteria[sorting_criteria['Table'].isin(['Table F'])]['Offenses'].tolist()
-    sel_offenses = clean_offense_blk(data = sel_offenses)
+    inel_offenses = sorting_criteria[sorting_criteria['Table'].isin(['Table G'])]['Offenses'].tolist()
+    inel_offenses = clean_offense_blk(data = inel_offenses)
     
     # If existing eligible CDCR numbers are passed
     if el_cdcr_nums:
@@ -630,15 +630,15 @@ def eligibility_r11(demographics,
     el_cdcr_nums_11 = []
     for cdcr_num in tqdm(eval_cdcr_nums):
         # Extracting offenses of the CDCR number
-        controlling_offense = demographics[demographics['CDCR #'] == cdcr_num]['Controlling offense cleaned'].values[0]
-        if controlling_offense in sel_offenses:
+        offenses = current_commits[current_commits['CDCR #'] == cdcr_num][['Offense cleaned', 'Off_Enh1 cleaned', 'Off_Enh2 cleaned', 'Off_Enh3 cleaned', 'Off_Enh4 cleaned']].values.flatten()
+        if len(det_sel_off(offenses = offenses, sel_offenses = inel_offenses)) == 0:
             el_cdcr_nums_11.append(cdcr_num)
     
     # Store eligible CDCR numbers
     el_cdcr_nums = el_cdcr_nums_11 
     
     return el_cdcr_nums
-            
+
 
 def gen_eligibility(demographics, 
                     sorting_criteria,
