@@ -194,44 +194,45 @@ def clean_offense_blk(data, inplace = None, names = None):
             return data_new
         
 
-def gen_inel_off(inel_offenses, clean = True, 
+def gen_impl_off(offenses, clean = True, 
                  impl = {'all': ["/att", "(664)", "2nd"], '459': ["/att", "(664)"]}, 
                  perm = 2):
     """
 
     Parameters
     ----------
-    inel_offenses : list, pandas series
-        Contains strings of the baseline ineligible offenses, for example specific values from the sorting criteria Excel sheet
+    offenses : list, pandas series
+        Contains strings of offenses, for example specific values from the sorting criteria Excel sheet
     clean : boolean, optional
-        Specify whether to clean the inel_offenses data first using the clean_offense() operation. 
+        Specify whether to clean the offenses data first using the clean_offense() operation. 
         Default is True.
     impl : dict, optional
-        Specify how the implied ineligibility should be generated. 
+        Specify how the implied selections should be generated. 
         The key:value pair is set up as follows: 
-        1. 'all' represents the general implied ineligbility. Values in inel_offenses are concatenated with the strings corresponding to 'all' to generate the implied ineligibility
+        1. 'all' represents the general implied offenses. Values in offenses are concatenated with the strings corresponding to 'all' to generate the implied ones
         2. Any other key called out separately represents an exception to 'all'
         Default is {'all': ["/att", "(664)", "2nd"], '459': ["/att", "(664)"]}.
     perm : int, optional
-        Specify the number of permutations in the implied ineligibility. 
+        Specify the number of permutations in the implied offenses 
         For example, perm = 2 means that '459(664)/att', '459(664)(664)' etc. are also ineligible
         Default is 2.
 
     Returns
     -------
-    inel_offenses : list
-        List of ineligible offenses including both the baseline ineligible offenses passed in the input (with or without cleaning) and the implied ineligible offenses
+    offenses : list
+        List of offenses including both the intial offenses passed in the input (with or without cleaning) and the implied offenses
 
     """
     # Clean the offense data if specified
     if clean:
-        inel_offenses = clean_offense_blk(inel_offenses)
+        offenses = clean_offense_blk(offenses)
     
-    def gen_impl_off():
-      # Generate new list of offenses based on the implied ineligibility
+    # For a single permutation or round of implied offenses
+    def impl_off():
+      # Generate new list of offenses based on the implied criteria
       add = []
-      # Loop through all offenses in the ineligible offenses list
-      for off in inel_offenses:
+      # Loop through all offenses in the input offenses list
+      for off in offenses:
         # Check the two conditions: generic or exception
         matching = [key for key in impl.keys() if key in off]
         # If offense is not called out separately (exception)
@@ -246,18 +247,18 @@ def gen_inel_off(inel_offenses, clean = True,
             # If any additions are not already in the offense, ex: PC 123(664) does not need PC 123(664)(664) to be added
             if impl_val not in off:
               add.append(off+impl_val)
-      # Combine newly identified ineligible offenses to the list of existing ineligible offenses and return result
-      return list(set.union(set(inel_offenses), set(add)))
+      # Combine newly generated offenses to the list of existing offenses and return result
+      return list(set.union(set(offenses), set(add)))
     
-    # Generate permutations of the ineligible offenses
+    # Generate permutations of the implied offenses
     i = 1
     while i <= perm:
-      # Run the function to generate implied ineligibility
-      inel_offenses = gen_impl_off()
+      # Run the function to generate implied offenses
+      offenses = impl_off()
       i = i + 1
     
     # Return the final results after all permutations
-    return inel_offenses
+    return offenses
 
 
 def det_sel_off(offenses, 
@@ -269,7 +270,7 @@ def det_sel_off(offenses,
     offenses : list, pandas series
         Contains strings of offenses to be evaluated (i.e. whether they are ineligible for resentencing or not)
     sel_offenses : list, pandas series
-        Contains strings of selected offenses we want to check for in the offenses data
+        Contains strings of selected offenses we want to identify in the offenses data
 
     Returns
     -------

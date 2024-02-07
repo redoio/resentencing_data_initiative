@@ -227,7 +227,7 @@ def eligibility_r4(demographics,
     # Extracting ineligible offenses from sorting criteria
     inel_offenses = sorting_criteria[sorting_criteria['Table'].isin(['Table A', 'Table B', 'Table C', 'Table D'])]['Offenses'].tolist()
     # Appending new offenses based on implied ineligibility
-    inel_offenses = gen_inel_off(inel_offenses, 
+    inel_offenses = gen_impl_off(inel_offenses, 
                                  clean = True, 
                                  impl = eligibility_conditions['r_4']['implied ineligibility'], 
                                  perm = eligibility_conditions['r_4']['perm'])
@@ -287,7 +287,7 @@ def eligibility_r5(demographics,
     # Extracting ineligible offenses from sorting criteria
     inel_offenses = sorting_criteria[sorting_criteria['Table'].isin(['Table C', 'Table D'])]['Offenses'].tolist()
     # Appending new offenses based on implied ineligibility
-    inel_offenses = gen_inel_off(inel_offenses, 
+    inel_offenses = gen_impl_off(inel_offenses, 
                                  clean = True, 
                                  impl = eligibility_conditions['r_5']['implied ineligibility'], 
                                  perm = eligibility_conditions['r_5']['perm'])
@@ -387,7 +387,7 @@ def eligibility_r7(demographics,
     print('Finding CDCR numbers that meet rule: ', eligibility_conditions['r_7']['desc'])
     # Extracting ineligible offenses from sorting criteria
     inel_offenses = sorting_criteria[sorting_criteria['Table'].isin(['Table E', 'Table D'])]['Offenses'].tolist()
-    inel_offenses = gen_inel_off(inel_offenses, 
+    inel_offenses = gen_impl_off(inel_offenses, 
                                  clean = True, 
                                  impl = eligibility_conditions['r_7']['implied ineligibility'], 
                                  perm = eligibility_conditions['r_7']['perm'])
@@ -446,7 +446,7 @@ def eligibility_r8(demographics,
     print('Finding CDCR numbers that meet rule: ', eligibility_conditions['r_8']['desc'])
     # Extracting ineligible offenses from sorting criteria
     inel_offenses = sorting_criteria[sorting_criteria['Table'].isin(['Table D'])]['Offenses'].tolist()
-    inel_offenses = gen_inel_off(inel_offenses, 
+    inel_offenses = gen_impl_off(inel_offenses, 
                                  clean = True, 
                                  impl = eligibility_conditions['r_8']['implied ineligibility'], 
                                  perm = eligibility_conditions['r_8']['perm'])
@@ -561,7 +561,6 @@ def eligibility_r10(demographics,
     
     # Extracting specified offenses from sorting criteria
     sel_offenses = sorting_criteria[sorting_criteria['Table'].isin(['Table F'])]['Offenses'].tolist()
-    sel_offenses = clean_offense_blk(data = sel_offenses)
     
     # If existing eligible CDCR numbers are passed
     if el_cdcr_nums:
