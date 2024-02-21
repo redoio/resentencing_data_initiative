@@ -273,7 +273,7 @@ def det_sel_off(offenses,
     sel_offenses : list, pandas series
         Contains strings of selected offenses we want to identify in the offenses data
     how : str
-        Specifies if selection is based whether an offense exactly matches or contains the value(s) in the sel_offenses
+        Specifies if selection is based whether offenses exactly match or contains a value(s) in the sel_offenses
         Takes 'contains', 'exact' or None. Default is 'exact'
     Returns
     -------

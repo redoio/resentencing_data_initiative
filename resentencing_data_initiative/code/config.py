@@ -61,7 +61,7 @@ el_cond_juv = {'r_1': {'use': False, 'desc': rules.r_1},
 # Both adult and juvenile eligibility (robbery related)
 el_cond_other = {'r_1': {'use': False, 'desc': rules.r_1},
                  'r_2': {'use': False, 'desc': rules.r_2},
-                 'r_3': {'use': False, 'desc': rules.r_3},
+                 'r_3': {'use': True, 'desc': rules.r_3},
                  'r_4': {'use': False, 
                          'desc': rules.r_4, 
                          'implied ineligibility': {'all': ["/att", "(664)", "2nd"], 

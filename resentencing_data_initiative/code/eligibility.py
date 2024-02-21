@@ -683,6 +683,7 @@ def eligibility_r12(demographics,
     for cdcr_num in tqdm(eval_cdcr_nums):
         # Extracting offenses of the CDCR number
         offenses = current_commits[current_commits['CDCR #'] == cdcr_num][['Offense cleaned', 'Off_Enh1 cleaned', 'Off_Enh2 cleaned', 'Off_Enh3 cleaned', 'Off_Enh4 cleaned']].values.flatten()
+        # If sel offenses is not in any of the offenses (contains and not matches exactly)
         if len(det_sel_off(offenses = offenses, sel_offenses = ['12022'], how = 'contains')) == 0:
             el_cdcr_nums_12.append(cdcr_num)
     
