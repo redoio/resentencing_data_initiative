@@ -726,7 +726,7 @@ def eligibility_r13(demographics,
     print('Finding CDCR numbers that meet rule: ', eligibility_conditions['r_13']['desc'])
     # Extracting ineligible offenses from sorting criteria
     inel_offenses = sorting_criteria[sorting_criteria['Table'].isin(['Table A', 'Table C', 'Table D'])]['Offenses'].tolist()
-    inel_offenses.extend(list(set(sorting_criteria['Table B']).difference(set(sorting_criteria['Table F']))))
+    inel_offenses.extend(list(set(sorting_criteria[sorting_criteria['Table'] == 'Table B']['Offenses']).difference(sorting_criteria[sorting_criteria['Table'] == 'Table F']['Offenses'])))
     inel_offenses = gen_impl_off(inel_offenses, 
                                  clean = True, 
                                  impl = eligibility_conditions['r_13']['implied ineligibility'], 

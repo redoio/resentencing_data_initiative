@@ -12,4 +12,4 @@ r_9 = 'Is serving current sentence for at least one offense listed in Table F (f
 r_10 = 'Has a controlling offense that is present in Table F (from sorting_criteria.xlsx)'
 r_11 = 'Does not have an enhancement listed in Table G (from sorting_criteria.xlsx)'
 r_12 = 'Does not have an enhancement that contains PC 12022'
-r_13 = 'Is not serving a current sentence for any offense listed in Table A, B (minus Table F), C, or D'
+r_13 = 'Is not serving a current sentence for any offense listed in Table A, B (minus Table F), C, or D (from sorting_criteria.xlsx)'
