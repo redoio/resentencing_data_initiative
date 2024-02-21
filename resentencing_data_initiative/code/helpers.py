@@ -262,7 +262,8 @@ def gen_impl_off(offenses, clean = True,
 
 
 def det_sel_off(offenses, 
-                sel_offenses):
+                sel_offenses, 
+                how = 'exact'):
     """
 
     Parameters
@@ -271,15 +272,26 @@ def det_sel_off(offenses,
         Contains strings of offenses to be evaluated (i.e. whether they are ineligible for resentencing or not)
     sel_offenses : list, pandas series
         Contains strings of selected offenses we want to identify in the offenses data
-
+    how : str
+        Specifies if selection is based whether an offense exactly matches or contains the value(s) in the sel_offenses
+        Takes 'contains', 'exact' or None. Default is 'exact'
     Returns
     -------
     set
         The offenses in the input that match with the sel_offenses
 
     """
-    # Return offenses that are ineligible for adults and juveniles
-    return set(offenses).intersection(set(sel_offenses))
+    if how == 'exact':
+        # Return offenses that are present in sel_offenses
+        return set(offenses).intersection(set(sel_offenses))
+    elif how == 'contains':
+        match = []
+        for s in sel_offenses:
+            for off in offenses:
+                if s in off:
+                    match.append(off)
+        return match
+        
       
 
 def gen_summary(df, current_commits, prior_commits, merit_credit, 
