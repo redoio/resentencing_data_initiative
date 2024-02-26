@@ -753,6 +753,46 @@ def eligibility_r13(demographics,
     return el_cdcr_nums
 
 
+def eligibility_r14(demographics, 
+                   sorting_criteria,
+                   current_commits, 
+                   prior_commits, 
+                   eligibility_conditions,
+                   el_cdcr_nums = None):
+    """
+    Parameters
+    ----------
+    sorting_criteria : pandas dataframe
+        Data on offenses and their categories or tables
+    demographics : pandas dataframe
+        Data on individuals currently incarcerated
+    current_commits : pandas dataframe
+        Data on current offenses of incarcerated individuals wherein each row pertains to a single offense
+    prior_commits : pandas dataframe
+        Data on prior offenses of incarcerated individuals wherein each row pertains to a single offense
+    eligibility_conditions : dict
+        Data on all the rules, whether they should be applied or not and other specifications
+    el_cdcr_nums: list
+        CDCR numbers that already meet eligibility conditions. Only these CDCR numbers will be evaluated under the current rule. 
+        Default is None.
+    Returns
+    -------
+    errors : pandas dataframe
+        Data in the demographics dataframe for which time variables could not be computed
+    el_cdcr_nums : list of strs
+        List of CDCR numbers that are eligible for resentencing 
+        
+    """
+    print('Finding CDCR numbers that meet rule: ', eligibility_conditions['r_14']['desc'])
+    # If existing eligible CDCR numbers are passed
+    if el_cdcr_nums:
+        # Extracting CDCR numbers that met the age criteria that also meet the time served criteria
+        el_cdcr_nums = demographics[(demographics['Time served in years'] >= 15) & demographics['CDCR #'].isin(el_cdcr_nums)]['CDCR #'].to_list() 
+    else:
+        el_cdcr_nums = demographics[(demographics['Time served in years'] >= 15)]['CDCR #'].to_list() 
+    return el_cdcr_nums
+
+
 def gen_eligibility(demographics, 
                     sorting_criteria,
                     current_commits, 
@@ -925,6 +965,14 @@ def gen_eligibility(demographics,
         
     if eligibility_conditions['r_13']['use']:
         el_cdcr_nums = eligibility_r13(demographics = demographics, 
+                                       sorting_criteria = sorting_criteria,
+                                       current_commits = current_commits, 
+                                       prior_commits = prior_commits, 
+                                       eligibility_conditions = eligibility_conditions,
+                                       el_cdcr_nums = el_cdcr_nums)
+        
+    if eligibility_conditions['r_14']['use']:
+        el_cdcr_nums = eligibility_r14(demographics = demographics, 
                                        sorting_criteria = sorting_criteria,
                                        current_commits = current_commits, 
                                        prior_commits = prior_commits, 

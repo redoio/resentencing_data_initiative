@@ -9,7 +9,7 @@ import pandas as pd
 import copy
 from helpers import *
 
-criteria = pd.read_excel('C:/Users/akomarla/Downloads/sorting_criteria.xlsx', dtype = {'Offenses': str})
+criteria = pd.read_excel('C:/Users/apkom/Downloads/sorting_criteria.xlsx', dtype = {'Offenses': str})
 #current_commits = pd.read_excel('C:/Users/apkom/Downloads/currentcommitments.xlsx')
 #demographics = pd.read_excel('C:/Users/apkom/Downloads/demographics.xlsx')
 

@@ -32,7 +32,8 @@ el_cond_adult = {'r_1': {'use': True, 'desc': rules.r_1},
                           'desc': rules.r_13,
                           'implied ineligibility': {'all': ["/att", "(664)", "2nd"], 
                                                     '459': ["/att", "(664)"]},
-                          'perm': 2}}
+                          'perm': 2},
+                 'r_14': {'use': False, 'desc': rules.r_14}}
 
 # Juvenile eligibility
 el_cond_juv = {'r_1': {'use': False, 'desc': rules.r_1},
@@ -56,7 +57,8 @@ el_cond_juv = {'r_1': {'use': False, 'desc': rules.r_1},
                'r_13': {'use': False, 
                         'desc': rules.r_13,
                         'implied ineligibility': {'187': ["2nd", "(664)"]}, 
-                        'perm': 2}}
+                        'perm': 2},
+               'r_14': {'use': False, 'desc': rules.r_14}}
 
 # Both adult and juvenile eligibility (robbery related)
 el_cond_other = {'r_1': {'use': False, 'desc': rules.r_1},
@@ -83,4 +85,5 @@ el_cond_other = {'r_1': {'use': False, 'desc': rules.r_1},
                           'desc': rules.r_13, 
                           'implied ineligibility': {'all': ["/att", "(664)", "2nd"], 
                                                     '459': ["/att", "(664)"]},
-                          'perm': 2}}
+                          'perm': 2},
+                 'r_14': {'use': False, 'desc': rules.r_14}}
