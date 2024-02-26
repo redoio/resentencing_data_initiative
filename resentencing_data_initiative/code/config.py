@@ -86,4 +86,4 @@ el_cond_other = {'r_1': {'use': False, 'desc': rules.r_1},
                           'implied ineligibility': {'all': ["/att", "(664)", "2nd"], 
                                                     '459': ["/att", "(664)"]},
                           'perm': 2},
-                 'r_14': {'use': False, 'desc': rules.r_14}}
+                 'r_14': {'use': True, 'desc': rules.r_14}}
