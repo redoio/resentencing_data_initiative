@@ -992,7 +992,10 @@ def gen_eligibility(demographics,
             
         # Write data to excel files
         demographics[demographics['CDCR #'].isin(el_cdcr_nums)].to_excel(write_path+'/'+pop+'_eligible_demographics.xlsx', sheet_name = 'Cohort', index = False)
+        pd.DataFrame.from_dict(eligibility_conditions, orient='index').to_excel(write_path+'/'+pop+'_eligible_demographics.xlsx', sheet_name = 'Conditions', index = True)
+        
         current_commits[current_commits['CDCR #'].isin(el_cdcr_nums)].to_excel(write_path+'/'+pop+'_eligible_currentcommits.xlsx', sheet_name = 'Cohort', index = False)
+        pd.DataFrame.from_dict(eligibility_conditions, orient='index').to_excel(write_path+'/'+pop+'_eligible_currentcommits.xlsx', sheet_name = 'Conditions', index = True)
 
         print('Current commits of eligible individuals written to: ', write_path+'/'+pop+'_eligible_currentcommits.xlsx')
         print('Demographics of eligible individuals written to: ', write_path+'/'+pop+'_eligible_demographics.xlsx')
