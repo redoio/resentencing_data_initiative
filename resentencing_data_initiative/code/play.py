@@ -116,7 +116,13 @@ def gen_impl_val(impl, sep, perm, fix_pos, placeholder):
             
 
         
-        
+gen_impl_off(offenses, 
+                 impl_rel, 
+                 perm = 2,
+                 sep = '', 
+                 fix_pos = {"2nd": 0, "(ss)": 0}, 
+                 placeholder = {"ss": ['a', 'b', 'c']}, 
+                 how = 'inclusive')
         
         
         
