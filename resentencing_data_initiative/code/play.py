@@ -19,17 +19,24 @@ offenses = clean_offense_blk(criteria[criteria['Table'] == 'Table F']['Offenses'
 
 def gen_impl_off(offenses, 
                  impl_rel, 
-                 perm = 3,
-                 sep = '', 
-                 fix_pos = {"2nd": 0, "(ss)": 0}, 
-                 placeholder = {"ss": ['a', 'b', 'c']}, 
-                 how = 'inclusive'):
+                 perm, 
+                 fix_pos = None, 
+                 placeholder = None,
+                 how = None,
+                 sep = '',
+                 clean = True):
+    
+    # Clean the offense data if specified
+    if clean:
+        offenses = clean_offense_blk(offenses)
     
     # Remove exceptions from the list of offenses
     offenses_woe = copy.deepcopy(offenses)
-    for e in impl_rel.keys():
-        if (e != 'all') and (e in offenses):
-            offenses_woe.remove(e)
+    for rel in impl_rel.keys():
+        if (rel != 'all'):
+            for off in offenses:
+                if rel in off:
+                    offenses_woe.remove(rel)
     
     if how == 'inclusive':
         # Initialize list of implied offenses - add the baseline offenses
@@ -63,11 +70,7 @@ def gen_impl_off(offenses,
             
             
     
-def gen_impl_val(impl,  
-                 sep = '', 
-                 perm = 3, 
-                 fix_pos = {"2nd": 0, "(ss)": 0}, 
-                 placeholder = {"ss": ['a', 'b', 'c']}):
+def gen_impl_val(impl, sep, perm, fix_pos, placeholder):
     
     # Initialize list of permutations of implied values
     res = []
@@ -76,7 +79,7 @@ def gen_impl_val(impl,
         res.extend(list(permutations(impl, i)))
     
     # Create a new set of resultant implied values to perform manipulations if requested
-    sel = copy.deepcopy(res)
+    #sel = copy.deepcopy(res)
     
     # If some values should have fixed positions
     if fix_pos:
@@ -89,11 +92,13 @@ def gen_impl_val(impl,
                     pass
                 # Remove permutations that do not have any of the fixed values at the specified positions
                 else:
-                    sel.remove(r)
+                    res.remove(r)
+                    #sel.remove(r)
     
     # Combine the tuples into a single string (necessary step since no manipulations can be made on tuple values)
-    sel = [sep.join(s) for s in sel]
-    
+    # sel = [sep.join(s) for s in sel]
+    res = [sep.join(r) for r in res]
+
     # If implied value is a placeholder for other values
     if placeholder: 
         # Replace placeholder values with actual ones 
@@ -101,13 +106,13 @@ def gen_impl_val(impl,
         for p in placeholder.keys():
             # Perform replacement for each value
             for repl in placeholder[p]:
-                for s in sel:
-                    new.append(s.replace(p, repl))
+                for r in res:
+                    new.append(r.replace(p, repl))
         # If placeholders were requested
         return list(set(new))
     
     # If there are no placeholders return the original list of strings
-    return list(set(sel))
+    return list(set(res))
             
 
         
