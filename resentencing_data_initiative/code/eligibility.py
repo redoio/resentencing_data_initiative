@@ -991,14 +991,15 @@ def gen_eligibility(demographics,
             os.mkdir(write_path)
             
         # Write data to excel files
-        demographics[demographics['CDCR #'].isin(el_cdcr_nums)].to_excel(write_path+'/'+pop+'_eligible_demographics.xlsx', sheet_name = 'Cohort', index = False)
-        pd.DataFrame.from_dict(eligibility_conditions, orient='index').to_excel(write_path+'/'+pop+'_eligible_demographics.xlsx', sheet_name = 'Conditions', index = True)
-        
-        current_commits[current_commits['CDCR #'].isin(el_cdcr_nums)].to_excel(write_path+'/'+pop+'_eligible_currentcommits.xlsx', sheet_name = 'Cohort', index = False)
-        pd.DataFrame.from_dict(eligibility_conditions, orient='index').to_excel(write_path+'/'+pop+'_eligible_currentcommits.xlsx', sheet_name = 'Conditions', index = True)
-
-        print('Current commits of eligible individuals written to: ', write_path+'/'+pop+'_eligible_currentcommits.xlsx')
+        with pd.ExcelWriter(write_path+'/'+pop+'_eligible_demographics.xlsx') as writer:
+            demographics[demographics['CDCR #'].isin(el_cdcr_nums)].to_excel(writer, sheet_name = 'Cohort', index = False)
+            pd.DataFrame.from_dict(eligibility_conditions, orient='index').to_excel(writer, sheet_name = 'Conditions', index = True)
         print('Demographics of eligible individuals written to: ', write_path+'/'+pop+'_eligible_demographics.xlsx')
+
+        with pd.ExcelWriter(write_path+'/'+pop+'_eligible_currentcommits.xlsx') as writer:
+            current_commits[current_commits['CDCR #'].isin(el_cdcr_nums)].to_excel(writer, sheet_name = 'Cohort', index = False)
+            pd.DataFrame.from_dict(eligibility_conditions, orient='index').to_excel(writer, sheet_name = 'Conditions', index = True)
+        print('Current commits of eligible individuals written to: ', write_path+'/'+pop+'_eligible_currentcommits.xlsx')
     
     return errors, el_cdcr_nums
             
