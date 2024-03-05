@@ -724,7 +724,7 @@ def eligibility_r12(demographics,
     #                              clean = True, 
     #                              impl = eligibility_conditions['r_12']['implied ineligibility'], 
     #                              perm = eligibility_conditions['r_12']['perm'])
-    sel_offenses = play.gen_impl_off(offenses = sel_offenses, 
+    inel_offenses = play.gen_impl_off(offenses = inel_offenses, 
                                      impl_rel = eligibility_conditions['r_12']['implied ineligibility'],
                                      perm = eligibility_conditions['r_12']['perm'], 
                                      how = 'inclusive',
