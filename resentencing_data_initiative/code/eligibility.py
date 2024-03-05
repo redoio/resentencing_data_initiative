@@ -720,10 +720,16 @@ def eligibility_r12(demographics,
     # Extracting ineligible offenses from sorting criteria
     inel_offenses = sorting_criteria[sorting_criteria['Table'].isin(['Table A', 'Table C', 'Table D'])]['Offenses'].tolist()
     inel_offenses.extend(list(set(sorting_criteria[sorting_criteria['Table'] == 'Table B']['Offenses']).difference(sorting_criteria[sorting_criteria['Table'] == 'Table F']['Offenses'])))
-    inel_offenses = gen_impl_off(inel_offenses, 
-                                 clean = True, 
-                                 impl = eligibility_conditions['r_12']['implied ineligibility'], 
-                                 perm = eligibility_conditions['r_12']['perm'])
+    # inel_offenses = gen_impl_off(inel_offenses, 
+    #                              clean = True, 
+    #                              impl = eligibility_conditions['r_12']['implied ineligibility'], 
+    #                              perm = eligibility_conditions['r_12']['perm'])
+    sel_offenses = play.gen_impl_off(offenses = sel_offenses, 
+                                     impl_rel = eligibility_conditions['r_12']['implied ineligibility'],
+                                     perm = eligibility_conditions['r_12']['perm'], 
+                                     how = 'inclusive',
+                                     sep = '',
+                                     clean = True)
     
     # If existing eligible CDCR numbers are passed
     if el_cdcr_nums:
