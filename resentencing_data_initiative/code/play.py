@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Fri Feb  2 20:39:47 2024
 
-@author: apkom
-"""
 from itertools import permutations, product
 import pandas as pd
 import copy

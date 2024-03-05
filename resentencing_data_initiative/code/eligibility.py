@@ -187,7 +187,7 @@ def eligibility_r3(demographics,
     # If existing eligible CDCR numbers are passed
     if el_cdcr_nums:
         # Extracting CDCR numbers that met the age criteria that also meet the time served criteria
-        el_cdcr_nums = demographics[(demographics['Time served in years'] >= 10) & demographics['CDCR #'].isin(el_cdcr_nums)]['CDCR #'].to_list() 
+        el_cdcr_nums = demographics[(demographics['Time served in years'] >= 10) & (demographics['CDCR #'].isin(el_cdcr_nums))]['CDCR #'].to_list() 
     else:
         el_cdcr_nums = demographics[(demographics['Time served in years'] >= 10)]['CDCR #'].to_list() 
     return el_cdcr_nums
@@ -245,7 +245,7 @@ def eligibility_r4(demographics,
     if el_cdcr_nums:
         eval_cdcr_nums = el_cdcr_nums
     else:
-        eval_cdcr_nums = demographics['CDCR #'].unqiue()
+        eval_cdcr_nums = demographics['CDCR #'].unique()
     
     # Initialize list to capture eligible CDCR numbers
     el_cdcr_nums_4 = []
@@ -313,7 +313,7 @@ def eligibility_r5(demographics,
     if el_cdcr_nums:
         eval_cdcr_nums = el_cdcr_nums
     else:
-        eval_cdcr_nums = demographics['CDCR #'].unqiue()
+        eval_cdcr_nums = demographics['CDCR #'].unique()
     
     # Initialize list to capture eligible CDCR numbers
     el_cdcr_nums_5 = []
@@ -421,7 +421,7 @@ def eligibility_r7(demographics,
     if el_cdcr_nums:
         eval_cdcr_nums = el_cdcr_nums
     else:
-        eval_cdcr_nums = demographics['CDCR #'].unqiue()
+        eval_cdcr_nums = demographics['CDCR #'].unique()
         
     # Extracting CDCR numbers that meet the age criteria and offense eligibility
     el_cdcr_nums_7 = []
@@ -488,7 +488,7 @@ def eligibility_r8(demographics,
     if el_cdcr_nums:
         eval_cdcr_nums = el_cdcr_nums
     else:
-        eval_cdcr_nums = demographics['CDCR #'].unqiue()
+        eval_cdcr_nums = demographics['CDCR #'].unique()
         
     # Extracting CDCR numbers that met the age, time sentenced and current and prior offense eligibility criteria
     el_cdcr_nums_8 = []
@@ -551,7 +551,7 @@ def eligibility_r9(demographics,
     if el_cdcr_nums:
         eval_cdcr_nums = el_cdcr_nums
     else:
-        eval_cdcr_nums = demographics['CDCR #'].unqiue()
+        eval_cdcr_nums = demographics['CDCR #'].unique()
         
     # Extracting CDCR numbers that meet the age criteria and offense eligibility
     el_cdcr_nums_9 = []
@@ -615,7 +615,7 @@ def eligibility_r10(demographics,
     if el_cdcr_nums:
         eval_cdcr_nums = el_cdcr_nums
     else:
-        eval_cdcr_nums = demographics['CDCR #'].unqiue()
+        eval_cdcr_nums = demographics['CDCR #'].unique()
         
     # Extracting CDCR numbers that meet the age criteria and offense eligibility
     el_cdcr_nums_10 = []
@@ -668,7 +668,7 @@ def eligibility_r11(demographics,
     if el_cdcr_nums:
         eval_cdcr_nums = el_cdcr_nums
     else:
-        eval_cdcr_nums = demographics['CDCR #'].unqiue()
+        eval_cdcr_nums = demographics['CDCR #'].unique()
         
     # Extracting CDCR numbers that meet the age criteria and offense eligibility
     el_cdcr_nums_11 = []
@@ -735,7 +735,7 @@ def eligibility_r12(demographics,
     if el_cdcr_nums:
         eval_cdcr_nums = el_cdcr_nums
     else:
-        eval_cdcr_nums = demographics['CDCR #'].unqiue()
+        eval_cdcr_nums = demographics['CDCR #'].unique()
         
     # Extracting CDCR numbers that meet the age criteria and offense eligibility
     el_cdcr_nums_12 = []
@@ -784,8 +784,7 @@ def eligibility_r13(demographics,
     print('Finding CDCR numbers that meet rule: ', eligibility_conditions['r_13']['desc'])
     # If existing eligible CDCR numbers are passed
     if el_cdcr_nums:
-        # Extracting CDCR numbers that met the age criteria that also meet the time served criteria
-        el_cdcr_nums = demographics[(demographics['Time served in years'] >= 15) & demographics['CDCR #'].isin(el_cdcr_nums)]['CDCR #'].to_list() 
+        el_cdcr_nums = demographics[(demographics['Time served in years'] >= 15) & (demographics['CDCR #'].isin(el_cdcr_nums))]['CDCR #'].to_list() 
     else:
         el_cdcr_nums = demographics[(demographics['Time served in years'] >= 15)]['CDCR #'].to_list() 
     return el_cdcr_nums
