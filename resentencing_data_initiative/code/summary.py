@@ -1,14 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from helpers import *
-import pandas as pd
-import numpy as np
-import datetime
-import copy
-from tqdm import tqdm
-import os
-
-
 def gen_eligible_summary(el_cdcr_nums, 
                          demographics,
                          current_commits, 

@@ -1,15 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from itertools import permutations, product
-import pandas as pd
-import copy
-from helpers import *
-
-#sorting_criteria = pd.read_excel('C:/Users/apkom/Downloads/sorting_criteria.xlsx', dtype = {'Offenses': str})
-#current_commits = pd.read_excel('C:/Users/apkom/Downloads/currentcommitments.xlsx')
-#demographics = pd.read_excel('C:/Users/apkom/Downloads/demographics.xlsx')
-#prior_commits = pd.read_excel('C:/Users/apkom/Downloads/priorcommitments.xlsx')
-
 def gen_impl_off(offenses, 
                  impl_rel, 
                  perm, 

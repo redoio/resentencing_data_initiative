@@ -4,9 +4,9 @@ Created on Mon Dec 18 00:03:13 2023
 
 @author: akomarla
 """
-
-from helpers import *
 import config
+import rules
+from helpers import *
 from extract import *
 from eligibility import *
 from summary import *
@@ -16,6 +16,8 @@ import datetime
 from tqdm import tqdm
 import copy
 import os
+from itertools import permutations, product
+
 
 
 """ 
@@ -53,6 +55,11 @@ sorting_criteria, demographics, merit_credit, milestone_credit, rehab_credit, vo
                                                                                                                                                   month = config.month,
                                                                                                                                                   county_name = config.county_name, 
                                                                                                                                                   pickle = True) 
+
+# sorting_criteria = pd.read_excel('C:/Users/apkom/Downloads/sorting_criteria.xlsx', dtype = {'Offenses': str})
+# current_commits = pd.read_excel('C:/Users/apkom/Downloads/currentcommitments.xlsx')
+# demographics = pd.read_excel('C:/Users/apkom/Downloads/demographics.xlsx')
+# prior_commits = pd.read_excel('C:/Users/apkom/Downloads/priorcommitments.xlsx')
 
 print('\n#####################################################################################################')
 print('################################################ COMPLETE ############################################')
