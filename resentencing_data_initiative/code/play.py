@@ -8,6 +8,7 @@ from helpers import *
 #criteria = pd.read_excel('C:/Users/apkom/Downloads/sorting_criteria.xlsx', dtype = {'Offenses': str})
 #current_commits = pd.read_excel('C:/Users/apkom/Downloads/currentcommitments.xlsx')
 #demographics = pd.read_excel('C:/Users/apkom/Downloads/demographics.xlsx')
+#prior_commits = pd.read_excel('C:/Users/apkom/Downloads/priorcommitments.xlsx')
 
 #impl_rel = {'all': ['/att', '(664)', '2nd', "(ss)"], '459': ['/att', '(664)']}
 #offenses = clean_offense_blk(criteria[criteria['Table'] == 'Table F']['Offenses'].to_list())
