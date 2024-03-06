@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import rules
 
+
 # File location information
 county_name = 'Los Angeles'
 month = '/'.join(['Rough', 'Data_05_2021', '21_05'])
