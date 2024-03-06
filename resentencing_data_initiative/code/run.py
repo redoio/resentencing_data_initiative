@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Mon Dec 18 00:03:13 2023
 
-@author: akomarla
-"""
 import config
 import rules
 import impl
