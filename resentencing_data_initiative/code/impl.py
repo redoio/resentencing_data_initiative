@@ -2,8 +2,7 @@
 from itertools import permutations, product
 import pandas as pd
 import copy
-from helpers import *
-
+import helpers
 
 def gen_impl_off(offenses, 
                  impl_rel, 
@@ -16,7 +15,7 @@ def gen_impl_off(offenses,
     
     # Clean the offense data if specified
     if clean:
-        offenses = clean_offense_blk(offenses)
+        offenses = helpers.clean_offense_blk(offenses)
     
     # Remove exceptions from the list of offenses
     offenses_woe = offenses[:]
