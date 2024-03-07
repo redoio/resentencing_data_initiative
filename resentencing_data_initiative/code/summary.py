@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from helpers import *
+import helpers
 import pandas as pd
 import numpy as np
 import datetime
@@ -17,6 +17,7 @@ def gen_eligible_summary(el_cdcr_nums,
                          rehab_credit, 
                          voced_credit, 
                          rv_report, 
+                         id_label,
                          read_path = None,
                          county_name = None, 
                          month = None,
@@ -48,20 +49,22 @@ def gen_eligible_summary(el_cdcr_nums,
     read_path : str, optional
         Full path from where input data is read (all parent folders)
         Default is None.
+    id_label : str
+        Name of CDCR ID column in the data
     county_name : str, optional
         Name of the county for which eligibility was evaluated, ex: 'Los Angeles County'
         Default is None.
     month : str, optional
         Year and month for which eligibility was evaluated, ex: '2023_06'
         Default is None.
-   pop : str, optional
+    pop : str, optional
         Nature of the population being evaluated, ex: 'adult' or 'juvenile'
         Default is none
-   to_excel : boolean, optional
+    to_excel : boolean, optional
         Specify whether to write the summaries of eligible individuals to Excel files.
         If True, specify the path information to write the output
         Default is False.
-   write_path : str, optional 
+    write_path : str, optional 
         Specify the full path where the Excel outputs should be written. 
         If to_excel = True but write_path = None, data outputs are written to the county_name/month/output/date folder by default. To avoid this behavior, pass a value to write_path.
     
@@ -73,7 +76,7 @@ def gen_eligible_summary(el_cdcr_nums,
     """
     
     # Get demographics data of eligible individuals
-    el_df = demographics.loc[demographics['CDCR #'].isin(el_cdcr_nums)]
+    el_df = demographics.loc[demographics[id_label].isin(el_cdcr_nums)]
     
     # Take the copy of the dataframe so the original dataframe is not modified
     el_df = copy.deepcopy(el_df)
@@ -86,26 +89,27 @@ def gen_eligible_summary(el_cdcr_nums,
     el_df['DPPV Disability - Mobility'] = el_df['DPPV Disability - Mobility'].str.replace('Impacting Placement', '')
     
     # Generate summaries of individuals who are eligible for resentencing
-    el_summary = gen_summary(df = el_df, 
-                             current_commits = current_commits, 
-                             prior_commits = prior_commits, 
-                             merit_credit = merit_credit, 
-                             milestone_credit = milestone_credit, 
-                             rehab_credit = rehab_credit, 
-                             voced_credit = voced_credit, 
-                             rv_report = rv_report, 
-                             merge = True)
+    el_summary = helpers.gen_summary(df = el_df, 
+                                     id_label = id_label,
+                                     current_commits = current_commits, 
+                                     prior_commits = prior_commits, 
+                                     merit_credit = merit_credit, 
+                                     milestone_credit = milestone_credit, 
+                                     rehab_credit = rehab_credit, 
+                                     voced_credit = voced_credit, 
+                                     rv_report = rv_report, 
+                                     merge = True)
     
     # Write data to excel files
     if to_excel:
         if write_path: 
             pass
         else: 
-            write_path = '/'.join(l for l in [read_path, county_name, month, 'output', get_todays_date(sep = '_')] if l)
+            write_path = '/'.join(l for l in [read_path, county_name, month, 'output', helpers.get_todays_date(sep = '_')] if l)
             
         # If director does not exist, then first create it
         if not os.path.exists(write_path):
-            os.mkdir(write_path)
+            os.makedirs(write_path)
                 
         # Write data to excel files
         el_summary.to_excel(write_path+'/'+pop+'_summary.xlsx', index = False)
