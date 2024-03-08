@@ -84,7 +84,7 @@ errors, rob_el_cdcr_nums = eligibility.gen_eligibility(demographics = demographi
                                                        read_path = config.read_data_path, 
                                                        county_name = config.county_name, 
                                                        month = config.month,
-                                                       eligibility_conditions = config.el_cond_other,
+                                                       eligibility_conditions = config.el_cond_rob,
                                                        pop = 'rob',
                                                        id_label = config.id_label, 
                                                        to_excel = True)
