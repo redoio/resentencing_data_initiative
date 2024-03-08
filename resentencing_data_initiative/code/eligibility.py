@@ -1030,7 +1030,7 @@ def gen_eligibility(demographics,
         if write_path:
             pass
         else:
-            write_path = '/'.join(l for l in [read_path, county_name, month, 'output', helpers.get_todays_date(sep = '_')] if l)
+            write_path = '/'.join(l for l in [read_path, county_name, month, 'output', 'date of execution', helpers.get_todays_date(sep = '_')] if l)
         
         # If directory does not exist, then first create it
         if not os.path.exists(write_path):
