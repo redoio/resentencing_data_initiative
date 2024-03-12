@@ -12,12 +12,6 @@ import copy
 import os
 
 
-"""
-
-Validation of Cohort 1 results with OpenLattice results
-
-"""
-
 # Fix path and date range
 county_name = 'Los Angeles'
 month = '/'.join(['Rough', 'Data_05_2021', '21_05'])
