@@ -95,22 +95,22 @@ print('################################## START ###############################'
 print('########################################################################')
 
 # Generate summaries of eligible individuals in the CDCR system
-adult_summary = summary.gen_eligible_summary(el_cdcr_nums = adult_el_cdcr_nums, 
-                                             demographics = demographics,
-                                             current_commits = current_commits, 
-                                             prior_commits = prior_commits, 
-                                             merit_credit = merit_credit, 
-                                             milestone_credit = milestone_credit, 
-                                             rehab_credit = rehab_credit, 
-                                             voced_credit = voced_credit, 
-                                             rv_report = rv_report, 
-                                             read_path = config.read_data_path,
-                                             county_name = config.county_name, 
-                                             month = config.month,
-                                             pop_label = 'adult',
-                                             id_label = config.id_label, 
-                                             write_path = None,
-                                             to_excel = True)
+adult_summary = summary.gen_summary(cdcr_nums = adult_el_cdcr_nums, 
+                                    demographics = demographics,
+                                    current_commits = current_commits, 
+                                    prior_commits = prior_commits, 
+                                    merit_credit = merit_credit, 
+                                    milestone_credit = milestone_credit, 
+                                    rehab_credit = rehab_credit, 
+                                    voced_credit = voced_credit, 
+                                    rv_report = rv_report, 
+                                    read_path = config.read_data_path,
+                                    county_name = config.county_name, 
+                                    month = config.month,
+                                    pop_label = 'adult',
+                                    id_label = config.id_label, 
+                                    write_path = None,
+                                    to_excel = True)
 
 print('\n######################################################################')
 print('################################ COMPLETE ##############################')
@@ -120,22 +120,22 @@ print('\n######################################################################'
 print('################################## START ###############################')
 print('########################################################################')
 
-juvenile_summary = summary.gen_eligible_summary(el_cdcr_nums = juvenile_el_cdcr_nums, 
-                                                demographics = demographics,
-                                                current_commits = current_commits, 
-                                                prior_commits = prior_commits, 
-                                                merit_credit = merit_credit, 
-                                                milestone_credit = milestone_credit, 
-                                                rehab_credit = rehab_credit, 
-                                                voced_credit = voced_credit, 
-                                                rv_report = rv_report, 
-                                                read_path = config.read_data_path,
-                                                county_name = config.county_name, 
-                                                month = config.month,
-                                                id_label = config.id_label, 
-                                                pop_label = 'juvenile', 
-                                                write_path = None,
-                                                to_excel = True)
+juvenile_summary = summary.gen_summary(cdcr_nums = juvenile_el_cdcr_nums, 
+                                       demographics = demographics,
+                                       current_commits = current_commits, 
+                                       prior_commits = prior_commits, 
+                                       merit_credit = merit_credit, 
+                                       milestone_credit = milestone_credit, 
+                                       rehab_credit = rehab_credit, 
+                                       voced_credit = voced_credit, 
+                                       rv_report = rv_report, 
+                                       read_path = config.read_data_path,
+                                       county_name = config.county_name, 
+                                       month = config.month,
+                                       id_label = config.id_label, 
+                                       pop_label = 'juvenile', 
+                                       write_path = None,
+                                       to_excel = True)
 
 print('\n######################################################################')
 print('################################ COMPLETE ##############################')
@@ -145,22 +145,22 @@ print('\n######################################################################'
 print('################################## START ###############################')
 print('########################################################################')
 
-rob_summary = summary.gen_eligible_summary(el_cdcr_nums = rob_el_cdcr_nums, 
-                                           demographics = demographics,
-                                           current_commits = current_commits, 
-                                           prior_commits = prior_commits, 
-                                           merit_credit = merit_credit, 
-                                           milestone_credit = milestone_credit, 
-                                           rehab_credit = rehab_credit, 
-                                           voced_credit = voced_credit, 
-                                           rv_report = rv_report, 
-                                           read_path = config.read_data_path,
-                                           county_name = config.county_name, 
-                                           month = config.month,
-                                           id_label = config.id_label,
-                                           pop_label = 'robbery', 
-                                           write_path = None,
-                                           to_excel = True)
+rob_summary = summary.gen_summary(cdcr_nums = rob_el_cdcr_nums, 
+                                  demographics = demographics,
+                                  current_commits = current_commits, 
+                                  prior_commits = prior_commits, 
+                                  merit_credit = merit_credit, 
+                                  milestone_credit = milestone_credit, 
+                                  rehab_credit = rehab_credit, 
+                                  voced_credit = voced_credit, 
+                                  rv_report = rv_report, 
+                                  read_path = config.read_data_path,
+                                  county_name = config.county_name, 
+                                  month = config.month,
+                                  id_label = config.id_label,
+                                  pop_label = 'robbery', 
+                                  write_path = None,
+                                  to_excel = True)
 
 print('\n######################################################################')
 print('################################ COMPLETE ##############################')

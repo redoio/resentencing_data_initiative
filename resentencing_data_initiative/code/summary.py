@@ -8,28 +8,28 @@ from tqdm import tqdm
 import os
 
 
-def gen_summary(el_cdcr_nums, 
-                         demographics,
-                         current_commits, 
-                         prior_commits, 
-                         merit_credit, 
-                         milestone_credit, 
-                         rehab_credit, 
-                         voced_credit, 
-                         rv_report, 
-                         id_label,
-                         read_path = None,
-                         county_name = None, 
-                         month = None,
-                         pop = None,
-                         write_path = None,
-                         to_excel = False):
+def gen_summary(cdcr_nums, 
+                demographics,
+                current_commits, 
+                prior_commits, 
+                merit_credit, 
+                milestone_credit, 
+                rehab_credit, 
+                voced_credit, 
+                rv_report, 
+                id_label,
+                read_path = None,
+                county_name = None, 
+                month = None,
+                pop_label = None,
+                write_path = None,
+                to_excel = False):
     """
 
     Parameters
     ----------
-    el_cdcr_nums : list of strs
-        List of CDCR numbers that are eligible for resentencing
+    cdcr_nums : list of strs
+        List of CDCR numbers to generate population summary for
     demographics : pandas dataframe
         Data on demographics of the incarcerated population
     current_commits : pandas dataframe
@@ -76,30 +76,27 @@ def gen_summary(el_cdcr_nums,
     """
     print('Generating population summaries')
     
-    # Get demographics data of eligible individuals
-    el_df = demographics.loc[demographics[id_label].isin(el_cdcr_nums)]
-    
-    # Take the copy of the dataframe so the original dataframe is not modified
-    el_df = copy.deepcopy(el_df)
+    # Get demographics data of selected individuals
+    df = demographics.loc[demographics[id_label].isin(cdcr_nums)][:]
     
     # Remove new-line character in demographics column name
-    el_df.rename(columns = {'Classification Score 5 Years\nAgo': 'Classification Score 5 Years Ago'}, 
-                 inplace = True)
+    df.rename(columns = {'Classification Score 5 Years\nAgo': 'Classification Score 5 Years Ago'}, 
+              inplace = True)
     
     # Format mobility disability column in demographics
-    el_df['DPPV Disability - Mobility'] = el_df['DPPV Disability - Mobility'].str.replace('Impacting Placement', '')
+    df['DPPV Disability - Mobility'] = df['DPPV Disability - Mobility'].str.replace('Impacting Placement', '')
     
-    # Generate summaries of individuals who are eligible for resentencing
-    el_summary = helpers.gen_summary(df = el_df, 
-                                     id_label = id_label,
-                                     current_commits = current_commits, 
-                                     prior_commits = prior_commits, 
-                                     merit_credit = merit_credit, 
-                                     milestone_credit = milestone_credit, 
-                                     rehab_credit = rehab_credit, 
-                                     voced_credit = voced_credit, 
-                                     rv_report = rv_report, 
-                                     merge = True)
+    # Generate summaries of individuals who are selected
+    summary = helpers.gen_summary(df = df, 
+                                  id_label = id_label,
+                                  current_commits = current_commits, 
+                                  prior_commits = prior_commits, 
+                                  merit_credit = merit_credit, 
+                                  milestone_credit = milestone_credit, 
+                                  rehab_credit = rehab_credit, 
+                                  voced_credit = voced_credit, 
+                                  rv_report = rv_report, 
+                                  merge = True)
     
     # Write data to excel files
     if to_excel:
@@ -108,12 +105,12 @@ def gen_summary(el_cdcr_nums,
         else: 
             write_path = '/'.join(l for l in [read_path, county_name, month, 'output', 'date of execution', helpers.get_todays_date(sep = '_')] if l)
             
-        # If director does not exist, then first create it
+        # If directory does not exist, then first create it
         if not os.path.exists(write_path):
             os.makedirs(write_path)
                 
         # Write data to excel files
-        el_summary.to_excel(write_path+'/'+pop+'_summary.xlsx', index = False)
-        print('Summary of eligible individuals written to: ', write_path+'/'+pop+'_summary.xlsx')
+        summary.to_excel(write_path+'/'+pop_label+'_summary.xlsx', index = False)
+        print('Summary of individuals written to: ', write_path+'/'+pop_label+'_summary.xlsx')
         
-    return el_summary
+    return summary
