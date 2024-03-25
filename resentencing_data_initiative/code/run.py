@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 import helpers
 import config
+from scenarios import adult
+from scenarios import juvenile
+from scenarios import robbery
 import extract 
 import eligibility
 import summary
@@ -40,8 +43,8 @@ errors, adult_el_cdcr_nums = eligibility.gen_eligibility(demographics = demograp
                                                          read_path = config.read_data_path, 
                                                          county_name = config.county_name, 
                                                          month = config.month,
-                                                         eligibility_conditions = config.el_cond_adult,
-                                                         pop = 'adult',
+                                                         eligibility_conditions = adult.el_cond,
+                                                         pop_label = adult.el_cond['pop_labelulation'],
                                                          id_label = config.id_label, 
                                                          to_excel = True)
 
@@ -62,8 +65,8 @@ errors, juvenile_el_cdcr_nums = eligibility.gen_eligibility(demographics = demog
                                                             read_path = config.read_data_path, 
                                                             county_name = config.county_name, 
                                                             month = config.month,
-                                                            eligibility_conditions = config.el_cond_juv,
-                                                            pop = 'juvenile',
+                                                            eligibility_conditions = juvenile.el_cond,
+                                                            pop_label = juvenile.el_cond['population'],
                                                             id_label = config.id_label, 
                                                             to_excel = True)
 
@@ -84,8 +87,8 @@ errors, rob_el_cdcr_nums = eligibility.gen_eligibility(demographics = demographi
                                                        read_path = config.read_data_path, 
                                                        county_name = config.county_name, 
                                                        month = config.month,
-                                                       eligibility_conditions = config.el_cond_rob,
-                                                       pop = 'rob',
+                                                       eligibility_conditions = robbery.el_cond,
+                                                       pop_label = robbery.el_cond['offense type'],
                                                        id_label = config.id_label, 
                                                        to_excel = True)
 
@@ -112,7 +115,7 @@ adult_summary = summary.gen_eligible_summary(el_cdcr_nums = adult_el_cdcr_nums,
                                              read_path = config.read_data_path,
                                              county_name = config.county_name, 
                                              month = config.month,
-                                             pop = 'adult',
+                                             pop_label = 'adult',
                                              id_label = config.id_label, 
                                              write_path = None,
                                              to_excel = True)
@@ -141,7 +144,7 @@ juvenile_summary = summary.gen_eligible_summary(el_cdcr_nums = juvenile_el_cdcr_
                                                 county_name = config.county_name, 
                                                 month = config.month,
                                                 id_label = config.id_label, 
-                                                pop = 'juvenile', 
+                                                pop_label = 'juvenile', 
                                                 write_path = None,
                                                 to_excel = True)
 
@@ -168,7 +171,7 @@ rob_summary = summary.gen_eligible_summary(el_cdcr_nums = rob_el_cdcr_nums,
                                            county_name = config.county_name, 
                                            month = config.month,
                                            id_label = config.id_label,
-                                           pop = 'rob', 
+                                           pop_label = 'robbery', 
                                            write_path = None,
                                            to_excel = True)
 

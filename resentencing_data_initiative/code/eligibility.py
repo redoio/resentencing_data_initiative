@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import helpers
 import impl
-import rules
+from scenarios import rules
 import pandas as pd
 import numpy as np
 import datetime
@@ -835,7 +835,7 @@ def gen_eligibility(demographics,
                     current_commits, 
                     prior_commits, 
                     eligibility_conditions,
-                    pop,
+                    pop_label,
                     id_label,
                     read_path = None, 
                     county_name = None, 
@@ -855,7 +855,7 @@ def gen_eligibility(demographics,
         Data on prior offenses of incarcerated individuals wherein each row pertains to a single offense
     eligibility_conditions : dict
         Data on all the rules, whether they should be applied or not and other specifications
-    pop : str
+    pop_label : str
         Type of population or cohort, example: 'adult', 'juvenile', 'other'
     id_label : str
         Name of the column with the CDCR IDs    
@@ -1037,17 +1037,17 @@ def gen_eligibility(demographics,
             os.makedirs(write_path)
             
         # Write data to excel files
-        with pd.ExcelWriter(write_path+'/'+pop+'_eligible_demographics.xlsx') as writer:
+        with pd.ExcelWriter(write_path+'/'+pop_label+'_eligible_demographics.xlsx') as writer:
             demographics[demographics[id_label].isin(el_cdcr_nums)].to_excel(writer, sheet_name = 'Cohort', index = False)
             pd.DataFrame.from_dict(eligibility_conditions, orient='index').to_excel(writer, sheet_name = 'Conditions', index = True)
             pd.DataFrame.from_dict({'input': read_path, 'county name': county_name, 'month': month}, orient='index').to_excel(writer, sheet_name = 'Input', index = True)
-        print('Demographics of eligible individuals written to: ', write_path+'/'+pop+'_eligible_demographics.xlsx')
+        print('Demographics of eligible individuals written to: ', write_path+'/'+pop_label+'_eligible_demographics.xlsx')
 
-        with pd.ExcelWriter(write_path+'/'+pop+'_eligible_currentcommits.xlsx') as writer:
+        with pd.ExcelWriter(write_path+'/'+pop_label+'_eligible_currentcommits.xlsx') as writer:
             current_commits[current_commits[id_label].isin(el_cdcr_nums)].to_excel(writer, sheet_name = 'Cohort', index = False)
             pd.DataFrame.from_dict(eligibility_conditions, orient='index').to_excel(writer, sheet_name = 'Conditions', index = True)
             pd.DataFrame.from_dict({'input': read_path, 'county name': county_name, 'month': month}, orient='index').to_excel(writer, sheet_name = 'Input', index = True)
-        print('Current commits of eligible individuals written to: ', write_path+'/'+pop+'_eligible_currentcommits.xlsx')
+        print('Current commits of eligible individuals written to: ', write_path+'/'+pop_label+'_eligible_currentcommits.xlsx')
     
     return errors, el_cdcr_nums
             
