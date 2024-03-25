@@ -8,7 +8,7 @@ from tqdm import tqdm
 import os
 
 
-def gen_eligible_summary(el_cdcr_nums, 
+def gen_summary(el_cdcr_nums, 
                          demographics,
                          current_commits, 
                          prior_commits, 
@@ -74,6 +74,7 @@ def gen_eligible_summary(el_cdcr_nums,
         Data on convictions, rules violations, programming for each CDCR number passed in the input dataframe. If merge = True, this includes the input dataframe as well
 
     """
+    print('Generating population summaries')
     
     # Get demographics data of eligible individuals
     el_df = demographics.loc[demographics[id_label].isin(el_cdcr_nums)]

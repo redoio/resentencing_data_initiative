@@ -884,6 +884,8 @@ def gen_eligibility(demographics,
         List of CDCR numbers that are eligible for resentencing 
     """
     
+    print('Executing population selection steps')
+    
     # Add all of the time variables to the demographic data necessary for classification - years served, sentence length, age, etc.
     demographics, errors = helpers.gen_time_vars(df = demographics, id_label = id_label, merge = True)
     

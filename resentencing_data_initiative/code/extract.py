@@ -56,6 +56,8 @@ def get_input(read_path,
         Data on rules violations during incarceration
 
     """
+    print('Executing data extraction steps')
+    
     # Criteria for selection
     sorting_criteria = helpers.extract_data(main_path = read_path, 
                                             county_name = county_name, 

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import rules
+from scenarios import rules
 
 # Juvenile eligibility
 el_cond =  {'population': 'juvenile',

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import rules
+from scenarios import rules
 
 # Both adult and juvenile eligibility (robbery related)
 el_cond =  {'population': 'adult and juvenile',
