@@ -942,6 +942,8 @@ def gen_eligibility(demographics,
                     names = {'controlling offense': 'controlling offense cleaned'}, 
                     inplace = True)
     
+    print('This scenario is tagged with: ', eligibility_conditions['lenience'], ' degree of leniency in the selection process or eligibility determination')
+    
     # Check all eligibility conditions
     if eligibility_conditions['r_1']['use']:
         el_cdcr_nums = eligibility_r1(demographics = demographics, 

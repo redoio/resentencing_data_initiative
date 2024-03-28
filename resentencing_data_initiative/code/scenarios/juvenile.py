@@ -4,7 +4,7 @@ from scenarios import utils
 
 # Juvenile eligibility
 el_cond =  {'population': 'juvenile',
-            'selection type': 'lenient',
+            'lenience': 'moderate',
             'offense type': 'all',
             'r_1': {'use': False, 'desc': rules.r_1, 'category': utils.dict_search(rules.cat, rules.r_1)},
             'r_2': {'use': False, 'desc': rules.r_2, 'category': utils.dict_search(rules.cat, rules.r_2)},

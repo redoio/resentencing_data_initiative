@@ -4,7 +4,7 @@ from scenarios import utils
 
 # Both adult and juvenile eligibility (robbery related)
 el_cond =  {'population': 'adult and juvenile',
-            'selection type': 'strict',
+            'lenience': 'moderate',
             'offense type': 'robbery',
             'r_1': {'use': False, 'desc': rules.r_1, 'category': utils.dict_search(rules.cat, rules.r_1)},
             'r_2': {'use': False, 'desc': rules.r_2, 'category': utils.dict_search(rules.cat, rules.r_2)},
