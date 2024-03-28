@@ -877,9 +877,9 @@ def gen_eligibility(demographics,
     eligibility_conditions : dict
         Data on all the rules, whether they should be applied or not and other specifications
     pop_label : str
-        Type of population or cohort, example: 'adult', 'juvenile', 'other'
+        Label to add to file outputs
     id_label : str
-        Name of the column with the CDCR IDs    
+        Name of the column with the CDCR IDs in the input data
     clean_col_names : boolean, optional
         Specify whether to clean column names before running the eligibility model. Applies the utils.clean() function on the column headers
         Default is True
