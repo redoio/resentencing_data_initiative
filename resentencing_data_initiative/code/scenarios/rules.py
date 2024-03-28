@@ -14,9 +14,9 @@ r_11 = 'Does not have an enhancement that contains PC 12022'
 r_12 = 'Is not serving a current sentence for any offense listed in Table A, B (minus Table F), C or D and their implied offenses (from sorting_criteria.xlsx)'
 r_13 = 'Served a minimum of 15 years in custody'
 
-rules = {'age related': [r_1, r_6],
-         'sentence length related': [r_2, r_3, r_13],
-         'current offenses related': [r_4, r_7, r_12, r_9],
-         'prior offenses related': [r_5, r_8],
-         'controlling offense related': [r_10], 
-         'enhancement related': [r_11]}
+cat = {'age related': [r_1, r_6],
+       'sentence length related': [r_2, r_3, r_13],
+       'current offenses related': [r_4, r_7, r_12, r_9, r_10],
+       'prior offenses related': [r_5, r_8],
+       'controlling offense related': [r_10], 
+       'enhancement related': [r_11]}

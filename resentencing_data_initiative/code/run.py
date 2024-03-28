@@ -5,6 +5,7 @@ from scenarios import adult
 from scenarios import juvenile
 from scenarios import robbery
 from scenarios import rules
+from scenarios import utils
 import extract 
 import eligibility
 import summary
@@ -107,7 +108,7 @@ adult_summary = summary.gen_summary(cdcr_nums = adult_el_cdcr_nums,
                                     read_path = config.read_data_path,
                                     county_name = config.county_name, 
                                     month = config.month,
-                                    pop_label = 'adult',
+                                    pop_label = adult.el_cond['population'],
                                     id_label = config.id_label, 
                                     write_path = None,
                                     to_excel = True)
@@ -133,7 +134,7 @@ juvenile_summary = summary.gen_summary(cdcr_nums = juvenile_el_cdcr_nums,
                                        county_name = config.county_name, 
                                        month = config.month,
                                        id_label = config.id_label, 
-                                       pop_label = 'juvenile', 
+                                       pop_label = juvenile.el_cond['population'], 
                                        write_path = None,
                                        to_excel = True)
 
@@ -158,7 +159,7 @@ rob_summary = summary.gen_summary(cdcr_nums = rob_el_cdcr_nums,
                                   county_name = config.county_name, 
                                   month = config.month,
                                   id_label = config.id_label,
-                                  pop_label = 'robbery', 
+                                  pop_label = robbery.el_cond['offense type'], 
                                   write_path = None,
                                   to_excel = True)
 
