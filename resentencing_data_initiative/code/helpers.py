@@ -75,7 +75,8 @@ def extract_data(main_path,
 
 def gen_time_vars(df, 
                   id_label, 
-                  merge = True):
+                  merge = True,
+                  clean_col_names = True):
     """
 
     Parameters
@@ -86,7 +87,10 @@ def gen_time_vars(df,
         Name of column in df with CDCR IDs
     merge : boolean, optional
         Specify whether to concatenate the calculated time-variables in the input dataframe or store them in a separate dataframe.
-        The default is True.
+        Default is True
+    clean_col_names : boolean, optional
+        Specify whether to clean column names. Applies the utils.clean() function on the column headers
+        Default is True
 
     Returns
     -------
@@ -97,10 +101,14 @@ def gen_time_vars(df,
 
     """
     # Clean all the column names
-    df.columns = [utils.clean(col, remove = ['\n']) for col in df.columns]
-    
+    if clean_col_names:
+        df.columns = [utils.clean(col, remove = ['\n']) for col in df.columns]
+        id_label = utils.clean(id_label)
+    else:
+        print('Since column names are not cleaned, several required variables for summary generation cannot be found')
+        
     # Check if all columns needed for calcualtion are present in the dataframe
-    if all(col in df.columns for col in [utils.clean(id_label), 'birthday', 'aggregate sentence in months', 'offense end date']):
+    if all(col in df.columns for col in [id_label, 'birthday', 'aggregate sentence in months', 'offense end date']):
         pass
     else:
         print('Variables needed for calculation are missing in demographics dataframe')
@@ -130,7 +138,7 @@ def gen_time_vars(df,
         return df[[id_label, 'birthday', 'aggregate sentence in months', 'offense end date']+calc_t_cols], utils.incorrect_time(df = df, cols = calc_t_cols)
         
 
-def gen_summary(df, 
+def gen_summary(cdcr_nums, 
                 id_label, 
                 current_commits, 
                 prior_commits, 
@@ -139,14 +147,13 @@ def gen_summary(df,
                 rehab_credit, 
                 voced_credit, 
                 rv_report, 
-                clean_col_names = True,
-                merge = True):
+                clean_col_names = True):
     """
 
     Parameters
     ----------
-    df : pandas dataframe
-        Data with CDCR numbers to generate summaries for. This can be a single column with selected CDCR numbers or a dataframe with selected CDCR numbers including other information
+    cdcr_nums : list
+        List of CDCR numbers to generate summaries for
     id_label : str
         Name of the column with the CDCR IDs
     current_commits : pandas dataframe
@@ -164,24 +171,24 @@ def gen_summary(df,
     rv_report : pandas dataframe
         Data on rules violations during incarceration
     clean_col_names : boolean, optional
-        Specify whether to clean column names before running the eligibility model. Applies the helpers.clean() function on the column headers
-        Default is True
-    merge : boolean
-        Specify whether to return input dataframe with summary columns or a separate dataframe with just the summary columns
+        Specify whether to clean column names. Applies the utils.clean() function on the column headers
         Default is True
         
     Returns
     -------
     df : pandas dataframe
-        Data on convictions, rules violations, programming for each CDCR number passed in the input dataframe. If merge = True, this includes the input dataframe as well
+        Data on convictions, rules violations, programming for each CDCR number passed in the input list
 
     """
-    # Clean the column names 
+    # Clean the column names in all input dataframes
     if clean_col_names:
         for df in [current_commits, prior_commits, merit_credit, milestone_credit, rehab_credit, voced_credit, rv_report]:
             df.columns = [utils.clean(col, remove = ['\n']) for col in df.columns]
+        # Clean the id label
+        id_label = utils.clean(id_label)
     else:
         print('Since column names are not cleaned, several required variables for summary generation cannot be found')
+    
     
     # Initialize lists for other variables
     current_conv = []
@@ -190,31 +197,28 @@ def gen_summary(df,
     rvr = []
     
     # Get summary variables for each CDCR number
-    for cdcr_num in df[utils.clean(id_label)]:
+    for cn in cdcr_nums:
       # Current convictions
-      current_conv.append(', '.join(current_commits[current_commits[utils.clean(id_label)] == cdcr_num]['offense'].tolist()))
+      current_conv.append(', '.join(current_commits[current_commits[id_label] == cn]['offense'].tolist()))
       # Previous convictions
-      prior_conv.append(', '.join(prior_commits[prior_commits[utils.clean(id_label)] == cdcr_num]['offense'].tolist()))
+      prior_conv.append(', '.join(prior_commits[prior_commits[id_label] == cn]['offense'].tolist()))
       # Participation in programming
-      if (cdcr_num in merit_credit[utils.clean(id_label)]) or (cdcr_num in milestone_credit[utils.clean(id_label)]) or (cdcr_num in rehab_credit[utils.clean(id_label)]) or (cdcr_num in voced_credit[utils.clean(id_label)]):
+      if (cn in merit_credit[id_label]) or (cn in milestone_credit[id_label]) or (cn in rehab_credit[id_label]) or (cn in voced_credit[id_label]):
         programming.append('Yes')
       else:
         programming.append('No')
       # Rule violation reports
-      ext = rv_report[rv_report[utils.clean(id_label)] == cdcr_num][['rule violation date', 'division', 'rule violation']].reset_index(drop = True).to_dict('index')
+      ext = rv_report[rv_report[id_label] == cn][['rule violation date', 'division', 'rule violation']].reset_index(drop = True).to_dict('index')
       rvr.append("\n\n".join("\n".join(k_b + ': ' + str(v_b) for k_b, v_b in v_a.items()) for k_a, v_a in ext.items()))
     
+    # Initialize a dataframe to store the summaries of each CDCR number
+    df = pd.DataFrame()
     # Store lists in dataframe
+    df[id_label] = cdcr_nums
     df['current convictions'] = current_conv
     df['prior convictions'] = prior_conv
     df['programming'] = programming
     df['rules violations'] = rvr
     
-    # Return the input dataframe with summary variables
-    if merge: 
-        return df
-    # Return only the summary variables
-    else:
-        return df[[utils.clean(id_label), 'current convictions', 'prior convictions', 'programming', 'rules violations']]
-
+    return df
     

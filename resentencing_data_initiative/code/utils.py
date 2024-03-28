@@ -39,12 +39,12 @@ def clean(data, remove = ['pc', 'rape', '\n', ' ']):
         A single string. Example: An offense value 'PC123 (a).(1).'
     
     remove : list, optional
-        List of values to be removed from the input data. Default is ['pc', 'rape', '\n', ' ']
+        List of values to be removed from the input string. Default is ['pc', 'rape', '\n', ' ']
         
     Returns
     -------
     data : str
-        Lower-case string without trailing periods, spaces, and contents specified in remove
+        Lower-case string without trailing periods, and contents specified in remove
         For example, the input string 'PC123 (a).(1).' will return '123(a).(1)'
 
     """
@@ -67,18 +67,18 @@ def clean_blk(data,
     Parameters
     ----------
     data : str, list, pandas dataframe or pandas series
-        Bulk data wherein each value is a single string
-    names : dict
+        Bulk data with string contents to be cleaned
+    names : dict, optional
         Only applicable when input data is a pandas dataframe
-        Contains key:value pairs wherein keys correspond to the names of columns in the input dataframe and values correspond to the new column names
-        Default is None
+        Contains key:value pairs wherein keys correspond to the names of columns in the input dataframe that should be cleaned and values correspond to the new column names
+        Default is None. All columns will be cleaned and the suffix ' cleaned' will be attached to the new column names
     inplace : boolean, optional
         Only applicable when input data is a pandas dataframe. Specify whether to return a new and separate dataframe or modify the existing one
         Default is False
         
     Returns
     -------
-    data : str, list, pandas dataframe or pandas series (corresponding to input)
+    data : str, list, pandas dataframe or pandas series (corresponding to input data)
         Applies the clean() function on each string in the input and returns the modified values with the same input type, i.e. if a pandas series is passed the result will be a pandas series with modified strings
 
     """
@@ -99,6 +99,11 @@ def clean_blk(data,
     
     # If input is a pandas dataframe
     elif isinstance(data, pd.DataFrame):
+        # If names is not passed, function will default to cleaning all columns and adding the suffix ' cleaned' to the new columns
+        if not names:
+            names = {}
+            for col in data.columns:
+                names[col] = col+ ' cleaned'
         # Modify the existing dataframe, i.e. add new columns
         if inplace:
             # Apply the cleaning function onto each column specified
