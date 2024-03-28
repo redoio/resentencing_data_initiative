@@ -114,7 +114,7 @@ def get_input(read_path,
     # Rule violations
     rv_report = helpers.extract_data(main_path = read_path, 
                                      county_name = county_name, 
-                                     file_name = 'RuleViolationReports.xlsx', 
+                                     file_name = 'RulesViolationReports.xlsx', 
                                      month = month,
                                      write_path = write_path,
                                      pickle = pickle)
