@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import helpers
+import utils
 import pandas as pd
 import numpy as np
 import datetime
@@ -18,6 +19,7 @@ def gen_summary(cdcr_nums,
                 voced_credit, 
                 rv_report, 
                 id_label,
+                clean_col_names = True,
                 read_path = None,
                 county_name = None, 
                 month = None,
@@ -51,6 +53,9 @@ def gen_summary(cdcr_nums,
         Default is None.
     id_label : str
         Name of CDCR ID column in the data
+    clean_col_names : boolean, optional
+        Specify whether to clean column names before running the eligibility model. Applies the utils.clean() function on the column headers
+        Default is True
     county_name : str, optional
         Name of the county for which eligibility was evaluated, ex: 'Los Angeles County'
         Default is None.
@@ -76,15 +81,18 @@ def gen_summary(cdcr_nums,
     """
     print('Generating population summaries')
     
-    # Get demographics data of selected individuals
+    # Clean the column names 
+    if clean_col_names:
+        for df in [demographics, current_commits, prior_commits, merit_credit, milestone_credit, rehab_credit, voced_credit, rv_report]:
+            df.columns = [utils.clean(col) for col in df.columns]
+    else:
+        print('Since column names are not cleaned, several required variables for summary generation cannot be found')
+    
+    # Get demographics data of selected individuals and take a copy so the original dataframe is not modified
     df = demographics.loc[demographics[id_label].isin(cdcr_nums)][:]
     
-    # Remove new-line character in demographics column name
-    df.rename(columns = {'Classification Score 5 Years\nAgo': 'Classification Score 5 Years Ago'}, 
-              inplace = True)
-    
-    # Format mobility disability column in demographics
-    df['DPPV Disability - Mobility'] = df['DPPV Disability - Mobility'].str.replace('Impacting Placement', '')
+    # Remove string in disability column of demographics dataset
+    df['dppv disability - mobility'] = df['dppv disability - mobility'].str.replace('Impacting Placement', '')
     
     # Generate summaries of individuals who are selected
     summary = helpers.gen_summary(df = df, 
