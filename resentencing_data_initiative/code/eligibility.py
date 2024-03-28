@@ -908,8 +908,9 @@ def gen_eligibility(demographics,
         List of CDCR numbers that are eligible for resentencing 
     """
     
-    print('Executing population selection steps')
-    
+    print('Finding eligible individuals')
+    print('This scenario is tagged with ', eligibility_conditions['lenience'], ' degree of leniency in the eligibility determination\n')
+
     # Clean the column names 
     if clean_col_names:
         for df in [demographics, current_commits, prior_commits]:
@@ -922,7 +923,7 @@ def gen_eligibility(demographics,
     # Add all of the time variables to the demographic data necessary for classification - years served, sentence length, age, etc.
     demographics, errors = helpers.gen_time_vars(df = demographics, id_label = id_label, merge = True)
     
-    # Initialize list of eligible CDCR numbers
+    # Initialize list of CDCR numbers to be evaluated
     el_cdcr_nums = demographics[id_label].unique().tolist()
     
     # Clean offense data and enhancements data in current commits   
@@ -933,7 +934,7 @@ def gen_eligibility(demographics,
                              'off_enh3': 'off_enh3 cleaned',
                              'off_enh4': 'off_enh4 cleaned'}, 
                     inplace = True)
-    # Clean offense data and enhancements data in prior commits
+    # Clean offense data in prior commits
     utils.clean_blk(data = prior_commits, 
                     names = {'offense': 'offense cleaned'}, 
                     inplace = True)
@@ -941,9 +942,7 @@ def gen_eligibility(demographics,
     utils.clean_blk(data = demographics, 
                     names = {'controlling offense': 'controlling offense cleaned'}, 
                     inplace = True)
-    
-    print('This scenario is tagged with: ', eligibility_conditions['lenience'], ' degree of leniency in the selection process or eligibility determination')
-    
+        
     # Check all eligibility conditions
     if eligibility_conditions['r_1']['use']:
         el_cdcr_nums = eligibility_r1(demographics = demographics, 
