@@ -1,0 +1,7 @@
+Table                        Type
+Table A          Serious felonies
+Table B          Violent felonies
+Table C     Super strike offenses
+Table D  Registrable sex offenses
+Table E         Homicide offenses
+Table F          Robbery offenses

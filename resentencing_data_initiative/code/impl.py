@@ -1,35 +1,30 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Fri Feb  2 20:39:47 2024
-
-@author: apkom
-"""
 from itertools import permutations, product
 import pandas as pd
 import copy
-from helpers import *
-
-criteria = pd.read_excel('C:/Users/apkom/Downloads/sorting_criteria.xlsx', dtype = {'Offenses': str})
-#current_commits = pd.read_excel('C:/Users/apkom/Downloads/currentcommitments.xlsx')
-#demographics = pd.read_excel('C:/Users/apkom/Downloads/demographics.xlsx')
-
-impl_rel = {'all': ['/att', '(664)', '2nd', "(ss)"], '459': ['/att', '(664)']}
-offenses = clean_offense_blk(criteria[criteria['Table'] == 'Table F']['Offenses'].to_list())
-
+import helpers
+import utils
 
 def gen_impl_off(offenses, 
                  impl_rel, 
-                 perm = 3,
-                 sep = '', 
-                 fix_pos = {"2nd": 0, "(ss)": 0}, 
-                 placeholder = {"ss": ['a', 'b', 'c']}, 
-                 how = 'inclusive'):
+                 perm, 
+                 fix_pos = None, 
+                 placeholder = None,
+                 how = 'inclusive',
+                 sep = '',
+                 clean = True):
+    
+    # Clean the offense data if specified
+    if clean:
+        offenses = utils.clean_blk(data = offenses)
     
     # Remove exceptions from the list of offenses
-    offenses_woe = copy.deepcopy(offenses)
-    for e in impl_rel.keys():
-        if (e != 'all') and (e in offenses):
-            offenses_woe.remove(e)
+    offenses_woe = offenses[:]
+    for rel in impl_rel.keys():
+        if (rel != 'all'):
+            for off in offenses:
+                if rel in off:
+                    offenses_woe.remove(rel)
     
     if how == 'inclusive':
         # Initialize list of implied offenses - add the baseline offenses
@@ -45,7 +40,7 @@ def gen_impl_off(offenses,
                                 perm = perm,
                                 fix_pos = fix_pos, 
                                 placeholder = placeholder)
-        
+                
         # If offense is NOT an exception
         if rel == 'all':
             # Adding implications to all offenses that do NOT have an exception
@@ -63,37 +58,35 @@ def gen_impl_off(offenses,
             
             
     
-def gen_impl_val(impl,  
-                 sep = '', 
-                 perm = 3, 
-                 fix_pos = {"2nd": 0, "(ss)": 0}, 
-                 placeholder = {"ss": ['a', 'b', 'c']}):
+def gen_impl_val(impl, sep, perm, fix_pos, placeholder):
     
     # Initialize list of permutations of implied values
-    res = []
+    sel = []
     for i in range(1, perm+1):
         # Add permutations for each count
-        res.extend(list(permutations(impl, i)))
-    
-    # Create a new set of resultant implied values to perform manipulations if requested
-    sel = copy.deepcopy(res)
+        sel.extend(list(permutations(impl, i)))
     
     # If some values should have fixed positions
     if fix_pos:
+        # Initialize list of values that do not meet the fixed position condition
+        rem = []
         # Remove implied values that do not have ANY of the fixed values in the speciied positions
-        for r in res:
+        for s in sel:
             # Only select permutations that have at least one of the specified fixed values at the given position
-            if (any(f in r for f in fix_pos.keys())):
+            if (any(f in s for f in fix_pos.keys())):
                 # Not ALL of the fixed values will be at the specified position. Check if ANY of the fixed values are at the specified position.
-                if (any(r[fix_pos[f]] == f for f in fix_pos.keys())):
+                if (any(s[fix_pos[f]] == f for f in fix_pos.keys())):
                     pass
                 # Remove permutations that do not have any of the fixed values at the specified positions
                 else:
-                    sel.remove(r)
-    
+                    rem.append(s)
+        
+        # Update the selection 
+        sel = [s for s in sel if s not in rem]
+        
     # Combine the tuples into a single string (necessary step since no manipulations can be made on tuple values)
     sel = [sep.join(s) for s in sel]
-    
+
     # If implied value is a placeholder for other values
     if placeholder: 
         # Replace placeholder values with actual ones 
@@ -108,10 +101,5 @@ def gen_impl_val(impl,
     
     # If there are no placeholders return the original list of strings
     return list(set(sel))
-            
-
-        
-        
-        
         
         

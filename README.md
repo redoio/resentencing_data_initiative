@@ -35,23 +35,22 @@ But, given that there are over 100,000 people in California's prisons, lawyers n
 
 ## Summary 
 
-We are designing a rules-based eligibility model with the principles of fairness, accountability and transparency, as well as a user interface for lawyers to generate cohorts of eligible individuals.
+We are designing a rules-based and deterministic eligibility model that embodies principles of fairness, accountability and transparency to generate cohorts of eligible individuals.
 
 What it is:
-- A deterministic model with a rules-based framework established by legal experts and District Attorney offices
+- A deterministic model with a rules-based framework designed by Redo.io with legal experts and District Attorney offices
 - Easily interpretable and explainable for non-technical users and audience
 - Responsive to user requests, i.e. an attorney can request changes to the eligibility criteria and see updated results
-- A tool that increases the efficiency and productivity of attorneys but does not replace them in the process
 
 What it is not:
 - A blackbox prediction model
-- A final decision-maker that determines which cases are ultimately resentenced
+- A decision-maker that determines which cases are ultimately resentenced
 
 ## Execution
 
 Running the model for the prison population:
 - Leverage an AWS EC2 instance on Stanford secure servers
-- Ingest all of the demographics and offenses of individuals in California Department of Corrections and Rehabilitation (CDCR) custody
+- Ingest the demographics and offenses of individuals in California Department of Corrections and Rehabilitation (CDCR) custody
 - Execute the eligibility model
 - Provide attorneys easy-to-understand profiles of eligible individuals
 - Re-run when new data on the population is available from the District Attorney's office
