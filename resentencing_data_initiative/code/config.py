@@ -11,7 +11,7 @@ if data_conn == 'google drive':
     write_data_path = None
 elif data_conn == 'aws ec2':
     county_name = 'Los Angeles'
-    month = '/'.join(['ALL LA INMATE DATA SETS-20240120T003310Z-001', 'ALL LA INMATE DATA SETS', '23_12'])
+    month = '/'.join(['ALL LA INMATE DATA SETS-20240120T003310Z-001', 'ALL LA INMATE DATA SETS', '24_02'])
     read_data_path = "D:/Users/3xProject/Documents/Redo.io/Stanford Law 3XP/Data"
     write_data_path = None
 

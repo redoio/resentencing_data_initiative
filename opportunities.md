@@ -11,6 +11,8 @@ Keywords: `reporting` `data processing`
 Some eligibility criteria, especially those based on age or sentence length, are currently hard coded. We need to parameterize these conditions so we have a fewer number of rules and a user can modify them easily by passing a numerical value in the parameter set. 
 #### 2.2. Create buffer zones 
 We need to create and incorporate a margin, say 5% or 10%, on numerical eligibility criteria. This way, we can identify individuals who are "close" to meeting the criteria but are not quite there yet. An teenager who meets all of the criteria but is 18.5 years of age may be left out of the juvenile eligible cohort, for example, unless we incorporate some buffer zones. 
+#### 2.3. Order eligibility conditions 
+Some selection criteria are more computationally intensive to apply than others. An age or sentence length related cut-off, for example, is significantly faster to apply than a prior or current offense related condition. We want to create a system that executes the criteria in ascending order of computational intensity. This way, the most heavy criteria is applied on the smallest amount of resultant data. 
 
 ### 2. Deployment 
 First, we need to build a pipeline to automatically update the code repository on the EC2 instance when changes are pushed to GitHub from other locations. This can be achieved using Docker, AWS CodeDeploy or similar tools. Then, we need to establish a task scheduler to execute the tool on EC2 whenever new data is uploaded to the raw data folder on the instance. A bonus step would be notifying the stakeholders whenever new individuals have been added to the eligibile cohort.<br> 

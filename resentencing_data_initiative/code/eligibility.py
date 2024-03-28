@@ -494,7 +494,7 @@ def eligibility_r8(demographics,
     print('Rule category: ', eligibility_conditions['r_8']['category'])
     
     # Extracting ineligible offenses from sorting criteria
-    inel_offenses = sorting_criteria[sorting_criteria['Table'].isin(['Table D'])]['offenses'].tolist()
+    inel_offenses = sorting_criteria[sorting_criteria['Table'].isin(['Table D'])]['Offenses'].tolist()
     inel_offenses = impl.gen_impl_off(offenses = inel_offenses, 
                                       impl_rel = eligibility_conditions['r_8']['implied ineligibility'],
                                       perm = eligibility_conditions['r_8']['perm'], 
@@ -913,15 +913,15 @@ def gen_eligibility(demographics,
     # Clean the column names 
     if clean_col_names:
         for df in [demographics, current_commits, prior_commits]:
-            df.columns = [utils.clean(col) for col in df.columns]
+            df.columns = [utils.clean(col, remove = ['\n']) for col in df.columns]
     else:
-        print('Since column names are not cleaned, several required variables for eligibility model cannot be found')
+        print('Since column names are not cleaned, several required variables for the eligibility model cannot be found')
      
     # Add all of the time variables to the demographic data necessary for classification - years served, sentence length, age, etc.
-    demographics, errors = helpers.gen_time_vars(df = demographics, id_label = id_label, merge = True)
+    demographics, errors = helpers.gen_time_vars(df = demographics, id_label = utils.clean(id_label), merge = True)
     
     # Initialize list of eligible CDCR numbers
-    el_cdcr_nums = demographics[id_label].unique().tolist()
+    el_cdcr_nums = demographics[utils.clean(id_label)].unique().tolist()
     
     # Clean offense data and enhancements data in current commits   
     utils.clean_blk(data = current_commits, 
@@ -949,7 +949,7 @@ def gen_eligibility(demographics,
                                       current_commits = current_commits, 
                                       prior_commits = prior_commits, 
                                       eligibility_conditions = eligibility_conditions,
-                                      id_label = id_label, 
+                                      id_label = utils.clean(id_label), 
                                       el_cdcr_nums = el_cdcr_nums)
         
     if eligibility_conditions['r_2']['use']:
@@ -958,7 +958,7 @@ def gen_eligibility(demographics,
                                       current_commits = current_commits, 
                                       prior_commits = prior_commits, 
                                       eligibility_conditions = eligibility_conditions,
-                                      id_label = id_label,
+                                      id_label = utils.clean(id_label),
                                       el_cdcr_nums = el_cdcr_nums)
         
     if eligibility_conditions['r_3']['use']:
@@ -967,7 +967,7 @@ def gen_eligibility(demographics,
                                       current_commits = current_commits, 
                                       prior_commits = prior_commits, 
                                       eligibility_conditions = eligibility_conditions,
-                                      id_label = id_label,
+                                      id_label = utils.clean(id_label),
                                       el_cdcr_nums = el_cdcr_nums)
         
     if eligibility_conditions['r_4']['use']:
@@ -976,7 +976,7 @@ def gen_eligibility(demographics,
                                       current_commits = current_commits, 
                                       prior_commits = prior_commits, 
                                       eligibility_conditions = eligibility_conditions,
-                                      id_label = id_label,
+                                      id_label = utils.clean(id_label),
                                       el_cdcr_nums = el_cdcr_nums)
     
     if eligibility_conditions['r_5']['use']:
@@ -985,7 +985,7 @@ def gen_eligibility(demographics,
                                       current_commits = current_commits, 
                                       prior_commits = prior_commits, 
                                       eligibility_conditions = eligibility_conditions,
-                                      id_label = id_label,
+                                      id_label = utils.clean(id_label),
                                       el_cdcr_nums = el_cdcr_nums)
         
     if eligibility_conditions['r_6']['use']:
@@ -994,7 +994,7 @@ def gen_eligibility(demographics,
                                       current_commits = current_commits, 
                                       prior_commits = prior_commits, 
                                       eligibility_conditions = eligibility_conditions,
-                                      id_label = id_label,
+                                      id_label = utils.clean(id_label),
                                       el_cdcr_nums = el_cdcr_nums)
         
     if eligibility_conditions['r_7']['use']:
@@ -1003,7 +1003,7 @@ def gen_eligibility(demographics,
                                       current_commits = current_commits, 
                                       prior_commits = prior_commits, 
                                       eligibility_conditions = eligibility_conditions,
-                                      id_label = id_label,
+                                      id_label = utils.clean(id_label),
                                       el_cdcr_nums = el_cdcr_nums)
         
     if eligibility_conditions['r_8']['use']:
@@ -1012,7 +1012,7 @@ def gen_eligibility(demographics,
                                       current_commits = current_commits, 
                                       prior_commits = prior_commits, 
                                       eligibility_conditions = eligibility_conditions,
-                                      id_label = id_label,
+                                      id_label = utils.clean(id_label),
                                       el_cdcr_nums = el_cdcr_nums)
         
     if eligibility_conditions['r_9']['use']:
@@ -1021,7 +1021,7 @@ def gen_eligibility(demographics,
                                       current_commits = current_commits, 
                                       prior_commits = prior_commits, 
                                       eligibility_conditions = eligibility_conditions,
-                                      id_label = id_label,
+                                      id_label = utils.clean(id_label),
                                       el_cdcr_nums = el_cdcr_nums) 
         
     if eligibility_conditions['r_10']['use']:
@@ -1030,7 +1030,7 @@ def gen_eligibility(demographics,
                                        current_commits = current_commits, 
                                        prior_commits = prior_commits, 
                                        eligibility_conditions = eligibility_conditions,
-                                       id_label = id_label,
+                                       id_label = utils.clean(id_label),
                                        el_cdcr_nums = el_cdcr_nums)
         
     if eligibility_conditions['r_11']['use']:
@@ -1039,7 +1039,7 @@ def gen_eligibility(demographics,
                                        current_commits = current_commits, 
                                        prior_commits = prior_commits, 
                                        eligibility_conditions = eligibility_conditions,
-                                       id_label = id_label,
+                                       id_label = utils.clean(id_label),
                                        el_cdcr_nums = el_cdcr_nums)
         
     if eligibility_conditions['r_12']['use']:
@@ -1048,7 +1048,7 @@ def gen_eligibility(demographics,
                                        current_commits = current_commits, 
                                        prior_commits = prior_commits, 
                                        eligibility_conditions = eligibility_conditions,
-                                       id_label = id_label,
+                                       id_label = utils.clean(id_label),
                                        el_cdcr_nums = el_cdcr_nums)
         
     if eligibility_conditions['r_13']['use']:
@@ -1057,7 +1057,7 @@ def gen_eligibility(demographics,
                                        current_commits = current_commits, 
                                        prior_commits = prior_commits, 
                                        eligibility_conditions = eligibility_conditions,
-                                       id_label = id_label,
+                                       id_label = utils.clean(id_label),
                                        el_cdcr_nums = el_cdcr_nums)
         
     # Write demophraphics and current commits of eligible individuals to Excel output
@@ -1073,13 +1073,13 @@ def gen_eligibility(demographics,
             
         # Write data to excel files
         with pd.ExcelWriter(write_path+'/'+pop_label+'_eligible_demographics.xlsx') as writer:
-            demographics[demographics[id_label].isin(el_cdcr_nums)].to_excel(writer, sheet_name = 'Cohort', index = False)
+            demographics[demographics[utils.clean(id_label)].isin(el_cdcr_nums)].to_excel(writer, sheet_name = 'Cohort', index = False)
             pd.DataFrame.from_dict(eligibility_conditions, orient='index').to_excel(writer, sheet_name = 'Conditions', index = True)
             pd.DataFrame.from_dict({'input': read_path, 'county name': county_name, 'month': month}, orient='index').to_excel(writer, sheet_name = 'Input', index = True)
         print('Demographics of eligible individuals written to: ', write_path+'/'+pop_label+'_eligible_demographics.xlsx')
 
         with pd.ExcelWriter(write_path+'/'+pop_label+'_eligible_currentcommits.xlsx') as writer:
-            current_commits[current_commits[id_label].isin(el_cdcr_nums)].to_excel(writer, sheet_name = 'Cohort', index = False)
+            current_commits[current_commits[utils.clean(id_label)].isin(el_cdcr_nums)].to_excel(writer, sheet_name = 'Cohort', index = False)
             pd.DataFrame.from_dict(eligibility_conditions, orient='index').to_excel(writer, sheet_name = 'Conditions', index = True)
             pd.DataFrame.from_dict({'input': read_path, 'county name': county_name, 'month': month}, orient='index').to_excel(writer, sheet_name = 'Input', index = True)
         print('Current commits of eligible individuals written to: ', write_path+'/'+pop_label+'_eligible_currentcommits.xlsx')

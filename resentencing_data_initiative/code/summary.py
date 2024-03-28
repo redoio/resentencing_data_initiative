@@ -84,19 +84,19 @@ def gen_summary(cdcr_nums,
     # Clean the column names 
     if clean_col_names:
         for df in [demographics, current_commits, prior_commits, merit_credit, milestone_credit, rehab_credit, voced_credit, rv_report]:
-            df.columns = [utils.clean(col) for col in df.columns]
+            df.columns = [utils.clean(col, remove = ['\n']) for col in df.columns]
     else:
         print('Since column names are not cleaned, several required variables for summary generation cannot be found')
     
     # Get demographics data of selected individuals and take a copy so the original dataframe is not modified
-    df = demographics.loc[demographics[id_label].isin(cdcr_nums)][:]
+    df = demographics.loc[demographics[utils.clean(id_label)].isin(cdcr_nums)][:]
     
     # Remove string in disability column of demographics dataset
     df['dppv disability - mobility'] = df['dppv disability - mobility'].str.replace('Impacting Placement', '')
     
     # Generate summaries of individuals who are selected
     summary = helpers.gen_summary(df = df, 
-                                  id_label = id_label,
+                                  id_label = utils.clean(id_label),
                                   current_commits = current_commits, 
                                   prior_commits = prior_commits, 
                                   merit_credit = merit_credit, 
@@ -111,7 +111,7 @@ def gen_summary(cdcr_nums,
         if write_path: 
             pass
         else: 
-            write_path = '/'.join(l for l in [read_path, county_name, month, 'output', 'date of execution', helpers.get_todays_date(sep = '_')] if l)
+            write_path = '/'.join(l for l in [read_path, county_name, month, 'output', 'date of execution', utils.get_todays_date(sep = '_')] if l)
             
         # If directory does not exist, then first create it
         if not os.path.exists(write_path):
