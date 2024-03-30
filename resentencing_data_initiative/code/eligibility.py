@@ -1075,13 +1075,13 @@ def gen_eligibility(demographics,
         # Write data to excel files
         with pd.ExcelWriter(write_path+'/'+pop_label+'_eligible_demographics.xlsx') as writer:
             demographics[demographics[id_label].isin(el_cdcr_nums)].to_excel(writer, sheet_name = 'Cohort', index = False)
-            pd.DataFrame.from_dict(eligibility_conditions, orient='index').to_excel(writer, sheet_name = 'Conditions', index = True)
+            pd.DataFrame.from_dict(utils.filter_dict(eligibility_conditions, 'r_'), orient='index').to_excel(writer, sheet_name = 'Conditions', index = True)
             pd.DataFrame.from_dict({'input': read_path, 'county name': county_name, 'month': month}, orient='index').to_excel(writer, sheet_name = 'Input', index = True)
         print('Demographics of eligible individuals written to: ', write_path+'/'+pop_label+'_eligible_demographics.xlsx')
 
         with pd.ExcelWriter(write_path+'/'+pop_label+'_eligible_currentcommits.xlsx') as writer:
             current_commits[current_commits[id_label].isin(el_cdcr_nums)].to_excel(writer, sheet_name = 'Cohort', index = False)
-            pd.DataFrame.from_dict(eligibility_conditions, orient='index').to_excel(writer, sheet_name = 'Conditions', index = True)
+            pd.DataFrame.from_dict(utils.filter_dict(eligibility_conditions, 'r_'), orient='index').to_excel(writer, sheet_name = 'Conditions', index = True)
             pd.DataFrame.from_dict({'input': read_path, 'county name': county_name, 'month': month}, orient='index').to_excel(writer, sheet_name = 'Input', index = True)
         print('Current commits of eligible individuals written to: ', write_path+'/'+pop_label+'_eligible_currentcommits.xlsx')
     
