@@ -949,7 +949,7 @@ def gen_eligibility(demographics,
     # Check all eligibility conditions and execute in order of computational intensity
     for ci in comp_int:
         if eligibility_conditions[ci]['use']:
-            el_cdcr_nums = locals()['eligibility_'+ci.replace('_','')](demographics = demographics, 
+            el_cdcr_nums = globals()['eligibility_'+ci.replace('_','')](demographics = demographics, 
                                                                        sorting_criteria = sorting_criteria,
                                                                        current_commits = current_commits, 
                                                                        prior_commits = prior_commits, 

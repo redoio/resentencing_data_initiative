@@ -24,4 +24,4 @@ cat = {'age': [r_1, r_6],
        'enhancement': [r_11]}
 
 # Order of computational intensity or demand (ascending)
-comp_int = ['r_1', 'r_6', 'r_2', 'r_3', 'r_13', 'r_4', 'r_7', 'r_12', 'r_9', 'r_10', 'r_5', 'r_8', 'r_11']
+comp_int = ['r_1', 'r_6', 'r_2', 'r_3', 'r_13', 'r_10', 'r_4', 'r_7', 'r_12', 'r_9', 'r_5', 'r_8', 'r_11']

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # Specify data connection nature
-data_conn = 'google drive'
+data_conn = 'aws ec2'
 
 # File location information
 if data_conn == 'google drive':
