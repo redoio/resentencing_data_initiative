@@ -6,6 +6,48 @@ from tqdm import tqdm
 import copy
 import os
 
+def filter_dict(dictn, txt, how = 'contains'):
+    """
+    
+    Parameters
+    ----------
+    dictn : dictionary
+        Input dictionary 
+    txt : str
+        Text to match and select keys in the input dictionary
+    how : str, optional
+        Accepts 'start', 'contains', 'end' for match location. Specify the location in which the text should be present in the dictionary key. The 'contains' option implies that the text can be present anywhere in the key. 
+        Default is 'contains'
+    
+    Returns
+    -------
+    sel_dict : dictionary
+        Subset of input dictionary in which the selected keys contain the specified text at the end, beginning or anywhere in the key
+
+    """
+    if how == 'start':
+        sel_dict = {}
+        for k in dictn.keys():
+            if k[0:len(txt)] == txt:
+                sel_dict[k] = dictn[k]
+        return sel_dict
+    elif how == 'contains':
+        sel_dict = {}
+        for k in dictn.keys():
+            if k[0:len(txt)] in txt:
+                sel_dict[k] = dictn[k]
+        return sel_dict
+    elif how == 'end':
+        sel_dict = {}
+        for k in dictn.keys():
+            if k[len(k)-len(txt):] == txt:
+                sel_dict[k] = dictn[k]
+        return sel_dict
+    else:
+        print('Dictionary key selection method specified is not recognized')
+        return
+    
+    
 def incorrect_time(df, cols):
     """
 
