@@ -949,14 +949,13 @@ def gen_eligibility(demographics,
     # Check all eligibility conditions and execute in order of computational intensity
     for ci in comp_int:
         if eligibility_conditions[ci]['use']:
-            fn = getattr(eligibility, 'eligibility_'+ci.replace('_',''))
-            el_cdcr_nums = fn(demographics = demographics, 
-                              sorting_criteria = sorting_criteria,
-                              current_commits = current_commits, 
-                              prior_commits = prior_commits, 
-                              eligibility_conditions = eligibility_conditions,
-                              id_label = id_label, 
-                              el_cdcr_nums = el_cdcr_nums)
+            el_cdcr_nums = locals()['eligibility_'+ci.replace('_','')](demographics = demographics, 
+                                                                       sorting_criteria = sorting_criteria,
+                                                                       current_commits = current_commits, 
+                                                                       prior_commits = prior_commits, 
+                                                                       eligibility_conditions = eligibility_conditions,
+                                                                       id_label = id_label, 
+                                                                       el_cdcr_nums = el_cdcr_nums)
         
     # Write demophraphics and current commits of eligible individuals to Excel output
     if to_excel:
