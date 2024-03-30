@@ -46,6 +46,7 @@ errors, adult_el_cdcr_nums = eligibility.gen_eligibility(demographics = demograp
                                                          eligibility_conditions = adult.el_cond,
                                                          pop_label = adult.el_cond['population'],
                                                          id_label = config.id_label, 
+                                                         comp_int = rules.comp_int,
                                                          to_excel = True)
 
 print('\n######################################################################')
@@ -66,6 +67,7 @@ errors, juvenile_el_cdcr_nums = eligibility.gen_eligibility(demographics = demog
                                                             eligibility_conditions = juvenile.el_cond,
                                                             pop_label = juvenile.el_cond['population'],
                                                             id_label = config.id_label, 
+                                                            comp_int = rules.comp_int,
                                                             to_excel = True)
 
 print('\n######################################################################')
@@ -86,6 +88,7 @@ errors, rob_el_cdcr_nums = eligibility.gen_eligibility(demographics = demographi
                                                        eligibility_conditions = robbery.el_cond,
                                                        pop_label = robbery.el_cond['offense type'],
                                                        id_label = config.id_label, 
+                                                       comp_int = rules.comp_int,
                                                        to_excel = True)
 
 print('\n######################################################################')

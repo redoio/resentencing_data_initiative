@@ -857,6 +857,7 @@ def gen_eligibility(demographics,
                     eligibility_conditions,
                     pop_label,
                     id_label,
+                    comp_int,
                     clean_col_names = True,
                     read_path = None, 
                     county_name = None, 
@@ -880,6 +881,8 @@ def gen_eligibility(demographics,
         Label to add to file outputs
     id_label : str
         Name of the column with the CDCR IDs in the input data
+    comp_int : list
+        List with strings of the rule numbers in ascending order of computational intensity or demand
     clean_col_names : boolean, optional
         Specify whether to clean column names before running the eligibility model. Applies the utils.clean() function on the column headers
         Default is True
@@ -943,123 +946,17 @@ def gen_eligibility(demographics,
                     names = {'controlling offense': 'controlling offense cleaned'}, 
                     inplace = True)
         
-    # Check all eligibility conditions
-    if eligibility_conditions['r_1']['use']:
-        el_cdcr_nums = eligibility_r1(demographics = demographics, 
-                                      sorting_criteria = sorting_criteria,
-                                      current_commits = current_commits, 
-                                      prior_commits = prior_commits, 
-                                      eligibility_conditions = eligibility_conditions,
-                                      id_label = id_label, 
-                                      el_cdcr_nums = el_cdcr_nums)
-        
-    if eligibility_conditions['r_2']['use']:
-        el_cdcr_nums = eligibility_r2(demographics = demographics, 
-                                      sorting_criteria = sorting_criteria,
-                                      current_commits = current_commits, 
-                                      prior_commits = prior_commits, 
-                                      eligibility_conditions = eligibility_conditions,
-                                      id_label = id_label,
-                                      el_cdcr_nums = el_cdcr_nums)
-        
-    if eligibility_conditions['r_3']['use']:
-        el_cdcr_nums = eligibility_r3(demographics = demographics, 
-                                      sorting_criteria = sorting_criteria,
-                                      current_commits = current_commits, 
-                                      prior_commits = prior_commits, 
-                                      eligibility_conditions = eligibility_conditions,
-                                      id_label = id_label,
-                                      el_cdcr_nums = el_cdcr_nums)
-        
-    if eligibility_conditions['r_4']['use']:
-        el_cdcr_nums = eligibility_r4(demographics = demographics, 
-                                      sorting_criteria = sorting_criteria,
-                                      current_commits = current_commits, 
-                                      prior_commits = prior_commits, 
-                                      eligibility_conditions = eligibility_conditions,
-                                      id_label = id_label,
-                                      el_cdcr_nums = el_cdcr_nums)
-    
-    if eligibility_conditions['r_5']['use']:
-        el_cdcr_nums = eligibility_r5(demographics = demographics, 
-                                      sorting_criteria = sorting_criteria,
-                                      current_commits = current_commits, 
-                                      prior_commits = prior_commits, 
-                                      eligibility_conditions = eligibility_conditions,
-                                      id_label = id_label,
-                                      el_cdcr_nums = el_cdcr_nums)
-        
-    if eligibility_conditions['r_6']['use']:
-        el_cdcr_nums = eligibility_r6(demographics = demographics, 
-                                      sorting_criteria = sorting_criteria,
-                                      current_commits = current_commits, 
-                                      prior_commits = prior_commits, 
-                                      eligibility_conditions = eligibility_conditions,
-                                      id_label = id_label,
-                                      el_cdcr_nums = el_cdcr_nums)
-        
-    if eligibility_conditions['r_7']['use']:
-        el_cdcr_nums = eligibility_r7(demographics = demographics, 
-                                      sorting_criteria = sorting_criteria,
-                                      current_commits = current_commits, 
-                                      prior_commits = prior_commits, 
-                                      eligibility_conditions = eligibility_conditions,
-                                      id_label = id_label,
-                                      el_cdcr_nums = el_cdcr_nums)
-        
-    if eligibility_conditions['r_8']['use']:
-        el_cdcr_nums = eligibility_r8(demographics = demographics, 
-                                      sorting_criteria = sorting_criteria,
-                                      current_commits = current_commits, 
-                                      prior_commits = prior_commits, 
-                                      eligibility_conditions = eligibility_conditions,
-                                      id_label = id_label,
-                                      el_cdcr_nums = el_cdcr_nums)
-        
-    if eligibility_conditions['r_9']['use']:
-        el_cdcr_nums = eligibility_r9(demographics = demographics, 
-                                      sorting_criteria = sorting_criteria,
-                                      current_commits = current_commits, 
-                                      prior_commits = prior_commits, 
-                                      eligibility_conditions = eligibility_conditions,
-                                      id_label = id_label,
-                                      el_cdcr_nums = el_cdcr_nums) 
-        
-    if eligibility_conditions['r_10']['use']:
-        el_cdcr_nums = eligibility_r10(demographics = demographics, 
-                                       sorting_criteria = sorting_criteria,
-                                       current_commits = current_commits, 
-                                       prior_commits = prior_commits, 
-                                       eligibility_conditions = eligibility_conditions,
-                                       id_label = id_label,
-                                       el_cdcr_nums = el_cdcr_nums)
-        
-    if eligibility_conditions['r_11']['use']:
-        el_cdcr_nums = eligibility_r11(demographics = demographics, 
-                                       sorting_criteria = sorting_criteria,
-                                       current_commits = current_commits, 
-                                       prior_commits = prior_commits, 
-                                       eligibility_conditions = eligibility_conditions,
-                                       id_label = id_label,
-                                       el_cdcr_nums = el_cdcr_nums)
-        
-    if eligibility_conditions['r_12']['use']:
-        el_cdcr_nums = eligibility_r12(demographics = demographics, 
-                                       sorting_criteria = sorting_criteria,
-                                       current_commits = current_commits, 
-                                       prior_commits = prior_commits, 
-                                       eligibility_conditions = eligibility_conditions,
-                                       id_label = id_label,
-                                       el_cdcr_nums = el_cdcr_nums)
-        
-    if eligibility_conditions['r_13']['use']:
-        el_cdcr_nums = eligibility_r13(demographics = demographics, 
-                                       sorting_criteria = sorting_criteria,
-                                       current_commits = current_commits, 
-                                       prior_commits = prior_commits, 
-                                       eligibility_conditions = eligibility_conditions,
-                                       id_label = id_label,
-                                       el_cdcr_nums = el_cdcr_nums)
+    # Check all eligibility conditions and execute in order of computational intensity
+    for ci in comp_int:
+        if eligibility_conditions[ci]['use']:
+            fn = getattr(eligibility, 'eligibility_'+ci.replace('_',''))
+            el_cdcr_nums = fn(demographics = demographics, 
+                              sorting_criteria = sorting_criteria,
+                              current_commits = current_commits, 
+                              prior_commits = prior_commits, 
+                              eligibility_conditions = eligibility_conditions,
+                              id_label = id_label, 
+                              el_cdcr_nums = el_cdcr_nums)
         
     # Write demophraphics and current commits of eligible individuals to Excel output
     if to_excel:
