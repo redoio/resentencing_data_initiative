@@ -12,7 +12,7 @@ Some eligibility criteria, especially those based on age or sentence length, are
 #### 2.2. Create buffer zones 
 We need to create and incorporate a margin, say 5% or 10%, on the numerical eligibility criteria. This way, we can identify individuals who are "close" to meeting the criteria but are not quite there yet. An teenager who meets all of the criteria but is 18.5 years of age may be left out of the juvenile eligible cohort, for example, unless we incorporate some buffer zones to keep them in. 
 #### 2.3. Order eligibility conditions 
-Some selection criteria are more computationally intensive to apply than others. An age or sentence length related cut-off, for example, are significantly faster to apply than a prior or current offense related condition. We want to create a system that executes the criteria in ascending order of computational intensity. This way, the most heavy criteria is applied on the smallest amount of resultant data. 
+Some selection criteria are more computationally intensive to apply than others. An age or sentence length related cut-off, for example, are significantly faster to apply than a prior or current offense related condition. We want to create a system that executes the criteria in ascending order of computational intensity. This way, the most computationally demanding criteria is applied on the smallest amount of resultant data. 
 #### 2.4. Conditional logic 
 Currently, the code only supports AND conditional logic for the eligibility criteria. We want to create a capability to accept OR logic as well. 
 
