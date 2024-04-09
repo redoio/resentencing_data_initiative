@@ -19,6 +19,7 @@ def gen_summary(cdcr_nums,
                 voced_credit, 
                 rv_report, 
                 id_label,
+                sel_conditions = None,
                 clean_col_names = True,
                 read_path = None,
                 county_name = None, 
@@ -54,6 +55,8 @@ def gen_summary(cdcr_nums,
         Default is None.
     id_label : str
         Name of CDCR ID column in the data
+    sel_conditions : dict, optional
+        Data on the rules and selection conditions which correspond to the input data passed
     clean_col_names : boolean, optional
         Specify whether to clean column names before running the eligibility model. Applies the utils.clean() function on the column headers
         Default is True
@@ -127,7 +130,11 @@ def gen_summary(cdcr_nums,
             os.makedirs(write_path)
                 
         # Write data to excel files
-        summary.to_excel(write_path+'/'+pop_label+'_summary.xlsx', index = False)
+        with pd.ExcelWriter(write_path+'/'+pop_label+'_summary.xlsx') as writer:
+            summary.to_excel(writer, sheet_name = 'Summary', index = False)
+            pd.DataFrame.from_dict(sel_conditions, orient='index').to_excel(writer, sheet_name = 'Conditions', index = True)
+            pd.DataFrame.from_dict({'input': read_path, 'county name': county_name, 'month': month}, orient='index').to_excel(writer, sheet_name = 'Input', index = True)
+
         print('Summary of individuals written to: ', write_path+'/'+pop_label+'_summary.xlsx')
         
     return summary
