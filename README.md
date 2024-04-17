@@ -23,7 +23,7 @@
 
 # Introduction
 
-A data analysis tool for the Three Strikes Project at the Stanford University School of Law that proactively and automatically identifies non-violent offendors in California's prison system who are eligible for re-sentencing. 
+A data science application for the Three Strikes Project at the Stanford University School of Law that proactively and automatically identifies non-violent offendors in California's prison system who are eligible for Prosecutor Initiated Resentencing (PIR). 
 
 # Background
 
@@ -35,10 +35,10 @@ But, given that there are over 100,000 people in California's prisons, lawyers n
 
 ## Summary 
 
-We are designing a rules-based and deterministic eligibility model that embodies principles of fairness, accountability and transparency to generate cohorts of eligible individuals.
+We are designing a rules-based and deterministic eligibility model that embodies principles of fairness, accountability and transparency to generate cohorts of eligible individuals based on criteria established by district attorney's offices.
 
 What it is:
-- A deterministic model with a rules-based framework designed by Redo.io with legal experts and District Attorney offices
+- A deterministic model with a rules-based framework designed by Redo.io with legal experts
 - Easily interpretable and explainable for non-technical users and audience
 - Responsive to user requests, i.e. an attorney can request changes to the eligibility criteria and see updated results
 
@@ -51,16 +51,16 @@ What it is not:
 Running the model for the prison population:
 - Leverage an AWS EC2 instance on Stanford secure servers
 - Ingest the demographics and offenses of individuals in California Department of Corrections and Rehabilitation (CDCR) custody
-- Execute the eligibility model
+- Execute the eligibility model and generate a cohort of selected individuals
 - Provide attorneys easy-to-understand profiles of eligible individuals
-- Re-run when new data on the population is available from the District Attorney's office
+- Re-run when new data on the prison population is available from the district attorney's office
 
 # Data 
 
 The raw data for the model comes from the Three Strikes Project and the participating District Attorney offices. We utilize the following information on the prison population from these datasets:
 
 ## (a). Current commitments<br>
-Information on an invidual's offenses that they are currently serving time for.
+Information on the offenses an individual is currently serving time for.
 
 ### Variables<br>
 `CDCR #`: Universal identification across datasets<br>
@@ -77,7 +77,7 @@ Each row will include the details on ONE offense committed by the individual, i.
 `In-prison` variable specifies if an offense was committed in prison or not and takes the following values: 'Yes' or 'No'
 
 ## (b). Prior commitments<br>
-Information on an invidual's offenses that they are no longer serving time for.
+Information on the offenses an individual is no longer serving time for.
 
 ### Variables<br>
 `CDCR #`: Universal identification across datasets<br>
@@ -93,7 +93,7 @@ Each row will include the details on ONE offense committed by the individual, i.
 `In-prison` variable specifies if an offense was committed in prison or not and takes the following values: 'Yes' or 'No'
 
 ## (c). Demographics<br>
-Personal information on the individual.
+Personal information on the individual. Note that we do not utilize any demographic information such as gender or race.
 
 ### Variables<br>
 `CDCR #`: Universal identification across datasets<br>
@@ -103,7 +103,7 @@ Personal information on the individual.
 
 # More information
 
-Three Strikes Law and Prosecutor-Initiated Resentencing:
+Three Strikes Law and Prosecutor Initiated Resentencing (PIR):
 - https://law.stanford.edu/three-strikes-project/three-strikes-basics/ 
 - https://capitalbnews.org/prosecutor-resentencing-law/
 
