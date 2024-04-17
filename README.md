@@ -48,9 +48,9 @@ What it is not:
 
 ## Execution
 
-Running the model for the prison population:
-- Leverage an AWS EC2 instance on Stanford secure servers
-- Ingest the demographics and offenses of individuals in California Department of Corrections and Rehabilitation (CDCR) custody
+Run the model for the prison population:
+- Leverage an AWS EC2 instance on Stanford University's secure servers
+- Ingest the demographics, current offenses and prior offenses of individuals in California Department of Corrections and Rehabilitation (CDCR) custody
 - Execute the eligibility model and generate a cohort of selected individuals
 - Provide attorneys easy-to-understand profiles of eligible individuals
 - Re-run when new data on the prison population is available from the district attorney's office
