@@ -44,7 +44,7 @@ What it is:
 
 What it is not:
 - A blackbox prediction model
-- A decision-maker that determines which cases are ultimately resentenced
+- A decision-maker that determines the cases that are ultimately resentenced by the courts
 
 ## Execution
 
