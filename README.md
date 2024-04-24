@@ -55,7 +55,7 @@ Run the model for the prison population:
 - Provide attorneys easy-to-understand profiles of eligible individuals
 - Re-run when new data on the prison population is available from the district attorney's office
 
-<img src= "https://github.com/redoio/resentencing_data_initiative/assets/124313756/4861c4a6-3e53-4e79-98d8-12074fc50eb5" width = "90%" height = "90%">
+<img src= "https://github.com/redoio/resentencing_data_initiative/assets/124313756/69bf0453-2a2d-4969-8bc4-f77aa5c5dcf3" width = "90%" height = "90%">
 
 # Data 
 
