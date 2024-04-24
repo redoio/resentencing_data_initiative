@@ -5,14 +5,14 @@ data_conn = 'aws ec2'
 
 # File location information
 if data_conn == 'google drive':
-    county_name = 'Los Angeles'
+    county_name = 'Los Angeles County'
     month = '/'.join(['Rough', 'Data_05_2021', '21_05'])
     read_data_path = '/content/drive/My Drive/Redo.io/Stanford Law 3XP/Data'
     write_data_path = None
 elif data_conn == 'aws ec2':
-    county_name = 'Los Angeles'
+    county_name = 'los_angeles'
     month = '/'.join(['ALL LA INMATE DATA SETS-20240120T003310Z-001', 'ALL LA INMATE DATA SETS', '24_02'])
-    read_data_path = "D:/Users/3xProject/Documents/Redo.io/Stanford Law 3XP/Data"
+    read_data_path = "D:/Users/3xProject/Documents/Redo.io/Stanford Law 3XP/data/county"
     write_data_path = None
 
 # Specify CDCR ID column

@@ -21,8 +21,7 @@ def get_input(read_path,
     read_path : str
         Full path of the file to extract data from (all parent folders)
     county_name : str
-        Name of the county folder to extract data for, ex: 'Los Angeles County'
-        Becomes a part of the file path
+        Name of the county folder to extract data for, ex: 'Los Angeles County', that becomes a part of the file path
     month : str
         Year and month for which data should be extracted, ex: '2023_06'
     count : int
@@ -41,9 +40,9 @@ def get_input(read_path,
     demographics : pandas dataframe
         Data on individuals currently incarcerated
     current_commits : pandas dataframe
-        Data on current offenses of incarcerated individuals wherein each row pertains to a single offense
+        Data on current offenses of incarcerated individuals wherein each row represents a single offense
     prior_commits : pandas dataframe
-        Data on prior offenses of incarcerated individuals wherein each row pertains to a single offense
+        Data on prior offenses of incarcerated individuals wherein each row represents a single offense
     merit_credit : pandas dataframe
         Data on education credits attained during incarceration
     milestone_credit : pandas dataframe
@@ -59,9 +58,9 @@ def get_input(read_path,
     print('Executing data extraction steps')
     
     # Criteria for selection
-    sorting_criteria = helpers.extract_data(main_path = read_path, 
+    sorting_criteria = helpers.extract_data(main_path = 'offense_classification/county', 
                                             county_name = county_name, 
-                                            file_name = 'Criteria/sorting_criteria.xlsx', 
+                                            file_name = 'selection_criteria.xlsx', 
                                             write_path = write_path, 
                                             pickle = False) 
     print('\n Extraction 1/'+str(count)+' complete \n')

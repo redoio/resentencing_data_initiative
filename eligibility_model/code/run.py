@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
+import importlib
 import helpers
 import utils
 import config
-from scenarios import adult
-from scenarios import juvenile
-from scenarios import robbery
 from scenarios import rules
 import extract 
 import eligibility
@@ -15,6 +13,19 @@ import datetime
 from tqdm import tqdm
 import copy
 import os
+
+print('\n######################################################################')
+print('################################## START ###############################')
+print('########################################################################')
+
+# Get eligibility scenarios for the region or county
+adult = importlib.import_module('scenarios.county.'+config.county_name+'.adult')
+juvenile = importlib.import_module('scenarios.county.'+config.county_name+'.juvenile')
+robbery = importlib.import_module('scenarios.county.'+config.county_name+'.robbery')
+
+print('\n######################################################################')
+print('################################ COMPLETE ##############################')
+print('########################################################################')
 
 print('\n######################################################################')
 print('################################## START ###############################')
@@ -34,7 +45,7 @@ print('\n######################################################################'
 print('################################## START ###############################')
 print('########################################################################')
 
-# Identify eligible CDCR numbers for adults and juveniles
+# Identify eligible CDCR numbers for adults
 errors, adult_el_cdcr_nums = eligibility.gen_eligibility(demographics = demographics, 
                                                          sorting_criteria = sorting_criteria,
                                                          current_commits = current_commits, 
@@ -56,6 +67,7 @@ print('\n######################################################################'
 print('################################## START ###############################')
 print('########################################################################')
 
+# Identify eligible CDCR numbers for juveniles
 errors, juvenile_el_cdcr_nums = eligibility.gen_eligibility(demographics = demographics, 
                                                             sorting_criteria = sorting_criteria,
                                                             current_commits = current_commits, 
@@ -77,6 +89,7 @@ print('\n######################################################################'
 print('################################## START ###############################')
 print('########################################################################')
 
+# Identify eligible CDCR numbers for robbery related offenses
 errors, rob_el_cdcr_nums = eligibility.gen_eligibility(demographics = demographics, 
                                                        sorting_criteria = sorting_criteria,
                                                        current_commits = current_commits, 
@@ -125,6 +138,7 @@ print('\n######################################################################'
 print('################################## START ###############################')
 print('########################################################################')
 
+# Generate summaries of eligible individuals in the CDCR system
 juvenile_summary = summary.gen_summary(cdcr_nums = juvenile_el_cdcr_nums, 
                                        demographics = demographics,
                                        current_commits = current_commits, 
@@ -151,6 +165,7 @@ print('\n######################################################################'
 print('################################## START ###############################')
 print('########################################################################')
 
+# Generate summaries of eligible individuals in the CDCR system
 rob_summary = summary.gen_summary(cdcr_nums = rob_el_cdcr_nums, 
                                   demographics = demographics,
                                   current_commits = current_commits, 
