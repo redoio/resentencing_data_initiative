@@ -7,6 +7,7 @@
 - [Our tool](#our-tool)
   * [Summary](#summary)
   * [Execution](#execution)
+  * [Example](#example)
 - [Data](#data)
   * [(a). Current commitments<br>](#-a--current-commitments-br-)
     + [Variables<br>](#variables-br-)
@@ -55,11 +56,15 @@ Run the model for the prison population:
 - Provide attorneys easy-to-understand profiles of eligible individuals
 - Re-run when new data on the prison population is available from the district attorney's office
 
+## Example 
+
+An example of the solution pipeline implemented for the Los Angeles County District Attorney's Office: 
+
 <img src= "https://github.com/redoio/resentencing_data_initiative/assets/124313756/69bf0453-2a2d-4969-8bc4-f77aa5c5dcf3" width = "90%" height = "90%">
 
 # Data 
 
-The raw data for the model comes from the Three Strikes Project and the participating District Attorney offices. We utilize the following information on the prison population from these datasets:
+The raw data for the model comes from the Three Strikes Project and the participating District Attorney's (DA) offices. We primarily utilize the following information on the prison population from these datasets. However, the exact datasets are determined based on the eligibility criteria established by the DAs and public defenders.  
 
 ## (a). Current commitments<br>
 Information on the offenses an individual is currently serving time for.
