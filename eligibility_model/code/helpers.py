@@ -109,22 +109,35 @@ def gen_time_vars(df,
         
     # Check if all columns needed for calcualtion are present in the dataframe
     if all(col in df.columns for col in [id_label, 'birthday', 'aggregate sentence in months', 'offense end date']):
+        print('Variables needed for calculation are present in demographics dataframe')
         pass
     else:
-        print('Variables needed for calculation are missing in demographics dataframe')
-        return   
+        print('Variables needed for calculation are missing in demographics dataframe. Calculation will continue for available variables')
+        pass   
     
     # Get the present date
     present_date = datetime.datetime.now()
     # Sentence duration in years
-    df['aggregate sentence in years'] = df['aggregate sentence in months']/12
+    try: 
+        df['aggregate sentence in years'] = df['aggregate sentence in months']/12
+    except:
+        df['aggregate sentence in years'] = None
     # Age of individual
-    df['age in years'] = [x.days/365 for x in present_date - pd.to_datetime(df['birthday'], errors = 'coerce')]
+    try:
+        df['age in years'] = [x.days/365 for x in present_date - pd.to_datetime(df['birthday'], errors = 'coerce')]
+    except:
+        df['age in years'] = None
     # Sentence served in years
-    df['time served in years'] = [x.days/365 for x in present_date - pd.to_datetime(df['offense end date'], errors = 'coerce')]
+    try:
+        df['time served in years'] = [x.days/365 for x in present_date - pd.to_datetime(df['offense end date'], errors = 'coerce')]
+    except:
+        df['time served in years'] = None
     # Age at the time of offense
-    df['age during offense'] = [x.days/365 for x in pd.to_datetime(df['offense end date'], errors = 'coerce') - pd.to_datetime(df['birthday'], errors = 'coerce')]
-  
+    try:
+        df['age during offense'] = [x.days/365 for x in pd.to_datetime(df['offense end date'], errors = 'coerce') - pd.to_datetime(df['birthday'], errors = 'coerce')]
+    except:
+        df['age during offense'] = None
+        
     # Store all the time columns calculated above
     calc_t_cols = ['aggregate sentence in years', 'age in years', 'time served in years', 'age during offense']
   
