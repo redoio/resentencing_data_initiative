@@ -223,3 +223,37 @@ def get_todays_date(order = ['year', 'month', 'day'],
         if val[0] == 'd':
             td.append(str(datetime.date.today().day))
     return sep.join(td)
+
+
+def df_diff(read_path, comp_val, label):
+    """
+
+    Parameters
+    ----------
+    read_path : list of strs
+        list of paths to extract data from. 
+    comp_val : TYPE
+        DESCRIPTION.
+    label : TYPE
+        DESCRIPTION.
+
+    Returns
+    -------
+    TYPE
+        DESCRIPTION.
+
+    """
+    df_eval = pd.read_excel(read_path[0])
+    diff = []
+    for r in range(1, len(read_path)):
+        df_comp = pd.read_excel(read_path[r])
+        for v in df_eval[comp_val].unique():
+            if v not in df_comp[comp_val].unique():
+                diff.append([v, 'Other(s)', label[0]])
+        
+        for v in df_comp[comp_val].unique():
+            if v not in df_eval[comp_val].unique():
+                diff.append([v, label[r], label[0]])
+    
+    return pd.DataFrame(diff, columns = [comp_val, 'absent_in', 'present_in'])
+    
