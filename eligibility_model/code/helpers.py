@@ -200,7 +200,7 @@ def gen_summary(cdcr_nums,
         # Clean the id label
         id_label = utils.clean(id_label)
     else:
-        print('Since column names are not cleaned, several required variables for summary generation cannot be found')
+        print('Input column names are not cleaned, so the required variables for summary generation cannot be found')
     
     
     # Initialize lists for other variables
@@ -234,4 +234,29 @@ def gen_summary(cdcr_nums,
     df['rules violations'] = rvr
     
     return df
+
+
+def comp_output(read_path, comp_val, label, merge = True, clean_col_names = True):
+    # Initialize list of dataframes to compare
+    df_objs = []
+    
+    # Loop through input file paths to extract data
+    for r in read_path:
+        # Extract dataframe 
+        df = pd.read_excel(r)
+        # Clean all the column names
+        if clean_col_names:
+            df.columns = [utils.clean(col, remove = ['\n']) for col in df.columns]
+            comp_val = utils.clean(comp_val)
+        # Store dataframes in a list
+        df_objs.append(df)
+    
+    # Get the missing values in comp_val
+    diff = utils.df_diff(df_objs = df_objs, comp_val = comp_val, label = label)
+    
+    # Return the input dataframe or just the differences
+    if merge:
+        return df_objs[0][df_objs[0][comp_val].isin(diff)]
+    else: 
+        return diff
     

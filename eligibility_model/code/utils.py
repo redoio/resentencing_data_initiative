@@ -225,32 +225,39 @@ def get_todays_date(order = ['year', 'month', 'day'],
     return sep.join(td)
 
 
-def df_diff(read_path, comp_val, label):
+def df_diff(df_objs, comp_val, label):
     """
 
     Parameters
     ----------
-    read_path : list of strs
-        list of paths to extract data from. 
-    comp_val : TYPE
-        DESCRIPTION.
-    label : TYPE
-        DESCRIPTION.
+    comp_df : list of pandas dataframes
+        Input data to compare. Dataframe in the 0th position is evaluated for differences in comparison to the remaining dataframes 
+    comp_val : str
+        Column name in the dataframe to be compared
+    label : list of strs
+        Labels or tags to associate with each input file path. Should correspond 1:1 with the dataframes passed in read_path
 
     Returns
     -------
-    TYPE
-        DESCRIPTION.
+    diff : pandas dataframe
+        Differences in comp_val between the dataframes passed in read_path
 
     """
-    df_eval = pd.read_excel(read_path[0])
+    # Base dataframe to be evaluated
+    df_eval = df_objs[0]
+    
+    # Initialize list to capture values that are different
     diff = []
-    for r in range(1, len(read_path)):
-        df_comp = pd.read_excel(read_path[r])
+    
+    # Start iteration from 1 since base dataframe is in the 0 position
+    for r in range(1, len(df_objs)):
+        # Get each dataframe to compare the base dataframe against
+        df_comp = df_objs[r]
+        # Values in base dataframe that are not in other dataframes
         for v in df_eval[comp_val].unique():
             if v not in df_comp[comp_val].unique():
                 diff.append([v, 'Other(s)', label[0]])
-        
+        # Values in other dataframes that are not in base dataframe
         for v in df_comp[comp_val].unique():
             if v not in df_eval[comp_val].unique():
                 diff.append([v, label[r], label[0]])
