@@ -285,9 +285,9 @@ def comp_output(read_path, comp_val, label, merge = True, clean_col_names = True
     
     # Return the input dataframe or just the differences
     if merge:
-        out = df_objs[0][df_objs[0][comp_val].isin(diff)]
+        diff = df_objs[0][df_objs[0][comp_val].isin(diff[comp_val])]
     else: 
-        out = diff
+        pass
     
     # Generate write paths if excel output is requested
     if to_excel:
@@ -302,9 +302,9 @@ def comp_output(read_path, comp_val, label, merge = True, clean_col_names = True
             
     # Write demographics data to excel file
     with pd.ExcelWriter(write_path+'/'+pop_label+'_differences.xlsx') as writer:
-        out.to_excel(writer, sheet_name = 'Differences', index = False)
+        diff.to_excel(writer, sheet_name = 'Differences', index = False)
         pd.DataFrame(read_path, columns = ['comparison']).to_excel(writer, sheet_name = 'Input', index = True)
         print('Data differences written to: ', write_path+'/'+pop_label+'_differences.xlsx')
    
-
+    return diff
     

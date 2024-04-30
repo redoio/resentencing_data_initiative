@@ -196,7 +196,8 @@ print('########################################################################'
 diff = helpers.comp_output(read_path = config.comp_path, 
                            comp_val = config.id_label, 
                            label = config.comp_info,  
-                           pop_label = 'adult', 
+                           pop_label = 'adult_eligible',
+                           merge = False,
                            to_excel = True)
 
 print('\n######################################################################')

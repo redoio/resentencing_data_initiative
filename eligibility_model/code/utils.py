@@ -256,11 +256,11 @@ def df_diff(df_objs, comp_val, label):
         # Values in base dataframe that are not in other dataframes
         for v in df_eval[comp_val].unique():
             if v not in df_comp[comp_val].unique():
-                diff.append([v, 'Other(s)', label[0]])
+                diff.append([v, label[r], label[0]])
         # Values in other dataframes that are not in base dataframe
         for v in df_comp[comp_val].unique():
             if v not in df_eval[comp_val].unique():
-                diff.append([v, label[r], label[0]])
+                diff.append([v, label[0], label[r]])
     
     return pd.DataFrame(diff, columns = [comp_val, 'absent_in', 'present_in'])
     
