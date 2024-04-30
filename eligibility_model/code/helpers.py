@@ -236,7 +236,36 @@ def gen_summary(cdcr_nums,
     return df
 
 
-def comp_output(read_path, comp_val, label, merge = True, clean_col_names = True):
+def comp_output(read_path, comp_val, label, merge = True, clean_col_names = True, pop_label = None, to_excel = True, write_path = None):
+    """
+
+    Parameters
+    ----------
+    read_path : list of strs
+        Paths with input dataframes to compare. Dataframe in the 0th position is evaluated against the remaining dataframes 
+    comp_val : str
+        Column name or variable to be compared
+    label : list of strs
+        Labels or tags to associate with each input. Should correspond 1:1 with the dataframes passed in read_path
+    merge : boolean, optional
+        Specify whether to return the differences only or with the input dataframe in 0th position. The default is True.
+    clean_col_names : boolean, optional
+        Specify whether to clean the column name strings before any operations. The default is True.
+    pop_label : str
+        Label to add to file outputs
+    to_excel : boolean, optional
+        Specify whether to write the output to an Excel file. The default is True. If write_path is not passed but to_excel = True, output is stored in the read_path directory
+    write_path : str, optional
+        Specify the directory to which the output should be written. The default is None.
+
+    Returns
+    -------
+    diff : pandas dataframe
+        Dataframe with differences in the input
+
+    """
+    print('Comparing data in ', read_path[0], ' with data in : {}'.format(read_path[1:]))
+    
     # Initialize list of dataframes to compare
     df_objs = []
     
@@ -256,7 +285,26 @@ def comp_output(read_path, comp_val, label, merge = True, clean_col_names = True
     
     # Return the input dataframe or just the differences
     if merge:
-        return df_objs[0][df_objs[0][comp_val].isin(diff)]
+        out = df_objs[0][df_objs[0][comp_val].isin(diff)]
     else: 
-        return diff
+        out = diff
+    
+    # Generate write paths if excel output is requested
+    if to_excel:
+        if write_path: 
+            pass
+        else:
+            write_path = "/".join(read_path[0].split("/")[0:-1])
+    
+        # If directory does not exist, then first create it
+        if not os.path.exists(write_path):
+            os.makedirs(write_path)
+            
+    # Write demographics data to excel file
+    with pd.ExcelWriter(write_path+'/'+pop_label+'_differences.xlsx') as writer:
+        out.to_excel(writer, sheet_name = 'Differences', index = False)
+        pd.DataFrame(read_path, columns = ['comparison']).to_excel(writer, sheet_name = 'Input', index = True)
+        print('Data differences written to: ', write_path+'/'+pop_label+'_differences.xlsx')
+   
+
     

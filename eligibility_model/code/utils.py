@@ -230,12 +230,12 @@ def df_diff(df_objs, comp_val, label):
 
     Parameters
     ----------
-    comp_df : list of pandas dataframes
-        Input data to compare. Dataframe in the 0th position is evaluated for differences in comparison to the remaining dataframes 
+    df_objs : list of pandas dataframes
+        Input dataframes to compare. Dataframe in the 0th position is evaluated for differences in comparison to the remaining dataframes 
     comp_val : str
-        Column name in the dataframe to be compared
+        Column name or variable to be compared
     label : list of strs
-        Labels or tags to associate with each input file path. Should correspond 1:1 with the dataframes passed in read_path
+        Labels or tags to associate with each input dataframe. Should correspond 1:1 with the dataframes passed in input dataframes
 
     Returns
     -------
