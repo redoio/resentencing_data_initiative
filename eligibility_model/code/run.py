@@ -32,9 +32,10 @@ print('################################## START ###############################'
 print('########################################################################')
 
 # Extract all the relevant datasets from the path
-sorting_criteria, demographics, merit_credit, milestone_credit, rehab_credit, voced_credit, rv_report, current_commits, prior_commits = extract.get_input(read_path = config.read_data_path, 
+sorting_criteria, demographics, merit_credit, milestone_credit, rehab_credit, voced_credit, rv_report, current_commits, prior_commits = extract.get_input(main_path = config.read_data_path, 
                                                                                                                                                           month = config.month,
-                                                                                                                                                          county_name = config.county_name, 
+                                                                                                                                                          county_name = config.county_name,
+                                                                                                                                                          file_convention = config.naming_convention,
                                                                                                                                                           pickle = False) 
 
 print('\n######################################################################')

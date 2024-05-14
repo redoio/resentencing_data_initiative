@@ -11,13 +11,14 @@ if data_conn == 'google drive':
     write_data_path = None
 elif data_conn == 'aws ec2':
     county_name = 'los_angeles'
-    month = '/'.join(['ALL LA INMATE DATA SETS-20240120T003310Z-001', 'ALL LA INMATE DATA SETS', '24_02'])
+    month = '/'.join(['ALL LA INMATE DATA SETS-20240120T003310Z-001', 'ALL LA INMATE DATA SETS', '24_03'])
     read_data_path = "D:/Users/3xProject/Documents/Redo.io/Stanford Law 3XP/data/county"
-    comp_path = {'adult': ["D:/Users/3xProject/Documents/Redo.io/Stanford Law 3XP/data/county/los_angeles/ALL LA INMATE DATA SETS-20240120T003310Z-001/ALL LA INMATE DATA SETS/24_03/output/date of execution/2024_4_29/adult_eligible_demographics.xlsx",
+    naming_convention = "naming_convention/file_names.txt"
+    comp_path = {'adult': ["D:/Users/3xProject/Documents/Redo.io/Stanford Law 3XP/data/county/los_angeles/ALL LA INMATE DATA SETS-20240120T003310Z-001/ALL LA INMATE DATA SETS/24_03/output/date of execution/2024_5_13/adult_eligible_demographics.xlsx",
                            "D:/Users/3xProject/Documents/Redo.io/Stanford Law 3XP/data/county/los_angeles/ALL LA INMATE DATA SETS-20240120T003310Z-001/ALL LA INMATE DATA SETS/24_02/output/date of execution/2024_4_30/adult_eligible_demographics.xlsx"],
-                 'juvenile': ["D:/Users/3xProject/Documents/Redo.io/Stanford Law 3XP/data/county/los_angeles/ALL LA INMATE DATA SETS-20240120T003310Z-001/ALL LA INMATE DATA SETS/24_03/output/date of execution/2024_4_29/juvenile_eligible_demographics.xlsx",
+                 'juvenile': ["D:/Users/3xProject/Documents/Redo.io/Stanford Law 3XP/data/county/los_angeles/ALL LA INMATE DATA SETS-20240120T003310Z-001/ALL LA INMATE DATA SETS/24_03/output/date of execution/2024_5_13/juvenile_eligible_demographics.xlsx",
                               "D:/Users/3xProject/Documents/Redo.io/Stanford Law 3XP/data/county/los_angeles/ALL LA INMATE DATA SETS-20240120T003310Z-001/ALL LA INMATE DATA SETS/24_02/output/date of execution/2024_4_30/juvenile_eligible_demographics.xlsx"], 
-                 'robbery': ["D:/Users/3xProject/Documents/Redo.io/Stanford Law 3XP/data/county/los_angeles/ALL LA INMATE DATA SETS-20240120T003310Z-001/ALL LA INMATE DATA SETS/24_03/output/date of execution/2024_4_29/robbery_eligible_demographics.xlsx",
+                 'robbery': ["D:/Users/3xProject/Documents/Redo.io/Stanford Law 3XP/data/county/los_angeles/ALL LA INMATE DATA SETS-20240120T003310Z-001/ALL LA INMATE DATA SETS/24_03/output/date of execution/2024_5_13/robbery_eligible_demographics.xlsx",
                              "D:/Users/3xProject/Documents/Redo.io/Stanford Law 3XP/data/county/los_angeles/ALL LA INMATE DATA SETS-20240120T003310Z-001/ALL LA INMATE DATA SETS/24_02/output/date of execution/2024_4_30/robbery_eligible_demographics.xlsx"]}
     comp_info = ['2024_03 eligible cohort', '2024_02 eligible cohort']
     write_data_path = None

@@ -7,10 +7,65 @@ import copy
 import os
 import utils
 
+def verify_naming_convention(main_path, 
+                             file_convention,
+                             ext = '.xlsx',
+                             county_name = None, 
+                             month = None):
+    """
+
+    Parameters
+    ----------
+    main_path : str
+        Folder path of the file to extract data from (all parent folders without file name)
+    county_name : str
+        Name of the county folder to extract data from, ex: 'Los Angeles County'
+    file_convention : str
+        Name of the .txt file from which the naming conventions should be extracted. Must be formatted as a numerical list with file names enclosed in single quotes, ex: "1. 'commitments.xlsx'"
+        File extension of .txt should be included
+    ext : str
+        File extension of the file names to be checked, ex: '.xlsx', '.csv' etc. 
+        Default is '.xlsx'
+    month : str, optional
+        Year and month for which data should be extracted, ex: '2023_06'. Default is None
+    
+    Returns 
+    -------
+    target_file_name : list of strs
+        List of the targeted file names (read from the naming conventions file)
+    true_file_name : list of strs
+        List of the true file names (files existing in the directory)
+    error : int
+        Number of file names in the true_file_name list that are not present in the target_file_name list
+        
+    """
+    # Get the target file names from the text file
+    read_path = '/'.join(l for l in [main_path, county_name, file_convention] if l)
+    f = open(read_path, "r")
+    target_file_name = []
+    for n in f.read().split("'"):
+        if ext in n:
+            target_file_name.append(n)
+    
+    # Get the true file names from the directory with the Excel data
+    read_path = '/'.join(l for l in [main_path, county_name, month] if l)
+    true_file_name = []
+    error = 0
+    for n in os.listdir(read_path):
+        if ext in n:
+            if n in target_file_name:
+                pass
+            else:
+                print(f'{n} file name is missing or incorrect based on the target naming convention')
+                error += 1
+            true_file_name.append(n)
+        
+    return target_file_name, true_file_name, error
+        
 
 def extract_data(main_path, 
                  county_name, 
-                 file_name, 
+                 file_name = None, 
                  month = None, 
                  write_path = None, 
                  pickle = False): 
@@ -19,14 +74,14 @@ def extract_data(main_path,
     Parameters
     ----------
     main_path : str
-        Full path of the file to extract data from (all parent folders)
+        Folder path of the file to extract data from (all parent folders without file name)
     county_name : str
         Name of the county folder to extract data from, ex: 'Los Angeles County'
     file_name : str
         Name of the .xlsx or .csv file to extract, ex: 'sorting_criteria.xlsx'
-        File extension should be included 
+        File extension should be included. Default is None
     month : str, optional
-        Year and month for which data should be extracted, ex: '2023_06'
+        Year and month for which data should be extracted, ex: '2023_06'. Default is None
     write_path : str, optional 
         Specify the full path where the pickle outputs should be written (folder level)
         If pickle = True but write_path = None, data outputs are written to the county_name + month folder by default. To avoid this behavior, pass a value to write_path
@@ -264,7 +319,7 @@ def compare_output(read_path, comp_val, label, merge = True, clean_col_names = T
         Dataframe with differences in the input
 
     """
-    print('Comparing data in ', read_path[0], ' with data in : {}'.format(read_path[1:]))
+    print('Comparing data in ', read_path[0], ' with data in : {}'.format(read_path[1:]), '\n')
     
     # Initialize list of dataframes to compare
     df_objs = []
@@ -291,9 +346,7 @@ def compare_output(read_path, comp_val, label, merge = True, clean_col_names = T
     
     # Generate write paths if excel output is requested
     if to_excel:
-        if write_path: 
-            pass
-        else:
+        if not write_path:
             write_path = "/".join(read_path[0].split("/")[0:-1])
     
         # If directory does not exist, then first create it
@@ -304,7 +357,7 @@ def compare_output(read_path, comp_val, label, merge = True, clean_col_names = T
     with pd.ExcelWriter(write_path+'/'+pop_label+'_differences.xlsx') as writer:
         diff.to_excel(writer, sheet_name = 'Differences', index = False)
         pd.DataFrame(read_path, columns = ['comparison']).to_excel(writer, sheet_name = 'Input', index = True)
-        print('Data differences written to: ', write_path+'/'+pop_label+'_differences.xlsx')
+        print('Data differences written to: ', write_path+'/'+pop_label+'_differences.xlsx\n')
    
     return diff, base_diff
     
