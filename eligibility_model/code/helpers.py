@@ -236,7 +236,7 @@ def gen_summary(cdcr_nums,
     return df
 
 
-def comp_output(read_path, comp_val, label, merge = True, clean_col_names = True, pop_label = None, to_excel = True, write_path = None):
+def compare_output(read_path, comp_val, label, merge = True, clean_col_names = True, pop_label = None, to_excel = True, write_path = None):
     """
 
     Parameters
@@ -285,9 +285,9 @@ def comp_output(read_path, comp_val, label, merge = True, clean_col_names = True
     
     # Return the input dataframe or just the differences
     if merge:
-        diff = df_objs[0][df_objs[0][comp_val].isin(diff[comp_val])]
+        base_diff = df_objs[0][df_objs[0][comp_val].isin(diff[comp_val])]
     else: 
-        pass
+        base_diff = None
     
     # Generate write paths if excel output is requested
     if to_excel:
@@ -306,5 +306,5 @@ def comp_output(read_path, comp_val, label, merge = True, clean_col_names = True
         pd.DataFrame(read_path, columns = ['comparison']).to_excel(writer, sheet_name = 'Input', index = True)
         print('Data differences written to: ', write_path+'/'+pop_label+'_differences.xlsx')
    
-    return diff
+    return diff, base_diff
     

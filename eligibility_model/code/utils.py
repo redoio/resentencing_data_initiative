@@ -231,7 +231,7 @@ def df_diff(df_objs, comp_val, label):
     Parameters
     ----------
     df_objs : list of pandas dataframes
-        Input dataframes to compare. Dataframe in the 0th position is evaluated for differences in comparison to the remaining dataframes 
+        Input dataframes to compare. Dataframe in the 0th position is evaluated for differences against the remaining dataframes 
     comp_val : str
         Column name or variable to be compared
     label : list of strs

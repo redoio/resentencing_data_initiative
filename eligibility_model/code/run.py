@@ -193,12 +193,44 @@ print('################################## START ###############################'
 print('########################################################################')
 
 # Compare outputs between months
-diff = helpers.comp_output(read_path = config.comp_path, 
-                           comp_val = config.id_label, 
-                           label = config.comp_info,  
-                           pop_label = 'adult_eligible',
-                           merge = False,
-                           to_excel = True)
+adult_diff,_ = helpers.compare_output(read_path = config.comp_path['adult'], 
+                                      comp_val = config.id_label, 
+                                      label = config.comp_info,  
+                                      pop_label = 'adult_eligible',
+                                      merge = False,
+                                      to_excel = True)
+
+print('\n######################################################################')
+print('################################ COMPLETE ##############################')
+print('########################################################################')
+
+print('\n######################################################################')
+print('################################## START ###############################')
+print('########################################################################')
+
+# Compare outputs between months
+juvenile_diff,_ = helpers.compare_output(read_path = config.comp_path['juvenile'], 
+                                         comp_val = config.id_label, 
+                                         label = config.comp_info,  
+                                         pop_label = 'juvenile_eligible',
+                                         merge = False,
+                                         to_excel = True)
+
+print('\n######################################################################')
+print('################################ COMPLETE ##############################')
+print('########################################################################')
+
+print('\n######################################################################')
+print('################################## START ###############################')
+print('########################################################################')
+
+# Compare outputs between months
+robbery_diff,_ = helpers.compare_output(read_path = config.comp_path['robbery'], 
+                                        comp_val = config.id_label, 
+                                        label = config.comp_info,  
+                                        pop_label = 'robbery_eligible',
+                                        merge = False,
+                                        to_excel = True)
 
 print('\n######################################################################')
 print('################################ COMPLETE ##############################')
