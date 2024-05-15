@@ -14,18 +14,10 @@ from tqdm import tqdm
 import copy
 import os
 
-print('\n######################################################################')
-print('################################## START ###############################')
-print('########################################################################')
-
 # Get eligibility scenarios for the region or county
 adult = importlib.import_module('scenarios.county.'+config.county_name+'.adult')
 juvenile = importlib.import_module('scenarios.county.'+config.county_name+'.juvenile')
 robbery = importlib.import_module('scenarios.county.'+config.county_name+'.robbery')
-
-print('\n######################################################################')
-print('################################ COMPLETE ##############################')
-print('########################################################################')
 
 print('\n######################################################################')
 print('################################## START ###############################')

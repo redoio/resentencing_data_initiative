@@ -130,6 +130,8 @@ def extract_data(main_path,
 
 def gen_time_vars(df, 
                   id_label, 
+                  use_t_cols, 
+                  format_t_cols,
                   merge = True,
                   clean_col_names = True):
     """
@@ -146,7 +148,11 @@ def gen_time_vars(df,
     clean_col_names : boolean, optional
         Specify whether to clean column names. Applies the utils.clean() function on the column headers
         Default is True
-
+    use_t_cols : list of strs
+        List of columns in input dataframe needed for time variable calculation
+    format_t_cols : list of strs
+        List of columns not used in time variable calculations but should be formatted 
+        
     Returns
     -------
     df : pandas dataframe
@@ -160,14 +166,17 @@ def gen_time_vars(df,
         df.columns = [utils.clean(col, remove = ['\n']) for col in df.columns]
         id_label = utils.clean(id_label)
     else:
-        print('Since column names are not cleaned, several required variables for summary generation cannot be found')
-        
+        print('Since column names are not cleaned, several required variables for time calculations cannot be found')
+        return 
+    
+    # Add id to the columns needed for calculation 
+    use_t_cols.append(id_label)
     # Check if all columns needed for calcualtion are present in the dataframe
-    if all(col in df.columns for col in [id_label, 'birthday', 'aggregate sentence in months', 'offense end date']):
-        print('Variables needed for calculation are present in demographics dataframe')
+    if all(col in df.columns for col in use_t_cols):
+        print('Variables needed for time calculation are present in demographics dataframe\n')
         pass
     else:
-        print('Variables needed for calculation are missing in demographics dataframe. Calculation will continue for available variables')
+        print('Variables needed for time calculation are missing in demographics dataframe. Calculation will continue for available variables\n')
         pass   
     
     # Get the present date
@@ -175,35 +184,45 @@ def gen_time_vars(df,
     # Sentence duration in years
     try: 
         df['aggregate sentence in years'] = df['aggregate sentence in months']/12
+        print("Calculated: 'aggregate sentence in years'")
     except:
         df['aggregate sentence in years'] = None
     # Age of individual
     try:
         df['age in years'] = [x.days/365 for x in present_date - pd.to_datetime(df['birthday'], errors = 'coerce')]
+        print("Calculated: 'age in years'")
     except:
         df['age in years'] = None
     # Sentence served in years
     try:
         df['time served in years'] = [x.days/365 for x in present_date - pd.to_datetime(df['offense end date'], errors = 'coerce')]
+        print("Calculated: 'time served in years'")
     except:
         df['time served in years'] = None
     # Age at the time of offense
     try:
         df['age during offense'] = [x.days/365 for x in pd.to_datetime(df['offense end date'], errors = 'coerce') - pd.to_datetime(df['birthday'], errors = 'coerce')]
+        print("Calculated: 'age during offense'")
     except:
         df['age during offense'] = None
         
     # Store all the time columns calculated above
     calc_t_cols = ['aggregate sentence in years', 'age in years', 'time served in years', 'age during offense']
-  
-    # Return the resulting dataframe with the calculated time columns and the data with NaN/NaTs in these columns
     
-    # If time variables are to be added to the input dataframe
+    # Format existing time variables 
+    for col in format_t_cols: 
+        try:
+            df[col] = df[col].apply(lambda d: pd.to_datetime(d, format = '%Y%m%d', errors = 'coerce'))
+        except:
+            print(f'Could not format {col} as a date')
+    
+    # Return the resulting dataframe with the calculated time columns and the data with NaN/NaTs in these columns
+    # If time variables are to be added to the entire input dataframe
     if merge: 
         return df, utils.incorrect_time(df = df, cols = calc_t_cols)
     # If time variables are to be stored in a separate dataframe
     else:
-        return df[[id_label, 'birthday', 'aggregate sentence in months', 'offense end date']+calc_t_cols], utils.incorrect_time(df = df, cols = calc_t_cols)
+        return df[use_t_cols+calc_t_cols], utils.incorrect_time(df = df, cols = calc_t_cols)
         
 
 def gen_summary(cdcr_nums, 
@@ -255,14 +274,17 @@ def gen_summary(cdcr_nums,
         # Clean the id label
         id_label = utils.clean(id_label)
     else:
-        print('Input column names are not cleaned, so the required variables for summary generation cannot be found')
-    
+        print('Input column names are not cleaned, so the required variables for summary generation cannot be found\n')
+        return
     
     # Initialize lists for other variables
     current_conv = []
     prior_conv = []
     programming = []
     rvr = []
+    
+    # Formatting time column 
+    rv_report['rule violation date'] = rv_report['rule violation date'].apply(lambda x: x.date())[0] 
     
     # Get summary variables for each CDCR number
     for cn in cdcr_nums:
