@@ -184,7 +184,7 @@ def gen_time_vars(df,
     asy = []
     for i in range(0, len(df)):
         try:
-            asy.append(df['aggregate sentence in months'][i]/12)
+            asy.append(round(df['aggregate sentence in months'][i]/12), 1)
         except:
             asy.append(None)
     df['aggregate sentence in years'] = asy
@@ -195,7 +195,7 @@ def gen_time_vars(df,
     for i in range(0, len(df)):
         try:
             x = (present_date - pd.to_datetime(df['birthday'][i])).days/365
-            ay.append(x)
+            ay.append(round(x,1))
         except:
             ay.append(None)
     df['age in years'] = ay
@@ -206,7 +206,7 @@ def gen_time_vars(df,
     for i in range(0, len(df)):
         try:
             x = (present_date - pd.to_datetime(df['offense end date'][i])).days/365
-            tsy.append(x)
+            tsy.append(round(x,1))
         except:
             tsy.append(None)
     df['time served in years'] = tsy
@@ -217,7 +217,7 @@ def gen_time_vars(df,
     for i in range(0, len(df)):
         try:
             x = (pd.to_datetime(df['offense end date'][i]) - pd.to_datetime(df['birthday'][i])).days/365
-            ao.append(x)
+            ao.append(round(x,1))
         except:
             ao.append(None)
     df['age during offense'] = ao

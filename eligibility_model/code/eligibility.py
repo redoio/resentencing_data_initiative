@@ -967,7 +967,7 @@ def gen_eligibility(demographics,
     
     # Format date columns 
     _ = utils.format_date_blk(dfs = [demographics, current_commits, prior_commits], 
-                              date_cols = ['birthday', 'offense end date', 'offense begin date', 'eprd/mepd', 'expected release date'], 
+                              date_cols = ['birthday', 'offense end date', 'offense begin date', 'eprd/mepd', 'expected release date', 'release date'], 
                               how = '%m/%d/%Y', 
                               inplace = True, 
                               label = None)
