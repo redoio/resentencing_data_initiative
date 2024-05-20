@@ -263,4 +263,66 @@ def df_diff(df_objs, comp_val, label):
                 diff.append([v, label[0], label[r]])
     
     return pd.DataFrame(diff, columns = [comp_val, 'absent_in', 'present_in'])
+
+
+def format_date(vec, how = '%m/%d/%Y'):
+    """
+
+    Parameters
+    ----------
+    vec : list, pandas series, other iterable
+        Contains date or datetime values to be formatted
+    how : str, optional
+        Specify how to format the date-like text by month, day, year, hours, mins and seconds. The default is '%m/%d/%Y'.
+
+    Returns
+    -------
+    fmt : list
+        Input vec with formatted date or datetime values
+
+    """
+    # Format existing time variables 
+    fmt = []
+    for v in vec:
+        try:
+            fmt.append(v.strftime(how))
+        except:
+            fmt.append(v)
+    return fmt
+
+
+def format_date_blk(dfs, date_cols, how = '%m/%d/%Y', inplace = True, label = None):
+    """
+
+    Parameters
+    ----------
+    dfs : list of pandas dataframes
+        Collection of dataframes to be formatted in bulk
+    date_cols : list of strs
+        List of column names that have date-like information (do not need to be present in all dataframes passed)
+    how : str, optional
+        Specify how to format the date or datetime value by month, day, year, hours, mins and seconds. The default is '%m/%d/%Y'.
+    inplace : boolean, optional
+        Specify whether to create a new column with the formatted date value or a separate one. The default is True.
+    label : boolean, optional
+        If a new column for the formatted date value is requested, specify how to name this column. The existing column name will be concatenated with the label passed. The default is None.
+
+    Returns
+    -------
+    dfs : list of pandas dataframes
+        Collection of dataframes passed in the input that have been formatted
+
+    """
+    # Iterate through all the dataframes
+    for df in dfs:
+        # Check if the specified date column is in the dataframe
+        for col in date_cols:
+            if col in df.columns:
+                # Replace the column
+                if inplace:
+                    df[col] = format_date(df[col], how = how)
+                else:
+                    df[col+str(label)] = format_date(df[col], how = how)
+    return dfs
     
+                

@@ -28,7 +28,7 @@ sorting_criteria, demographics, merit_credit, milestone_credit, rehab_credit, vo
                                                                                                                                                           month = config.month,
                                                                                                                                                           county_name = config.county_name,
                                                                                                                                                           file_convention = config.naming_convention,
-                                                                                                                                                          pickle = False) 
+                                                                                                                                                          pickle = config.pickle_input) 
 
 print('\n######################################################################')
 print('################################ COMPLETE ##############################')
@@ -50,7 +50,8 @@ errors, adult_el_cdcr_nums = eligibility.gen_eligibility(demographics = demograp
                                                          pop_label = adult.el_cond['population'],
                                                          id_label = config.id_label, 
                                                          comp_int = rules.comp_int,
-                                                         to_excel = True)
+                                                         write_path = config.write_data_path,
+                                                         to_excel = config.to_excel)
 
 print('\n######################################################################')
 print('################################ COMPLETE ##############################')
@@ -72,7 +73,8 @@ errors, juvenile_el_cdcr_nums = eligibility.gen_eligibility(demographics = demog
                                                             pop_label = juvenile.el_cond['population'],
                                                             id_label = config.id_label, 
                                                             comp_int = rules.comp_int,
-                                                            to_excel = True)
+                                                            write_path = config.write_data_path,
+                                                            to_excel = config.to_excel)
 
 print('\n######################################################################')
 print('################################ COMPLETE ##############################')
@@ -94,7 +96,8 @@ errors, rob_el_cdcr_nums = eligibility.gen_eligibility(demographics = demographi
                                                        pop_label = robbery.el_cond['offense type'],
                                                        id_label = config.id_label, 
                                                        comp_int = rules.comp_int,
-                                                       to_excel = True)
+                                                       write_path = config.write_data_path,
+                                                       to_excel = config.to_excel)
 
 print('\n######################################################################')
 print('################################ COMPLETE ##############################')
@@ -120,8 +123,8 @@ adult_summary = summary.gen_summary(cdcr_nums = adult_el_cdcr_nums,
                                     pop_label = adult.el_cond['population'],
                                     sel_conditions = utils.filter_dict(adult.el_cond, 'r_'),
                                     id_label = config.id_label, 
-                                    write_path = None,
-                                    to_excel = True)
+                                    write_path = config.write_data_path,
+                                    to_excel = config.to_excel)
 
 print('\n######################################################################')
 print('################################ COMPLETE ##############################')
@@ -147,8 +150,8 @@ juvenile_summary = summary.gen_summary(cdcr_nums = juvenile_el_cdcr_nums,
                                        sel_conditions = utils.filter_dict(juvenile.el_cond, 'r_'),
                                        id_label = config.id_label, 
                                        pop_label = juvenile.el_cond['population'], 
-                                       write_path = None,
-                                       to_excel = True)
+                                       write_path = config.write_data_path,
+                                       to_excel = config.to_excel)
 
 print('\n######################################################################')
 print('################################ COMPLETE ##############################')
@@ -174,8 +177,8 @@ rob_summary = summary.gen_summary(cdcr_nums = rob_el_cdcr_nums,
                                   sel_conditions = utils.filter_dict(robbery.el_cond, 'r_'),
                                   id_label = config.id_label,
                                   pop_label = robbery.el_cond['offense type'], 
-                                  write_path = None,
-                                  to_excel = True)
+                                  write_path = config.write_data_path,
+                                  to_excel = config.to_excel)
 
 print('\n######################################################################')
 print('################################ COMPLETE ##############################')
@@ -191,7 +194,7 @@ adult_diff,_ = helpers.compare_output(read_path = config.comp_path['adult'],
                                       label = config.comp_info,  
                                       pop_label = 'adult_eligible',
                                       merge = False,
-                                      to_excel = True)
+                                      to_excel = config.to_excel)
 
 print('\n######################################################################')
 print('################################ COMPLETE ##############################')
@@ -207,7 +210,7 @@ juvenile_diff,_ = helpers.compare_output(read_path = config.comp_path['juvenile'
                                          label = config.comp_info,  
                                          pop_label = 'juvenile_eligible',
                                          merge = False,
-                                         to_excel = True)
+                                         to_excel = config.to_excel)
 
 print('\n######################################################################')
 print('################################ COMPLETE ##############################')
@@ -223,7 +226,7 @@ robbery_diff,_ = helpers.compare_output(read_path = config.comp_path['robbery'],
                                         label = config.comp_info,  
                                         pop_label = 'robbery_eligible',
                                         merge = False,
-                                        to_excel = True)
+                                        to_excel = config.to_excel)
 
 print('\n######################################################################')
 print('################################ COMPLETE ##############################')

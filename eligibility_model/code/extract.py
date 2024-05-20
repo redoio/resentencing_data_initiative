@@ -62,7 +62,7 @@ def get_input(main_path,
         Data on rules violations during incarceration
 
     """
-    print('Executing data extraction steps:\n')
+    print('Executing data extraction steps\n')
     
     # Checking if all required input files are present in the read path 
     target_file_name, true_file_name, error = helpers.verify_naming_convention(main_path = main_path, 

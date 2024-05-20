@@ -2,6 +2,7 @@
 import pandas as pd
 import numpy as np
 import datetime
+from dateutil.relativedelta import relativedelta
 from tqdm import tqdm
 import copy
 import os
@@ -131,7 +132,6 @@ def extract_data(main_path,
 def gen_time_vars(df, 
                   id_label, 
                   use_t_cols, 
-                  format_t_cols,
                   merge = True,
                   clean_col_names = True):
     """
@@ -150,8 +150,6 @@ def gen_time_vars(df,
         Default is True
     use_t_cols : list of strs
         List of columns in input dataframe needed for time variable calculation
-    format_t_cols : list of strs
-        List of columns not used in time variable calculations but should be formatted 
         
     Returns
     -------
@@ -173,48 +171,70 @@ def gen_time_vars(df,
     use_t_cols.append(id_label)
     # Check if all columns needed for calcualtion are present in the dataframe
     if all(col in df.columns for col in use_t_cols):
-        print('Variables needed for time calculation are present in demographics dataframe\n')
+        print('Variables needed for time calculation are present in demographics dataframe')
         pass
     else:
-        print('Variables needed for time calculation are missing in demographics dataframe. Calculation will continue for available variables\n')
+        print('Variables needed for time calculation are missing in demographics dataframe. Calculation will continue for available variables')
         pass   
     
     # Get the present date
     present_date = datetime.datetime.now()
+    
     # Sentence duration in years
-    try: 
-        df['aggregate sentence in years'] = df['aggregate sentence in months']/12
-        print("Calculated: 'aggregate sentence in years'")
-    except:
-        df['aggregate sentence in years'] = None
+    asy = []
+    for i in range(0, len(df)):
+        try:
+            asy.append(df['aggregate sentence in months'][i]/12)
+        except:
+            asy.append(None)
+    df['aggregate sentence in years'] = asy
+    print(" Calculation complete for: 'aggregate sentence in years'")
+    
     # Age of individual
-    try:
-        df['age in years'] = [x.days/365 for x in present_date - pd.to_datetime(df['birthday'], errors = 'coerce')]
-        print("Calculated: 'age in years'")
-    except:
-        df['age in years'] = None
+    ay = []
+    for i in range(0, len(df)):
+        try:
+            x = (present_date - pd.to_datetime(df['birthday'][i])).days/365
+            ay.append(x)
+        except:
+            ay.append(None)
+    df['age in years'] = ay
+    print(" Calculation complete for: 'age in years'")
+    
     # Sentence served in years
-    try:
-        df['time served in years'] = [x.days/365 for x in present_date - pd.to_datetime(df['offense end date'], errors = 'coerce')]
-        print("Calculated: 'time served in years'")
-    except:
-        df['time served in years'] = None
+    tsy = []
+    for i in range(0, len(df)):
+        try:
+            x = (present_date - pd.to_datetime(df['offense end date'][i])).days/365
+            tsy.append(x)
+        except:
+            tsy.append(None)
+    df['time served in years'] = tsy
+    print(" Calculation complete for: 'time served in years'")
+    
     # Age at the time of offense
-    try:
-        df['age during offense'] = [x.days/365 for x in pd.to_datetime(df['offense end date'], errors = 'coerce') - pd.to_datetime(df['birthday'], errors = 'coerce')]
-        print("Calculated: 'age during offense'")
-    except:
-        df['age during offense'] = None
+    ao = []
+    for i in range(0, len(df)):
+        try:
+            x = (pd.to_datetime(df['offense end date'][i]) - pd.to_datetime(df['birthday'][i])).days/365
+            ao.append(x)
+        except:
+            ao.append(None)
+    df['age during offense'] = ao
+    print(" Calculation complete for: 'age during offense'")
+    
+    # Expected release date
+    est = []
+    for i in range(0, len(df)):
+        try:
+            est.append(pd.to_datetime(df['offense end date'][i]) + relativedelta(months = df['aggregate sentence in months'][i]))
+        except:
+            est.append(None)
+    df['expected release date'] = est
+    print(" Calculation complete for: 'expected release date'")
         
     # Store all the time columns calculated above
-    calc_t_cols = ['aggregate sentence in years', 'age in years', 'time served in years', 'age during offense']
-    
-    # Format existing time variables 
-    for col in format_t_cols: 
-        try:
-            df[col] = df[col].apply(lambda d: pd.to_datetime(d, format = '%Y%m%d', errors = 'coerce'))
-        except:
-            print(f'Could not format {col} as a date')
+    calc_t_cols = ['aggregate sentence in years', 'age in years', 'time served in years', 'age during offense', 'expected release date']
     
     # Return the resulting dataframe with the calculated time columns and the data with NaN/NaTs in these columns
     # If time variables are to be added to the entire input dataframe
@@ -284,7 +304,13 @@ def gen_summary(cdcr_nums,
     rvr = []
     
     # Formatting time column 
-    rv_report['rule violation date'] = rv_report['rule violation date'].apply(lambda x: x.date())[0] 
+    rvd = []
+    for i in range(0, len(rv_report['rule violation date'])):
+        try:
+            rvd.append(rv_report['rule violation date'][i].strftime('%m/%d/%Y'))
+        except:
+            rvd.append(rv_report['rule violation date'][i])
+    rv_report['rule violation date'] = rvd
     
     # Get summary variables for each CDCR number
     for cn in cdcr_nums:

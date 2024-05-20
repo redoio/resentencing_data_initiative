@@ -910,10 +910,7 @@ def gen_eligibility(demographics,
     el_cdcr_nums : list of strs
         List of CDCR numbers that are eligible for resentencing 
     """
-    
-    print('Identifying individuals eligible for resentencing\n')
-    print('This scenario is tagged with ', eligibility_conditions['lenience'], ' degree of leniency in the eligibility determination\n')
-    print('The population in consideration belongs to the', pop_label, 'category\n')
+    print('Starting data preparation steps for resentencing eligibility determination\n')
     
     # Clean the column names 
     if clean_col_names:
@@ -925,16 +922,17 @@ def gen_eligibility(demographics,
         print('Since column names are not cleaned, the required variables for the eligibility model cannot be found\n')
         return
     
+    print('Calculating necessary input time variables')
     # Add all of the time variables to the demographic data necessary for classification - years served, sentence length, age, etc.
     demographics, errors = helpers.gen_time_vars(df = demographics, 
                                                  id_label = id_label, 
                                                  merge = True, 
-                                                 use_t_cols = ['birthday', 'aggregate sentence in months', 'offense end date'], 
-                                                 format_t_cols = ['birthday', 'offense end date', 'offense begin date', 'eprd/mepd'])
+                                                 use_t_cols = ['birthday', 'aggregate sentence in months', 'offense end date'])    
     
     # Initialize list of CDCR numbers to be evaluated
     el_cdcr_nums = demographics[id_label].unique().tolist()
     
+    print('\nCleaning offenses in enhancements of the current commits')
     # Clean offense data and enhancements data in current commits   
     utils.clean_blk(data = current_commits, 
                     names = {'offense': 'offense cleaned',
@@ -943,6 +941,7 @@ def gen_eligibility(demographics,
                              'off_enh3': 'off_enh3 cleaned',
                              'off_enh4': 'off_enh4 cleaned'}, 
                     inplace = True)
+    print('Cleaning offenses in current, prior and controlling offense lists')
     # Clean offense data in prior commits
     utils.clean_blk(data = prior_commits, 
                     names = {'offense': 'offense cleaned'}, 
@@ -952,8 +951,9 @@ def gen_eligibility(demographics,
                     names = {'controlling offense': 'controlling offense cleaned'}, 
                     inplace = True)
     
-    print('\n')
-    
+    print('\nIdentifying individuals eligible for resentencing')
+    print('This scenario is tagged with ', eligibility_conditions['lenience'], ' degree of leniency in the eligibility determination')
+    print('The population in consideration belongs to the', pop_label, 'category\n')
     # Check all eligibility conditions and execute in order of computational intensity
     for ci in comp_int:
         if eligibility_conditions[ci]['use']:
@@ -964,7 +964,14 @@ def gen_eligibility(demographics,
                                                                        eligibility_conditions = eligibility_conditions,
                                                                        id_label = id_label, 
                                                                        el_cdcr_nums = el_cdcr_nums)
-        
+    
+    # Format date columns 
+    _ = utils.format_date_blk(dfs = [demographics, current_commits, prior_commits], 
+                              date_cols = ['birthday', 'offense end date', 'offense begin date', 'eprd/mepd', 'expected release date'], 
+                              how = '%m/%d/%Y', 
+                              inplace = True, 
+                              label = None)
+    
     # Write demophraphics and current commits of eligible individuals to Excel output
     if to_excel:
         # If write path is specified in input
@@ -979,21 +986,21 @@ def gen_eligibility(demographics,
             os.makedirs(write_path)
             
         # Write demographics data to excel file
-        with pd.ExcelWriter(write_path+'/'+pop_label+'_eligible_demographics.xlsx', datetime_format = 'YYYY-MM-DD', date_format='YYYY-MM-DD') as writer:
+        with pd.ExcelWriter(write_path+'/'+pop_label+'_eligible_demographics.xlsx') as writer:
             demographics[demographics[id_label].isin(el_cdcr_nums)].to_excel(writer, sheet_name = 'Cohort', index = False)
             pd.DataFrame.from_dict(utils.filter_dict(eligibility_conditions, 'r_'), orient='index').to_excel(writer, sheet_name = 'Conditions', index = True)
             pd.DataFrame.from_dict({'input': read_path, 'county name': county_name, 'month': month}, orient='index').to_excel(writer, sheet_name = 'Input', index = True)
         print('Demographics of eligible individuals written to: ', write_path+'/'+pop_label+'_eligible_demographics.xlsx')
         
         # Write current commits data to excel file
-        with pd.ExcelWriter(write_path+'/'+pop_label+'_eligible_currentcommits.xlsx', datetime_format = 'YYYY-MM-DD', date_format='YYYY-MM-DD') as writer:
+        with pd.ExcelWriter(write_path+'/'+pop_label+'_eligible_currentcommits.xlsx') as writer:
             current_commits[current_commits[id_label].isin(el_cdcr_nums)].to_excel(writer, sheet_name = 'Cohort', index = False)
             pd.DataFrame.from_dict(utils.filter_dict(eligibility_conditions, 'r_'), orient='index').to_excel(writer, sheet_name = 'Conditions', index = True)
             pd.DataFrame.from_dict({'input': read_path, 'county name': county_name, 'month': month}, orient='index').to_excel(writer, sheet_name = 'Input', index = True)
         print('Current commits of eligible individuals written to: ', write_path+'/'+pop_label+'_eligible_currentcommits.xlsx')
        
         # Write prior commits data to excel file
-        with pd.ExcelWriter(write_path+'/'+pop_label+'_eligible_priorcommits.xlsx', datetime_format = 'YYYY-MM-DD', date_format='YYYY-MM-DD') as writer:
+        with pd.ExcelWriter(write_path+'/'+pop_label+'_eligible_priorcommits.xlsx') as writer:
             prior_commits[prior_commits[id_label].isin(el_cdcr_nums)].to_excel(writer, sheet_name = 'Cohort', index = False)
             pd.DataFrame.from_dict(utils.filter_dict(eligibility_conditions, 'r_'), orient='index').to_excel(writer, sheet_name = 'Conditions', index = True)
             pd.DataFrame.from_dict({'input': read_path, 'county name': county_name, 'month': month}, orient='index').to_excel(writer, sheet_name = 'Input', index = True)
