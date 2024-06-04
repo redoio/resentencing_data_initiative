@@ -24,13 +24,13 @@
 
 # Introduction
 
-A data tool for the Three Strikes Project at the Stanford University School of Law that proactively and automatically identifies non-violent offendors in California's prison system who are eligible for Prosecutor Initiated Resentencing (PIR). 
+A data science application for the Three Strikes Project at the Stanford University School of Law that proactively and automatically identifies nonviolent offenders in California's prison system who are eligible for Prosecutor Initiated Resentencing (PIR). 
 
 # Background
 
 The Three Strikes Project is legal clinical seminar where law students represent individuals serving life sentences for non-violent crimes under California’s Three Strikes Law. Lawyers assist district attorney’s offices throughout the state who are seeking opportunities to safely and effectively reduce California’s prison population through Prosecutor Initiated Resentencing (PIR).
 
-But, given that there are over 100,000 people in California's prisons, lawyers need efficient and accurate ways to identify those who are eligible for PIR instead of manually reviewing piles of paperwork. Redo.io's open-source eligibility tool helps lawyers to filter their caseload and apply their expertise efficiently. We are currently under a contract with the Stanford School of Law to develop this application.
+But, given that there are over 100,000 people in California's prisons, lawyers need efficient and accurate ways to identify those who are eligible for PIR instead of manually reviewing piles of paperwork. Redo.io's open-source eligibility tool helps lawyers filter their caseload and apply their expertise efficiently. We are currently under a contract with the Stanford School of Law to develop this application.
 
 # Our tool 
 
@@ -50,9 +50,10 @@ What it is not:
 ## Execution
 
 - Ingest the demographics, current offenses and prior offenses of individuals in California Department of Corrections and Rehabilitation (CDCR) custody
-- Run the eligibility model (with selection criteria and scenarios). Return a cohort of individuals eligible for PIR.
-- Provide attorneys easy-to-understand personal profiles of each candidate.
-- Re-run when new data on the prison population is available from the district attorney's office
+- Run the eligibility model (with selection criteria and scenarios designed by legal experts)
+- Return a cohort of individuals eligible for PIR
+- Provide attorneys easy-to-understand personal profiles of each candidate
+- Re-run the eligibility model when new data on the prison population is available
 
 ## Example 
 
@@ -74,7 +75,7 @@ Information on the offenses an individual is currently serving time for.
 `Offense`: Penal code number<br>
 `Offense Category`: Nature of offense<br>
 `Offense Begin Date`: Date when offense was committed<br>
-`Enhancements`: Additional charges added to individual's record<br>
+`Enhancements`: Additional charges added to an individual's record<br>
 ### Note<br>
 Each row will include the details on ONE offense committed by the individual, i.e. if an individual has committed 6 offenses under 2 separate case numbers, there will be 6 rows in total associated with their CDCR identification number.
 ### Further details<br>
