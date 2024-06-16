@@ -184,7 +184,7 @@ def gen_time_vars(df,
     asy = []
     for i in range(0, len(df)):
         try:
-            asy.append(round(df['aggregate sentence in months'][i]/12), 1)
+            asy.append(round(df['aggregate sentence in months'][i]/12, 1))
         except:
             asy.append(None)
     df['aggregate sentence in years'] = asy
