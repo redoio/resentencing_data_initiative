@@ -10,36 +10,27 @@ import os
 
 
 def gen_summary(cdcr_nums, 
-                demographics,
+                id_label, 
                 current_commits, 
                 prior_commits, 
                 merit_credit, 
-                milestone_credit, 
+                milestone_credit,
                 rehab_credit, 
                 voced_credit, 
                 rv_report, 
-                id_label,
-                sel_conditions = None,
-                clean_col_names = True,
-                read_path = None,
-                county_name = None, 
-                month = None,
-                pop_label = None,
-                write_path = None,
-                to_excel = False,
-                merge = True):
+                clean_col_names = True):
     """
 
     Parameters
     ----------
-    cdcr_nums : list of strs
-        List of CDCR numbers to generate population summary for
-    demographics : pandas dataframe
-        Data on demographics of the incarcerated population
+    cdcr_nums : list
+        List of CDCR numbers to generate summaries for
+    id_label : str
+        Name of the column with the CDCR IDs
     current_commits : pandas dataframe
-        Data on current offenses of the incarcerated population wherein each row contains a single offense
+        Data on current offenses of the incarcerated population
     prior_commits : pandas dataframe
-        Data on prior offenses of the incarcerated population wherein each row contains a single offense
+        Data on prior offenses of the incarcerated population
     merit_credit : pandas dataframe
         Data on education credits attained during incarceration
     milestone_credit : pandas dataframe
@@ -50,91 +41,64 @@ def gen_summary(cdcr_nums,
         Data on credits received from institution for participating in vocational training programs
     rv_report : pandas dataframe
         Data on rules violations during incarceration
-    read_path : str, optional
-        Full path from where input data is read (all parent folders)
-        Default is None.
-    id_label : str
-        Name of CDCR ID column in the data
-    sel_conditions : dict, optional
-        Data on the rules and selection conditions which correspond to the input data passed
     clean_col_names : boolean, optional
-        Specify whether to clean column names before running the eligibility model. Applies the utils.clean() function on the column headers
+        Specify whether to clean column names. Applies the utils.clean() function on the column headers
         Default is True
-    county_name : str, optional
-        Name of the county for which eligibility was evaluated, ex: 'Los Angeles County'
-        Default is None.
-    month : str, optional
-        Year and month for which eligibility was evaluated, ex: '2023_06'
-        Default is None.
-    pop : str, optional
-        Nature of the population being evaluated, ex: 'adult' or 'juvenile'
-        Default is none
-    to_excel : boolean, optional
-        Specify whether to write the summaries of eligible individuals to Excel files.
-        If True, specify the path information to write the output
-        Default is False.
-    write_path : str, optional 
-        Specify the full path where the Excel outputs should be written. 
-        If to_excel = True but write_path = None, data outputs are written to the county_name/month/output/date folder by default. To avoid this behavior, pass a value to write_path.
-    merge : boolean, optional
-        Specify whether to return demographics dataframe with summary columns or just the summary columns
-        Default is True
-    
+        
     Returns
     -------
-    summary : pandas dataframe
-        Data on convictions, rules violations, programming for each CDCR number passed in the input dataframe. If merge = True, output will include the demographics dataframe as well
+    df : pandas dataframe
+        Data on convictions, rules violations, programming for each CDCR number passed in the input list
 
     """
-    print('Generating population summaries')
-    
-    # Clean the column names 
+    # Clean the column names in all input dataframes
     if clean_col_names:
-        for df in [demographics, current_commits, prior_commits, merit_credit, milestone_credit, rehab_credit, voced_credit, rv_report]:
+        for df in [current_commits, prior_commits, merit_credit, milestone_credit, rehab_credit, voced_credit, rv_report]:
             df.columns = [utils.clean(col, remove = ['\n']) for col in df.columns]
         # Clean the id label
         id_label = utils.clean(id_label)
     else:
-        print('Since column names are not cleaned, several required variables for summary generation cannot be found')
+        print('Input column names are not cleaned, so the required variables for summary generation cannot be found\n')
+        return
     
-    # Get demographics data of selected individuals and take a copy so the original dataframe is not modified
-    df = demographics.loc[demographics[id_label].isin(cdcr_nums)][:]
+    # Initialize lists for other variables
+    current_conv = []
+    prior_conv = []
+    programming = []
+    rvr = []
     
-    # Remove string in disability column of demographics dataset
-    df['dppv disability - mobility'] = df['dppv disability - mobility'].str.replace('Impacting Placement', '')
+    # Formatting time column 
+    rvd = []
+    for i in range(0, len(rv_report['rule violation date'])):
+        try:
+            rvd.append(rv_report['rule violation date'][i].strftime('%m/%d/%Y'))
+        except:
+            rvd.append(rv_report['rule violation date'][i])
+    rv_report['rule violation date'] = rvd
     
-    # Generate summaries of individuals who are selected
-    summary = helpers.gen_summary(cdcr_nums = cdcr_nums, 
-                                  id_label = id_label,
-                                  current_commits = current_commits, 
-                                  prior_commits = prior_commits, 
-                                  merit_credit = merit_credit, 
-                                  milestone_credit = milestone_credit, 
-                                  rehab_credit = rehab_credit, 
-                                  voced_credit = voced_credit, 
-                                  rv_report = rv_report)
+    # Get summary variables for each CDCR number
+    for cn in cdcr_nums:
+      # Current convictions
+      current_conv.append(', '.join(current_commits[current_commits[id_label] == cn]['offense'].tolist()))
+      # Previous convictions
+      prior_conv.append(', '.join(prior_commits[prior_commits[id_label] == cn]['offense'].tolist()))
+      # Participation in programming
+      if (cn in merit_credit[id_label]) or (cn in milestone_credit[id_label]) or (cn in rehab_credit[id_label]) or (cn in voced_credit[id_label]):
+        programming.append('Yes')
+      else:
+        programming.append('No')
+      # Rule violation reports
+      ext = rv_report[rv_report[id_label] == cn][['rule violation date', 'division', 'rule violation']].reset_index(drop = True).to_dict('index')
+      rvr.append("\n\n".join("\n".join(k_b + ': ' + str(v_b) for k_b, v_b in v_a.items()) for k_a, v_a in ext.items()))
     
-    # If merge is requested, combine the input dataframe with the summary dataframe
-    if merge: 
-        summary = df.merge(summary, how = 'outer', on = id_label)
+    # Initialize a dataframe to store the summaries of each CDCR number
+    df = pd.DataFrame()
+    # Store lists in dataframe
+    df[id_label] = cdcr_nums
+    df['current convictions'] = current_conv
+    df['prior convictions'] = prior_conv
+    df['programming'] = programming
+    df['rules violations'] = rvr
+    
+    return df
 
-    # Write data to excel files
-    if to_excel:
-        if write_path: 
-            pass
-        else: 
-            write_path = '/'.join(l for l in [read_path, county_name, month, 'output', 'date of execution', utils.get_todays_date(sep = '_')] if l)
-            
-        # If directory does not exist, then first create it
-        if not os.path.exists(write_path):
-            os.makedirs(write_path)
-                
-        # Write data to excel files
-        with pd.ExcelWriter(write_path+'/'+pop_label+'_summary.xlsx') as writer:
-            summary.to_excel(writer, sheet_name = 'Summary', index = False)
-            pd.DataFrame.from_dict(sel_conditions, orient='index').to_excel(writer, sheet_name = 'Conditions', index = True)
-            pd.DataFrame.from_dict({'input': read_path, 'county name': county_name, 'month': month}, orient='index').to_excel(writer, sheet_name = 'Input', index = True)
-
-        print('Summary of individuals written to: ', write_path+'/'+pop_label+'_summary.xlsx')
-        
-    return summary
