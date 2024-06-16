@@ -53,7 +53,7 @@ errors, adult_el_cdcr_nums = cohort.gen_eligible_cohort(demographics = demograph
                                                         comp_int = rules.comp_int,
                                                         write_path = config.write_data_path,
                                                         to_excel = config.to_excel, 
-                                                        parallel = False)
+                                                        parallel = True)
 
 print('\n######################################################################')
 print('################################ COMPLETE ##############################')

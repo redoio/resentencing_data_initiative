@@ -129,7 +129,7 @@ def gen_eligible_cohort(demographics,
         partitions = multiprocessing.cpu_count()
         demographics_split = np.array_split(demographics, partitions)
         pool = multiprocessing.Pool(processes = partitions)
-        results = [pool.apply_async(eligibility.apply_conditions, args = (ds, sorting_criteria, current_commits, prior_commits, eligibility_conditions, id_label)) for ds in demographics_split]
+        results = [pool.apply_async(eligibility.apply_conditions, args = (ds, sorting_criteria, current_commits, prior_commits, eligibility_conditions, comp_int, id_label)) for ds in demographics_split]
         pool.close()
         pool.join()
         el_cdcr_nums = [res.get() for res in results]
