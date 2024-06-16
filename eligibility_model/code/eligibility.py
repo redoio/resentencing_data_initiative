@@ -12,10 +12,10 @@ import os
 import multiprocessing
 import itertools
 
-def viz_eligibility(el_cdcr_nums,  
-                    id_label,
-                    demographics,
-                    current_commits):
+def viz(el_cdcr_nums,  
+        id_label,
+        demographics,
+        current_commits):
     """
 
     Parameters
@@ -53,13 +53,13 @@ def viz_eligibility(el_cdcr_nums,
     return
 
     
-def eligibility_r1(demographics, 
-                   sorting_criteria,
-                   current_commits, 
-                   prior_commits, 
-                   eligibility_conditions,
-                   id_label,
-                   el_cdcr_nums = None):
+def r_1(demographics, 
+        sorting_criteria,
+        current_commits, 
+        prior_commits, 
+        eligibility_conditions,
+        id_label,
+        el_cdcr_nums = None):
     """
     Parameters
     ----------
@@ -102,13 +102,13 @@ def eligibility_r1(demographics,
     return el_cdcr_nums
 
 
-def eligibility_r2(demographics, 
-                   sorting_criteria,
-                   current_commits, 
-                   prior_commits, 
-                   eligibility_conditions,
-                   id_label,
-                   el_cdcr_nums = None):
+def r_2(demographics, 
+        sorting_criteria,
+        current_commits, 
+        prior_commits, 
+        eligibility_conditions,
+        id_label,
+        el_cdcr_nums = None):
     """
     Parameters
     ----------
@@ -150,13 +150,13 @@ def eligibility_r2(demographics,
     return el_cdcr_nums
 
 
-def eligibility_r3(demographics, 
-                   sorting_criteria,
-                   current_commits, 
-                   prior_commits, 
-                   eligibility_conditions,
-                   id_label,
-                   el_cdcr_nums = None):
+def r_3(demographics, 
+        sorting_criteria,
+        current_commits, 
+        prior_commits, 
+        eligibility_conditions,
+        id_label,
+        el_cdcr_nums = None):
     """
     Parameters
     ----------
@@ -198,13 +198,13 @@ def eligibility_r3(demographics,
     return el_cdcr_nums
 
 
-def eligibility_r4(demographics, 
-                   sorting_criteria,
-                   current_commits, 
-                   prior_commits, 
-                   eligibility_conditions,
-                   id_label,
-                   el_cdcr_nums = None):
+def r_4(demographics, 
+        sorting_criteria,
+        current_commits, 
+        prior_commits, 
+        eligibility_conditions,
+        id_label,
+        el_cdcr_nums = None):
     """
     Parameters
     ----------
@@ -269,13 +269,13 @@ def eligibility_r4(demographics,
     return el_cdcr_nums
     
 
-def eligibility_r5(demographics, 
-                   sorting_criteria,
-                   current_commits, 
-                   prior_commits, 
-                   eligibility_conditions,
-                   id_label,
-                   el_cdcr_nums = None):
+def r_5(demographics, 
+        sorting_criteria,
+        current_commits, 
+        prior_commits, 
+        eligibility_conditions,
+        id_label,
+        el_cdcr_nums = None):
     """
     Parameters
     ----------
@@ -339,13 +339,13 @@ def eligibility_r5(demographics,
     return el_cdcr_nums
 
 
-def eligibility_r6(demographics, 
-                    sorting_criteria,
-                    current_commits, 
-                    prior_commits, 
-                    eligibility_conditions,
-                    id_label,
-                    el_cdcr_nums = None):
+def r_6(demographics, 
+        sorting_criteria,
+        current_commits, 
+        prior_commits, 
+        eligibility_conditions,
+        id_label,
+        el_cdcr_nums = None):
     """
     Parameters
     ----------
@@ -388,13 +388,13 @@ def eligibility_r6(demographics,
     return el_cdcr_nums
 
 
-def eligibility_r7(demographics, 
-                    sorting_criteria,
-                    current_commits, 
-                    prior_commits, 
-                    eligibility_conditions,
-                    id_label,
-                    el_cdcr_nums = None):
+def r_7(demographics, 
+        sorting_criteria,
+        current_commits, 
+        prior_commits, 
+        eligibility_conditions,
+        id_label,
+        el_cdcr_nums = None):
     """
     Parameters
     ----------
@@ -457,13 +457,13 @@ def eligibility_r7(demographics,
     return el_cdcr_nums
 
 
-def eligibility_r8(demographics, 
-                   sorting_criteria,
-                   current_commits, 
-                   prior_commits, 
-                   eligibility_conditions,
-                   id_label,
-                   el_cdcr_nums = None):
+def r_8(demographics, 
+        sorting_criteria,
+        current_commits, 
+        prior_commits, 
+        eligibility_conditions,
+        id_label,
+        el_cdcr_nums = None):
     """
     Parameters
     ----------
@@ -525,13 +525,13 @@ def eligibility_r8(demographics,
     return el_cdcr_nums
 
 
-def eligibility_r9(demographics, 
-                   sorting_criteria,
-                   current_commits, 
-                   prior_commits, 
-                   eligibility_conditions,
-                   id_label,
-                   el_cdcr_nums = None):
+def r_9(demographics, 
+        sorting_criteria,
+        current_commits, 
+        prior_commits, 
+        eligibility_conditions,
+        id_label,
+        el_cdcr_nums = None):
     """
     Parameters
     ----------
@@ -594,13 +594,13 @@ def eligibility_r9(demographics,
     return el_cdcr_nums
 
 
-def eligibility_r10(demographics, 
-                    sorting_criteria,
-                    current_commits, 
-                    prior_commits, 
-                    eligibility_conditions,
-                    id_label,
-                    el_cdcr_nums = None):
+def r_10(demographics, 
+         sorting_criteria,
+         current_commits, 
+         prior_commits, 
+         eligibility_conditions,
+         id_label,
+         el_cdcr_nums = None):
     """
     Parameters
     ----------
@@ -663,13 +663,13 @@ def eligibility_r10(demographics,
     return el_cdcr_nums
 
 
-def eligibility_r11(demographics, 
-                    sorting_criteria,
-                    current_commits, 
-                    prior_commits, 
-                    eligibility_conditions,
-                    id_label,
-                    el_cdcr_nums = None):
+def r_11(demographics, 
+         sorting_criteria,
+         current_commits, 
+         prior_commits, 
+         eligibility_conditions,
+         id_label,
+         el_cdcr_nums = None):
     """
     Parameters
     ----------
@@ -722,13 +722,13 @@ def eligibility_r11(demographics,
     return el_cdcr_nums
 
 
-def eligibility_r12(demographics, 
-                    sorting_criteria,
-                    current_commits, 
-                    prior_commits, 
-                    eligibility_conditions,
-                    id_label,
-                    el_cdcr_nums = None):
+def r_12(demographics, 
+         sorting_criteria,
+         current_commits, 
+         prior_commits, 
+         eligibility_conditions,
+         id_label,
+         el_cdcr_nums = None):
     """
     Parameters
     ----------
@@ -804,13 +804,13 @@ def eligibility_r12(demographics,
     return el_cdcr_nums
 
 
-def eligibility_r13(demographics, 
-                    sorting_criteria,
-                    current_commits, 
-                    prior_commits, 
-                    eligibility_conditions,
-                    id_label,
-                    el_cdcr_nums = None):
+def r_13(demographics, 
+         sorting_criteria,
+         current_commits, 
+         prior_commits, 
+         eligibility_conditions,
+         id_label,
+         el_cdcr_nums = None):
     """
     Parameters
     ----------
@@ -849,6 +849,54 @@ def eligibility_r13(demographics,
     print('Count of CDCR numbers that meet rule is: ', len(el_cdcr_nums), '\n')
     
     return el_cdcr_nums
+
+
+def apply_conditions(demographics, 
+                     sorting_criteria,
+                     current_commits, 
+                     prior_commits, 
+                     eligibility_conditions, 
+                     comp_int,
+                     id_label):
+    """ 
+    Parameters
+    ----------
+    sorting_criteria : pandas dataframe
+        Data on offenses and their categories or tables
+    demographics : pandas dataframe
+        Data on individuals currently incarcerated
+    current_commits : pandas dataframe
+        Data on current offenses of incarcerated individuals wherein each row pertains to a single offense
+    prior_commits : pandas dataframe
+        Data on prior offenses of incarcerated individuals wherein each row pertains to a single offense
+    eligibility_conditions : dict
+        Data on all the rules, whether they should be applied or not and other specifications
+    id_label : str
+        Name of the column with the CDCR IDs in the input data
+    comp_int : list
+        List with strings of the rule numbers in ascending order of computational intensity or demand
+
+    Returns
+    -------
+    errors : pandas dataframe
+        Data in the demographics dataframe for which time variables could not be computed
+    """
+    
+    # Initialize list of CDCR numbers to be evaluated
+    el_cdcr_nums = demographics[id_label].unique().tolist()
+    
+    # Check all eligibility conditions and execute in order of computational intensity
+    for ci in comp_int:
+        if eligibility_conditions[ci]['use']:
+            el_cdcr_nums = globals()[ci](demographics = demographics, 
+                                         sorting_criteria = sorting_criteria,
+                                         current_commits = current_commits, 
+                                         prior_commits = prior_commits, 
+                                         eligibility_conditions = eligibility_conditions,
+                                         id_label = id_label, 
+                                         el_cdcr_nums = el_cdcr_nums)
+    
+    return el_cdcr_nums 
 
 
 def gen_eligibility(demographics, 
@@ -960,47 +1008,25 @@ def gen_eligibility(demographics,
     print('This scenario is tagged with ', eligibility_conditions['lenience'], ' degree of leniency in the eligibility determination')
     print('The population in consideration belongs to the', pop_label, 'category\n')
     
-    def det_el(demographics, 
-               sorting_criteria,
-               current_commits, 
-               prior_commits, 
-               eligibility_conditions, 
-               id_label):
-        
-        # Initialize list of CDCR numbers to be evaluated
-        el_cdcr_nums = demographics[id_label].unique().tolist()
-        
-        # Check all eligibility conditions and execute in order of computational intensity
-        for ci in comp_int:
-            if eligibility_conditions[ci]['use']:
-                el_cdcr_nums = globals()['eligibility_'+ci.replace('_','')](demographics = demographics, 
-                                                                           sorting_criteria = sorting_criteria,
-                                                                           current_commits = current_commits, 
-                                                                           prior_commits = prior_commits, 
-                                                                           eligibility_conditions = eligibility_conditions,
-                                                                           id_label = id_label, 
-                                                                           el_cdcr_nums = el_cdcr_nums)
-        
-        return el_cdcr_nums 
-    
     # Execute eligibility determination using parallelization
     if parallel: 
         partitions = multiprocessing.cpu_count()
         demographics_split = np.array_split(demographics, partitions)
         pool = multiprocessing.Pool(processes = partitions)
-        results = [pool.apply_async(det_el, args = (ds, sorting_criteria, current_commits, prior_commits, eligibility_conditions, id_label)) for ds in demographics_split]
+        results = [pool.apply_async(apply_conditions, args = (ds, sorting_criteria, current_commits, prior_commits, eligibility_conditions, id_label)) for ds in demographics_split]
         pool.close()
         pool.join()
-        el_cdcr_nums = list(itertools.chain(*results))
+        el_cdcr_nums = [res.get() for res in results]
+        #el_cdcr_nums = list(itertools.chain(*results))
     
     # Without parallelization
     else: 
-        el_cdcr_nums = det_el(demographics = demographics, 
-                              sorting_criteria = sorting_criteria,
-                              current_commits = current_commits, 
-                              prior_commits = prior_commits, 
-                              eligibility_conditions = eligibility_conditions,
-                              id_label = id_label)
+        el_cdcr_nums = apply_conditions(demographics = demographics, 
+                                        sorting_criteria = sorting_criteria,
+                                        current_commits = current_commits, 
+                                        prior_commits = prior_commits, 
+                                        eligibility_conditions = eligibility_conditions,
+                                        id_label = id_label)
     
     # Format date columns 
     _ = utils.format_date_blk(dfs = [demographics, current_commits, prior_commits], 
