@@ -9,7 +9,8 @@ import datetime
 from tqdm import tqdm
 import copy
 import os
-
+import multiprocessing
+import itertools
 
 def viz_eligibility(el_cdcr_nums,  
                     id_label,
@@ -863,7 +864,8 @@ def gen_eligibility(demographics,
                     county_name = None, 
                     month = None,
                     to_excel = False, 
-                    write_path = None):
+                    write_path = None, 
+                    parallel = True):
     """
     Parameters
     ----------
@@ -901,8 +903,11 @@ def gen_eligibility(demographics,
         Default is False.
     write_path : str, optional 
         Specify the full path where the Excel outputs should be written. 
-        If to_excel = True but write_path = None, data outputs are written to the county_name/month/output/date folder by default. To avoid this behavior, pass a value to write_path.
-    
+        If to_excel = True but write_path = None, data outputs are written to the 'county_name/month/output/date folder' by default. To avoid this behavior, pass a value to write_path.
+    parallel : boolean, optional 
+        Specify whether to perform the eligibility determination process using Python parallelization or not.
+        Default is True.        
+
     Returns
     -------
     errors : pandas dataframe
@@ -954,16 +959,48 @@ def gen_eligibility(demographics,
     print('\nIdentifying individuals eligible for resentencing')
     print('This scenario is tagged with ', eligibility_conditions['lenience'], ' degree of leniency in the eligibility determination')
     print('The population in consideration belongs to the', pop_label, 'category\n')
-    # Check all eligibility conditions and execute in order of computational intensity
-    for ci in comp_int:
-        if eligibility_conditions[ci]['use']:
-            el_cdcr_nums = globals()['eligibility_'+ci.replace('_','')](demographics = demographics, 
-                                                                       sorting_criteria = sorting_criteria,
-                                                                       current_commits = current_commits, 
-                                                                       prior_commits = prior_commits, 
-                                                                       eligibility_conditions = eligibility_conditions,
-                                                                       id_label = id_label, 
-                                                                       el_cdcr_nums = el_cdcr_nums)
+    
+    def det_el(demographics, 
+               sorting_criteria,
+               current_commits, 
+               prior_commits, 
+               eligibility_conditions, 
+               id_label):
+        
+        # Initialize list of CDCR numbers to be evaluated
+        el_cdcr_nums = demographics[id_label].unique().tolist()
+        
+        # Check all eligibility conditions and execute in order of computational intensity
+        for ci in comp_int:
+            if eligibility_conditions[ci]['use']:
+                el_cdcr_nums = globals()['eligibility_'+ci.replace('_','')](demographics = demographics, 
+                                                                           sorting_criteria = sorting_criteria,
+                                                                           current_commits = current_commits, 
+                                                                           prior_commits = prior_commits, 
+                                                                           eligibility_conditions = eligibility_conditions,
+                                                                           id_label = id_label, 
+                                                                           el_cdcr_nums = el_cdcr_nums)
+        
+        return el_cdcr_nums 
+    
+    # Execute eligibility determination using parallelization
+    if parallel: 
+        partitions = multiprocessing.cpu_count()
+        demographics_split = np.array_split(demographics, partitions)
+        pool = multiprocessing.Pool(processes = partitions)
+        results = [pool.apply_async(det_el, args = (ds, sorting_criteria, current_commits, prior_commits, eligibility_conditions, id_label)) for ds in demographics_split]
+        pool.close()
+        pool.join()
+        el_cdcr_nums = list(itertools.chain(*results))
+    
+    # Without parallelization
+    else: 
+        el_cdcr_nums = det_el(demographics = demographics, 
+                              sorting_criteria = sorting_criteria,
+                              current_commits = current_commits, 
+                              prior_commits = prior_commits, 
+                              eligibility_conditions = eligibility_conditions,
+                              id_label = id_label)
     
     # Format date columns 
     _ = utils.format_date_blk(dfs = [demographics, current_commits, prior_commits], 
@@ -990,21 +1027,21 @@ def gen_eligibility(demographics,
             demographics[demographics[id_label].isin(el_cdcr_nums)].to_excel(writer, sheet_name = 'Cohort', index = False)
             pd.DataFrame.from_dict(utils.filter_dict(eligibility_conditions, 'r_'), orient='index').to_excel(writer, sheet_name = 'Conditions', index = True)
             pd.DataFrame.from_dict({'input': read_path, 'county name': county_name, 'month': month}, orient='index').to_excel(writer, sheet_name = 'Input', index = True)
-        print('Demographics of eligible individuals written to: ', write_path+'/'+pop_label+'_eligible_demographics.xlsx')
+        print('Demographics of eligible individuals written to: ', write_path+'/'+pop_label+'_eligible_demographics.xlsx\n')
         
         # Write current commits data to excel file
         with pd.ExcelWriter(write_path+'/'+pop_label+'_eligible_currentcommits.xlsx') as writer:
             current_commits[current_commits[id_label].isin(el_cdcr_nums)].to_excel(writer, sheet_name = 'Cohort', index = False)
             pd.DataFrame.from_dict(utils.filter_dict(eligibility_conditions, 'r_'), orient='index').to_excel(writer, sheet_name = 'Conditions', index = True)
             pd.DataFrame.from_dict({'input': read_path, 'county name': county_name, 'month': month}, orient='index').to_excel(writer, sheet_name = 'Input', index = True)
-        print('Current commits of eligible individuals written to: ', write_path+'/'+pop_label+'_eligible_currentcommits.xlsx')
+        print('Current commits of eligible individuals written to: ', write_path+'/'+pop_label+'_eligible_currentcommits.xlsx\n')
        
         # Write prior commits data to excel file
         with pd.ExcelWriter(write_path+'/'+pop_label+'_eligible_priorcommits.xlsx') as writer:
             prior_commits[prior_commits[id_label].isin(el_cdcr_nums)].to_excel(writer, sheet_name = 'Cohort', index = False)
             pd.DataFrame.from_dict(utils.filter_dict(eligibility_conditions, 'r_'), orient='index').to_excel(writer, sheet_name = 'Conditions', index = True)
             pd.DataFrame.from_dict({'input': read_path, 'county name': county_name, 'month': month}, orient='index').to_excel(writer, sheet_name = 'Input', index = True)
-        print('Current commits of eligible individuals written to: ', write_path+'/'+pop_label+'_eligible_priorcommits.xlsx')
+        print('Prior commits of eligible individuals written to: ', write_path+'/'+pop_label+'_eligible_priorcommits.xlsx\n')
     
     return errors, el_cdcr_nums
             

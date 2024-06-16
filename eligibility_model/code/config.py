@@ -12,6 +12,7 @@ if data_conn == 'google drive':
     pickle_input = False
     to_excel = True
     id_label = 'CDCNo'
+    parallel = True
 elif data_conn == 'aws ec2':
     county_name = 'los_angeles'
     month = '/'.join(['ALL LA INMATE DATA SETS-20240120T003310Z-001', 'ALL LA INMATE DATA SETS', '24_03'])
@@ -28,3 +29,4 @@ elif data_conn == 'aws ec2':
     pickle_input = False
     to_excel = True
     id_label = 'CDCNo'
+    parallel = True

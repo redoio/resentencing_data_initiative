@@ -51,7 +51,8 @@ errors, adult_el_cdcr_nums = eligibility.gen_eligibility(demographics = demograp
                                                          id_label = config.id_label, 
                                                          comp_int = rules.comp_int,
                                                          write_path = config.write_data_path,
-                                                         to_excel = config.to_excel)
+                                                         to_excel = config.to_excel, 
+                                                         parallel = config.parallel)
 
 print('\n######################################################################')
 print('################################ COMPLETE ##############################')
