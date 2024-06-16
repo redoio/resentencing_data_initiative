@@ -24,37 +24,36 @@
 
 # Introduction
 
-A data science application for the Three Strikes Project at the Stanford University School of Law that proactively and automatically identifies non-violent offendors in California's prison system who are eligible for Prosecutor Initiated Resentencing (PIR). 
+A data science application for the Three Strikes Project at the Stanford University School of Law that proactively and automatically identifies nonviolent offenders in California's prison system who are eligible for Prosecutor Initiated Resentencing (PIR). 
 
 # Background
 
-The Three Strikes Project is legal clinical seminar where law students represent individuals serving life sentences for nonviolent crimes under California’s Three Strikes Law. Lawyers assist district attorney’s offices throughout the state who are seeking opportunities to safely and effectively reduce California’s prison population through Prosecutor Initiated Resentencing (PIR).
+The Three Strikes Project is legal clinical seminar where law students represent individuals serving life sentences for non-violent crimes under California’s Three Strikes Law. Lawyers assist district attorney’s offices throughout the state who are seeking opportunities to safely and effectively reduce California’s prison population through Prosecutor Initiated Resentencing (PIR).
 
-But, given that there are over 100,000 people in California's prisons, lawyers need efficient and accurate ways to identify those who are eligible for PIR instead of manually reviewing piles of paperwork. Redo.io is solving this problem with an open-source eligibility tool for lawyers to filter their caseload and apply their expertise efficiently. We are currently under a contract with the Stanford School of Law to develop this application.
+But, given that there are over 100,000 people in California's prisons, lawyers need efficient and accurate ways to identify those who are eligible for PIR instead of manually reviewing piles of paperwork. Redo.io's open-source eligibility tool helps lawyers filter their caseload and apply their expertise efficiently. We are currently under a contract with the Stanford School of Law to develop this application.
 
 # Our tool 
 
 ## Summary 
 
-We are designing a rules-based and deterministic eligibility model that embodies principles of fairness, accountability and transparency to generate cohorts of eligible individuals based on criteria established by district attorney's offices.
+A rules-based and deterministic model that generates cohorts of individuals eligible for PIR based on criteria established by district attorney's offices.
 
 What it is:
-- A deterministic model with a rules-based framework designed by Redo.io with legal experts
+- A deterministic model with a rules-based framework designed by Redo.io in conjunction with legal experts
 - Easily interpretable and explainable for non-technical users and audience
 - Responsive to user requests, i.e. an attorney can request changes to the eligibility criteria and see updated results
 
 What it is not:
-- A blackbox prediction model
+- A blackbox predictive model
 - A decision-maker that determines the cases that are ultimately resentenced by the courts
 
 ## Execution
 
-Run the model for the prison population:
-- Leverage an AWS EC2 instance on Stanford University's secure servers
 - Ingest the demographics, current offenses and prior offenses of individuals in California Department of Corrections and Rehabilitation (CDCR) custody
-- Execute the eligibility model and generate a cohort of selected individuals
-- Provide attorneys easy-to-understand profiles of eligible individuals
-- Re-run when new data on the prison population is available from the district attorney's office
+- Run the eligibility model (with selection criteria and scenarios designed by legal experts)
+- Return a cohort of individuals eligible for PIR
+- Provide attorneys easy-to-understand personal profiles of each candidate
+- Re-run the eligibility model when new data on the prison population is available
 
 ## Example 
 
@@ -64,7 +63,7 @@ An example of the solution pipeline implemented for the Los Angeles County Distr
 
 # Data 
 
-The raw data for the model comes from the Three Strikes Project and the participating District Attorney's (DA) offices. We primarily utilize the following information on the prison population from these datasets. However, the exact datasets are determined based on the eligibility criteria established by the DAs and public defenders.  
+Raw data is sourced from the Three Strikes Project and the participating district attorney's offices. We primarily utilize the following information on the prison population for eligibility determination.
 
 ## (a). Current commitments<br>
 Information on the offenses an individual is currently serving time for.
@@ -76,7 +75,7 @@ Information on the offenses an individual is currently serving time for.
 `Offense`: Penal code number<br>
 `Offense Category`: Nature of offense<br>
 `Offense Begin Date`: Date when offense was committed<br>
-`Enhancements`: Additional charges added to individual's record<br>
+`Enhancements`: Additional charges added to an individual's record<br>
 ### Note<br>
 Each row will include the details on ONE offense committed by the individual, i.e. if an individual has committed 6 offenses under 2 separate case numbers, there will be 6 rows in total associated with their CDCR identification number.
 ### Further details<br>
