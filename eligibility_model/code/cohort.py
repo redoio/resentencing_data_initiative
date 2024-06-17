@@ -98,9 +98,6 @@ def gen_eligible_cohort(demographics,
                                                  merge = True, 
                                                  use_t_cols = ['birthday', 'aggregate sentence in months', 'offense end date'])    
     
-    # Initialize list of CDCR numbers to be evaluated
-    el_cdcr_nums = demographics[id_label].unique().tolist()
-    
     print('\nCleaning offenses in enhancements of the current commits')
     # Clean offense data and enhancements data in current commits   
     utils.clean_blk(data = current_commits, 
@@ -132,7 +129,7 @@ def gen_eligible_cohort(demographics,
         results = [pool.apply_async(eligibility.apply_conditions, args = (ds, sorting_criteria, current_commits, prior_commits, eligibility_conditions, comp_int, id_label)) for ds in demographics_split]
         pool.close()
         pool.join()
-        el_cdcr_nums = [res.get() for res in results]
+        el_cdcr_nums = list(itertools.chain(*[res.get() for res in results]))
     
     # Without parallelization
     else: 
