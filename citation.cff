@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this dataset or code, please cite it as below."
+authors:
+  - name: "Redo.io"
+title: "resentencing-data-initiative"
+version: 1.0.0
+type: software 
+url: "https://github.com/redoio/resentencing_data_initiative/"
+keywords:
+  - california
+  - criminal justice reform
