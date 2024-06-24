@@ -115,5 +115,5 @@ Three Strikes Law and Prosecutor Initiated Resentencing (PIR):
 
 # Opportunities
 
-Currently looking for interns and developers to join our team. Here is a short summary of available projects: https://github.com/redoio/three_strikes_project/blob/main/opportunities.md. Reach out to Aparna Komarla (aparna.komarla@gmail.com) if you are interested!
+Currently looking for interns and developers to join our team. Here is a short summary of available projects: https://github.com/redoio/resentencing_data_initiative/blob/main/opportunities.md. Reach out to Aparna Komarla (aparna.komarla@gmail.com) if you are interested!
  
