@@ -3,6 +3,8 @@
 # Table of Contents
 
 - [Introduction](#introduction)
+- [Citation](#citation)
+- [License](#license)
 - [Background](#background)
 - [Our tool](#our-tool)
   * [Summary](#summary)
@@ -20,11 +22,32 @@
   * [(c). Demographics<br>](#-c--demographics-br-)
     + [Variables<br>](#variables-br--2)
 - [More information](#more-information)
+- [Contact](#contact)
 - [Opportunities](#opportunities)
 
 # Introduction
 
 A data science application for the Three Strikes Project at the Stanford University School of Law that proactively and automatically identifies nonviolent offenders in California's prison system who are eligible for Prosecutor Initiated Resentencing (PIR). 
+
+# Citation 
+
+If you make use of our dataset(s) or code, please cite our work as follows: 
+
+APA style:<br>
+"Redo.io. resentencing-data-initiative (Version 1.0.0) [Computer software]. https://github.com/redoio/resentencing_data_initiative/"
+
+BibTex:<br>
+@software{Redo_io_resentencing-data-initiative,
+author = {{Redo.io}},
+title = {{resentencing-data-initiative}},
+url = {https://github.com/redoio/resentencing_data_initiative/},
+version = {1.0.0}}
+
+# License 
+All content in this repository is licensed under GNU AGPLv3
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+
+You must give appropriate credit to our work. You may not use our work for commercial purposes, which means anything primarily intended for or directed toward commercial advantage or monetary compensation.
 
 # Background
 
@@ -112,6 +135,10 @@ Personal information on the individual. Note that we do not utilize any demograp
 Three Strikes Law and Prosecutor Initiated Resentencing (PIR):
 - https://law.stanford.edu/three-strikes-project/three-strikes-basics/ 
 - https://capitalbnews.org/prosecutor-resentencing-law/
+
+# Contact
+
+Contact aparna.komarla@gmail.com for any questions
 
 # Opportunities
 
