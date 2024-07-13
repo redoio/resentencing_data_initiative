@@ -245,19 +245,28 @@ def gen_time_vars(df,
         return df[use_t_cols+calc_t_cols], utils.incorrect_time(df = df, cols = calc_t_cols)
         
     
-def compare_output(read_path, comp_val, label, merge = True, clean_col_names = True, pop_label = None, to_excel = True, write_path = None):
+def compare_output(read_path, comp_col, label_col, df_objs = None, merge = False, result = 'disagree', direction = 'single', clean_col_names = True, pop_label = None, to_excel = True, write_path = None):
     """
 
     Parameters
     ----------
     read_path : list of strs
         Paths with input dataframes to compare. Dataframe in the 0th position is evaluated against the remaining dataframes 
-    comp_val : str
-        Column name or variable to be compared
-    label : list of strs
-        Labels or tags to associate with each input. Should correspond 1:1 with the dataframes passed in read_path
+    df_objs : list of pandas dataframes
+        Input dataframes to compare. If result = 'base differences', df_objs[0] is evaluated for differences against the remaining dataframes 
+    comp_col : str
+        Single column name or variable to be compared
+    label_col : list of strs
+        Labels or tags associated with each input dataframe. Should correspond 1:1 with the dataframes passed
     merge : boolean, optional
-        Specify whether to return the differences only or with the input dataframe in 0th position. The default is True.
+        Specify whether to return only the differences or the differences outer-joined with the base dataframe. 
+        Default is True. 
+    result : str, optional 
+        Specify to return only the differences, i.e. when at least one label is False or all entries evaluated for differences. 
+        Takes 'disagree' or 'all'. Default is 'disagree'.
+    direction : str, optional
+        Specify whether to evaluate differences against the base dataframe defined as df_objs[0]: 'single', or ONLY or find differences between all dataframes: 'multi'
+        Default is 'single'.
     clean_col_names : boolean, optional
         Specify whether to clean the column name strings before any operations. The default is True.
     pop_label : str
@@ -270,33 +279,27 @@ def compare_output(read_path, comp_val, label, merge = True, clean_col_names = T
     Returns
     -------
     diff : pandas dataframe
-        Dataframe with differences in the input
+        Dataframe with differences boolean values for the differences
 
     """
-    print('Comparing data in ', read_path[0], ' with data in : {}'.format(read_path[1:]), '\n')
+    if read_path:
+        print('Comparing data in ', read_path[0], ' with data in : {}'.format(read_path[1:]), '\n')
+        df_objs = []
+        
+        # Loop through input file paths to extract data
+        for r in read_path:
+            # Extract dataframe 
+            df = pd.read_excel(r)
+            # Clean all the column names
+            if clean_col_names:
+                df.columns = [utils.clean(col, remove = ['\n']) for col in df.columns]
+                comp_col = utils.clean(comp_col)
+            # Store dataframes in a list
+            df_objs.append(df)
     
-    # Initialize list of dataframes to compare
-    df_objs = []
-    
-    # Loop through input file paths to extract data
-    for r in read_path:
-        # Extract dataframe 
-        df = pd.read_excel(r)
-        # Clean all the column names
-        if clean_col_names:
-            df.columns = [utils.clean(col, remove = ['\n']) for col in df.columns]
-            comp_val = utils.clean(comp_val)
-        # Store dataframes in a list
-        df_objs.append(df)
-    
-    # Get the missing values in comp_val
-    diff = utils.df_diff(df_objs = df_objs, comp_val = comp_val, label = label)
-    
-    # Return the input dataframe or just the differences
-    if merge:
-        base_diff = df_objs[0][df_objs[0][comp_val].isin(diff[comp_val])]
-    else: 
-        base_diff = None
+    # Get the missing values
+    df_diff = utils.df_diff(df_objs = df_objs, comp_col = comp_col, label_col = label_col,
+                            merge = merge, direction = direction)
     
     # Generate write paths if excel output is requested
     if to_excel:
@@ -309,9 +312,10 @@ def compare_output(read_path, comp_val, label, merge = True, clean_col_names = T
             
     # Write demographics data to excel file
     with pd.ExcelWriter(write_path+'/'+pop_label+'_differences.xlsx') as writer:
-        diff.to_excel(writer, sheet_name = 'Differences', index = False)
-        pd.DataFrame(read_path, columns = ['comparison']).to_excel(writer, sheet_name = 'Input', index = True)
+        df_diff.to_excel(writer, sheet_name = 'Differences', index = False)
+        if read_path:
+            pd.DataFrame(read_path, columns = ['comparison']).to_excel(writer, sheet_name = 'Input', index = True)
         print('Data differences written to: ', write_path+'/'+pop_label+'_differences.xlsx\n')
    
-    return diff, base_diff
+    return df_diff
     

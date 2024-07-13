@@ -78,7 +78,7 @@ def clean(data, remove = ['pc', 'rape', '\n', ' ']):
     Parameters
     ----------
     data : str
-        A single string. Example: An offense value 'PC123 (a).(1).'
+        A single string. Example: An offense value 'PC123 (A).(1).'
     
     remove : list, optional
         List of values to be removed from the input string. Default is ['pc', 'rape', '\n', ' ']
@@ -86,8 +86,8 @@ def clean(data, remove = ['pc', 'rape', '\n', ' ']):
     Returns
     -------
     data : str
-        Lower-case string without trailing periods, and contents specified in remove
-        For example, the input string 'PC123 (a).(1).' will return '123(a).(1)'
+        Lower-case string without trailing periods and the contents specified in remove parameter
+        For example, the input string 'PC123 (A).(1).' will return 'pc123(a).(1)'
 
     """
     # Lowercase all letters
@@ -96,7 +96,8 @@ def clean(data, remove = ['pc', 'rape', '\n', ' ']):
     data = data.rstrip('.')
     # Remove info specified 
     for r in remove: 
-        data = data.replace(r, '')
+        if r in data:
+            data = data.replace(r, '')
     
     return data
 
@@ -225,46 +226,86 @@ def get_todays_date(order = ['year', 'month', 'day'],
     return sep.join(td)
 
 
-def df_diff(df_objs, comp_val, label):
+def df_diff(df_objs, comp_col, label_col, merge = True, direction = 'single', result = 'disagree'):
     """
 
     Parameters
     ----------
     df_objs : list of pandas dataframes
-        Input dataframes to compare. Dataframe in the 0th position is evaluated for differences against the remaining dataframes 
-    comp_val : str
-        Column name or variable to be compared
-    label : list of strs
-        Labels or tags to associate with each input dataframe. Should correspond 1:1 with the dataframes passed in input dataframes
-
+        Input dataframes to compare. If result = 'base differences', df_objs[0] is evaluated for differences against the remaining dataframes 
+    comp_col : str
+        Single column name or variable to be compared
+    label_col : list of strs
+        Labels or tags associated with each input dataframe. Should correspond 1:1 with the dataframes passed
+    merge : boolean, optional
+        Specify whether to return only the differences or the differences outer-joined with the base dataframe. 
+        Default is True. 
+    result : str, optional 
+        Specify to return only the differences, i.e. when at least one label is False or all entries evaluated for differences. 
+        Takes 'disagree' or 'all'. Default is 'disagree'
+    direction : str, optional
+        Specify whether to evaluate differences against the base dataframe defined as df_objs[0]: 'single', or ONLY or find differences between all dataframes: 'multi'
+        Default is 'single'.
+    
     Returns
     -------
-    diff : pandas dataframe
+    df_diff : pandas dataframe
         Differences in comp_val between the dataframes passed in read_path
 
     """
-    # Base dataframe to be evaluated
-    df_eval = df_objs[0]
+    # Initialize dataframe to capture differences
+    df_diff = pd.DataFrame()
     
-    # Initialize list to capture values that are different
-    diff = []
+    # Set up the dataframe with values to compare
+    # Compare all dfs against each other
+    if direction == 'multi':
+        merge_df = pd.DataFrame(columns = [comp_col])
+        for df in df_objs: 
+            merge_df = pd.concat([merge_df, df[[comp_col]]])
+        df_diff[comp_col] = merge_df[comp_col].unique()
+    # Compare only one df against the others
+    elif direction == 'single':
+        df_diff[comp_col] = df_objs[0][comp_col].unique() 
+    else:
+        print("Direction for evaluation is not understood. Please pass either 'single' or 'multi'")
+        return
     
-    # Start iteration from 1 since base dataframe is in the 0 position
-    for r in range(1, len(df_objs)):
-        # Get each dataframe to compare the base dataframe against
-        df_comp = df_objs[r]
-        # Values in base dataframe that are not in other dataframes
-        for v in df_eval[comp_val].unique():
-            if v not in df_comp[comp_val].unique():
-                diff.append([v, label[r], label[0]])
-        # Values in other dataframes that are not in base dataframe
-        for v in df_comp[comp_val].unique():
-            if v not in df_eval[comp_val].unique():
-                diff.append([v, label[0], label[r]])
+    # Prepare the dataframe to capture differences 
+    df_diff.drop_duplicates(inplace = True)
+    df_diff.reset_index(drop = True, inplace = True)
     
-    return pd.DataFrame(diff, columns = [comp_val, 'absent_in', 'present_in'])
-
-
+    # Find common values
+    for i in range(0, len(df_objs)):
+        comp_vec = df_objs[i][comp_col].unique()
+        check = []
+        for v in df_diff[comp_col]:
+            if v in comp_vec:
+                check.append(True)
+            elif v not in comp_vec:
+                check.append(False)
+            else:
+                check.append(np.nan)
+        df_diff[label_col[i]] = check
+    
+    # Return entires with at least one disagreement (True and False) or everything 
+    if result == 'all':
+        pass
+    elif result == 'disagree':
+        sel = []
+        for index, row in df_diff.iterrows(): 
+            if not all(row[label_col]):
+                sel.append(index)
+        df_diff = df_diff.iloc[sel]
+    else: 
+        print("Result type is not understood. Please pass either 'disagree' or 'all'")
+    
+    # Return the base dataframe and differences or just the differences
+    if merge:
+        return pd.merge(df_objs[0], df_diff, on = comp_col, how = 'outer')
+    else:
+        return df_diff
+    
+    
 def format_date(vec, how = '%m/%d/%Y'):
     """
 

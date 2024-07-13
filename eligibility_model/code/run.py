@@ -54,7 +54,7 @@ if __name__ == "__main__":
                                                             comp_int = rules.comp_int,
                                                             write_path = config.write_data_path,
                                                             to_excel = config.to_excel, 
-                                                            parallel = True)
+                                                            parallel = config.parallel)
     
     print('\n######################################################################')
     print('################################ COMPLETE ##############################')
@@ -77,7 +77,8 @@ if __name__ == "__main__":
                                                                id_label = config.id_label, 
                                                                comp_int = rules.comp_int,
                                                                write_path = config.write_data_path,
-                                                               to_excel = config.to_excel)
+                                                               to_excel = config.to_excel,
+                                                               parallel = config.parallel)
     
     print('\n######################################################################')
     print('################################ COMPLETE ##############################')
@@ -100,7 +101,8 @@ if __name__ == "__main__":
                                                           id_label = config.id_label, 
                                                           comp_int = rules.comp_int,
                                                           write_path = config.write_data_path,
-                                                          to_excel = config.to_excel)
+                                                          to_excel = config.to_excel,
+                                                          parallel = config.parallel)
     
     print('\n######################################################################')
     print('################################ COMPLETE ##############################')
@@ -192,12 +194,13 @@ if __name__ == "__main__":
     print('########################################################################')
     
     # Compare outputs between months
-    adult_diff,_ = helpers.compare_output(read_path = config.comp_path['adult'], 
-                                          comp_val = config.id_label, 
-                                          label = config.comp_info,  
-                                          pop_label = 'adult_eligible',
-                                          merge = False,
-                                          to_excel = config.to_excel)
+    adult_diff = helpers.compare_output(read_path = config.comp_path['adult'], 
+                                         comp_col = config.id_label, 
+                                         label_col = config.comp_info,  
+                                         pop_label = 'adult_eligible',
+                                         direction = 'multi',
+                                         result = 'disagree',
+                                         to_excel = config.to_excel)
     
     print('\n######################################################################')
     print('################################ COMPLETE ##############################')
@@ -208,28 +211,32 @@ if __name__ == "__main__":
     print('########################################################################')
     
     # Compare outputs between months
-    juvenile_diff,_ = helpers.compare_output(read_path = config.comp_path['juvenile'], 
-                                             comp_val = config.id_label, 
-                                             label = config.comp_info,  
-                                             pop_label = 'juvenile_eligible',
-                                             merge = False,
-                                             to_excel = config.to_excel)
-    
-    print('\n######################################################################')
-    print('################################ COMPLETE ##############################')
-    print('########################################################################')
-    
-    print('\n######################################################################')
-    print('################################## START ###############################')
-    print('########################################################################')
-    
-    # Compare outputs between months
-    robbery_diff,_ = helpers.compare_output(read_path = config.comp_path['robbery'], 
-                                            comp_val = config.id_label, 
-                                            label = config.comp_info,  
-                                            pop_label = 'robbery_eligible',
-                                            merge = False,
+    juvenile_diff = helpers.compare_output(read_path = config.comp_path['juvenile'], 
+                                            comp_col = config.id_label, 
+                                            label_col = config.comp_info,  
+                                            pop_label = 'juvenile_eligible',
+                                            merge = True,
+                                            direction = 'multi',
+                                            result = 'disagree',
                                             to_excel = config.to_excel)
+
+    print('\n######################################################################')
+    print('################################ COMPLETE ##############################')
+    print('########################################################################')
+    
+    print('\n######################################################################')
+    print('################################## START ###############################')
+    print('########################################################################')
+    
+    # Compare outputs between months
+    robbery_diff = helpers.compare_output(read_path = config.comp_path['robbery'], 
+                                          comp_col = config.id_label, 
+                                          label_col = config.comp_info,  
+                                          pop_label = 'robbery_eligible',
+                                          merge = True,
+                                          direction = 'multi',
+                                          result = 'disagree',
+                                          to_excel = config.to_excel)
     
     print('\n######################################################################')
     print('################################ COMPLETE ##############################')
