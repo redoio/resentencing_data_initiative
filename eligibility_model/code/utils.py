@@ -238,7 +238,7 @@ def df_diff(df_objs, comp_col, label_col, merge = True, direction = 'single', re
     label_col : list of strs
         Labels or tags associated with each input dataframe. Should correspond 1:1 with the dataframes passed
     merge : boolean, optional
-        Specify whether to return only the differences or the differences outer-joined with the base dataframe. 
+        Specify whether to return only the differences or the differences inner-joined with the base dataframe. 
         Default is True. 
     result : str, optional 
         Specify to return only the differences, i.e. when at least one label is False or all entries evaluated for differences. 

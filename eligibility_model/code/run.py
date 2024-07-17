@@ -125,7 +125,7 @@ if __name__ == "__main__":
                                               read_path = config.read_data_path,
                                               county_name = config.county_name, 
                                               month = config.month,
-                                              pop_label = adult.el_cond['population'],
+                                              pop_label = 'adult_eligible',
                                               sel_conditions = utils.filter_dict(adult.el_cond, 'r_'),
                                               id_label = config.id_label, 
                                               write_path = config.write_data_path,
@@ -154,7 +154,7 @@ if __name__ == "__main__":
                                                  month = config.month,
                                                  sel_conditions = utils.filter_dict(juvenile.el_cond, 'r_'),
                                                  id_label = config.id_label, 
-                                                 pop_label = juvenile.el_cond['population'], 
+                                                 pop_label = 'juvenile_eligible', 
                                                  write_path = config.write_data_path,
                                                  to_excel = config.to_excel)
     
@@ -181,7 +181,7 @@ if __name__ == "__main__":
                                             month = config.month,
                                             sel_conditions = utils.filter_dict(robbery.el_cond, 'r_'),
                                             id_label = config.id_label,
-                                            pop_label = robbery.el_cond['offense type'], 
+                                            pop_label = 'robbery_eligible', 
                                             write_path = config.write_data_path,
                                             to_excel = config.to_excel)
     

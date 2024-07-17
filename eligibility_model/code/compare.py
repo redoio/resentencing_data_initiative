@@ -10,8 +10,8 @@ import pandas as pd
 df_2105_el_p1 = pd.read_excel(r'D:\Users\3xProject\Documents\Redo.io\Stanford Law 3XP\data\county\los_angeles\ALL LA INMATE DATA SETS-20240120T003310Z-001\ALL LA INMATE DATA SETS\21_05\LA_DA_Cohort1_Update_05_2021.xlsx', sheet_name = 'Sheet1')
 df_2105_el_p2 = pd.read_excel(r'D:\Users\3xProject\Documents\Redo.io\Stanford Law 3XP\data\county\los_angeles\ALL LA INMATE DATA SETS-20240120T003310Z-001\ALL LA INMATE DATA SETS\21_05\LA_DA_Cohort1_Update_05_2021.xlsx', sheet_name = 'Sheet2')
 # 2024 eligible and demographics data
-df_2403_el_adult = pd.read_excel(r'D:\Users\3xProject\Documents\Redo.io\Stanford Law 3XP\data\county\los_angeles\ALL LA INMATE DATA SETS-20240120T003310Z-001\ALL LA INMATE DATA SETS\24_03\output\date of execution\2024_7_11\adult_eligible_demographics.xlsx')
-df_2403_el_juv = pd.read_excel(r'D:\Users\3xProject\Documents\Redo.io\Stanford Law 3XP\data\county\los_angeles\ALL LA INMATE DATA SETS-20240120T003310Z-001\ALL LA INMATE DATA SETS\24_03\output\date of execution\2024_7_11\juvenile_eligible_demographics.xlsx')
+df_2403_el_adult = pd.read_excel(r'D:\Users\3xProject\Documents\Redo.io\Stanford Law 3XP\data\county\los_angeles\ALL LA INMATE DATA SETS-20240120T003310Z-001\ALL LA INMATE DATA SETS\24_03\output\date of execution\2024_7_16\adult_eligible_demographics.xlsx')
+df_2403_el_juv = pd.read_excel(r'D:\Users\3xProject\Documents\Redo.io\Stanford Law 3XP\data\county\los_angeles\ALL LA INMATE DATA SETS-20240120T003310Z-001\ALL LA INMATE DATA SETS\24_03\output\date of execution\2024_7_16\juvenile_eligible_demographics.xlsx')
 df_2403_dem = pd.read_excel(r'D:\Users\3xProject\Documents\Redo.io\Stanford Law 3XP\data\county\los_angeles\ALL LA INMATE DATA SETS-20240120T003310Z-001\ALL LA INMATE DATA SETS\24_03\Demographics.xlsx')
 # 2023 eligible and demographics data
 df_2312_el_adult = pd.read_excel(r'D:\Users\3xProject\Documents\Redo.io\Stanford Law 3XP\data\county\los_angeles\ALL LA INMATE DATA SETS-20240120T003310Z-001\ALL LA INMATE DATA SETS\23_12\output\date of execution\2024_4_30\adult_eligible_demographics.xlsx')
