@@ -2,15 +2,71 @@
 import pandas as pd
 import numpy as np
 import datetime
+from dateutil.relativedelta import relativedelta
 from tqdm import tqdm
 import copy
 import os
 import utils
 
+def verify_naming_convention(main_path, 
+                             file_convention,
+                             ext = '.xlsx',
+                             county_name = None, 
+                             month = None):
+    """
+
+    Parameters
+    ----------
+    main_path : str
+        Folder path of the file to extract data from (all parent folders without file name)
+    county_name : str
+        Name of the county folder to extract data from, ex: 'Los Angeles County'
+    file_convention : str
+        Name of the .txt file from which the naming conventions should be extracted. Must be formatted as a numerical list with file names enclosed in single quotes, ex: "1. 'commitments.xlsx'"
+        File extension of .txt should be included
+    ext : str
+        File extension of the file names to be checked, ex: '.xlsx', '.csv' etc. 
+        Default is '.xlsx'
+    month : str, optional
+        Year and month for which data should be extracted, ex: '2023_06'. Default is None
+    
+    Returns 
+    -------
+    target_file_name : list of strs
+        List of the targeted file names (read from the naming conventions file)
+    true_file_name : list of strs
+        List of the true file names (files existing in the directory)
+    error : int
+        Number of file names in the true_file_name list that are not present in the target_file_name list
+        
+    """
+    # Get the target file names from the text file
+    read_path = '/'.join(l for l in [main_path, county_name, file_convention] if l)
+    f = open(read_path, "r")
+    target_file_name = []
+    for n in f.read().split("'"):
+        if ext in n:
+            target_file_name.append(n)
+    
+    # Get the true file names from the directory with the Excel data
+    read_path = '/'.join(l for l in [main_path, county_name, month] if l)
+    true_file_name = []
+    error = 0
+    for n in os.listdir(read_path):
+        if ext in n:
+            if n in target_file_name:
+                pass
+            else:
+                print(f'{n} file name is missing or incorrect based on the target naming convention')
+                error += 1
+            true_file_name.append(n)
+        
+    return target_file_name, true_file_name, error
+        
 
 def extract_data(main_path, 
                  county_name, 
-                 file_name, 
+                 file_name = None, 
                  month = None, 
                  write_path = None, 
                  pickle = False): 
@@ -19,14 +75,14 @@ def extract_data(main_path,
     Parameters
     ----------
     main_path : str
-        Full path of the file to extract data from (all parent folders)
+        Folder path of the file to extract data from (all parent folders without file name)
     county_name : str
         Name of the county folder to extract data from, ex: 'Los Angeles County'
     file_name : str
         Name of the .xlsx or .csv file to extract, ex: 'sorting_criteria.xlsx'
-        File extension should be included 
+        File extension should be included. Default is None
     month : str, optional
-        Year and month for which data should be extracted, ex: '2023_06'
+        Year and month for which data should be extracted, ex: '2023_06'. Default is None
     write_path : str, optional 
         Specify the full path where the pickle outputs should be written (folder level)
         If pickle = True but write_path = None, data outputs are written to the county_name + month folder by default. To avoid this behavior, pass a value to write_path
@@ -75,6 +131,7 @@ def extract_data(main_path,
 
 def gen_time_vars(df, 
                   id_label, 
+                  use_t_cols, 
                   merge = True,
                   clean_col_names = True):
     """
@@ -91,7 +148,9 @@ def gen_time_vars(df,
     clean_col_names : boolean, optional
         Specify whether to clean column names. Applies the utils.clean() function on the column headers
         Default is True
-
+    use_t_cols : list of strs
+        List of columns in input dataframe needed for time variable calculation
+        
     Returns
     -------
     df : pandas dataframe
@@ -105,150 +164,109 @@ def gen_time_vars(df,
         df.columns = [utils.clean(col, remove = ['\n']) for col in df.columns]
         id_label = utils.clean(id_label)
     else:
-        print('Since column names are not cleaned, several required variables for summary generation cannot be found')
-        
+        print('Since column names are not cleaned, several required variables for time calculations cannot be found')
+        return 
+    
+    # Add id to the columns needed for calculation 
+    use_t_cols.append(id_label)
     # Check if all columns needed for calcualtion are present in the dataframe
-    if all(col in df.columns for col in [id_label, 'birthday', 'aggregate sentence in months', 'offense end date']):
-        print('Variables needed for calculation are present in demographics dataframe')
+    if all(col in df.columns for col in use_t_cols):
+        print('Variables needed for time calculation are present in demographics dataframe')
         pass
     else:
-        print('Variables needed for calculation are missing in demographics dataframe. Calculation will continue for available variables')
+        print('Variables needed for time calculation are missing in demographics dataframe. Calculation will continue for available variables')
         pass   
     
     # Get the present date
     present_date = datetime.datetime.now()
+    
     # Sentence duration in years
-    try: 
-        df['aggregate sentence in years'] = df['aggregate sentence in months']/12
-    except:
-        df['aggregate sentence in years'] = None
+    asy = []
+    for i in range(0, len(df)):
+        try:
+            asy.append(round(df['aggregate sentence in months'][i]/12, 1))
+        except:
+            asy.append(None)
+    df['aggregate sentence in years'] = asy
+    print(" Calculation complete for: 'aggregate sentence in years'")
+    
     # Age of individual
-    try:
-        df['age in years'] = [x.days/365 for x in present_date - pd.to_datetime(df['birthday'], errors = 'coerce')]
-    except:
-        df['age in years'] = None
+    ay = []
+    for i in range(0, len(df)):
+        try:
+            x = (present_date - pd.to_datetime(df['birthday'][i])).days/365
+            ay.append(round(x,1))
+        except:
+            ay.append(None)
+    df['age in years'] = ay
+    print(" Calculation complete for: 'age in years'")
+    
     # Sentence served in years
-    try:
-        df['time served in years'] = [x.days/365 for x in present_date - pd.to_datetime(df['offense end date'], errors = 'coerce')]
-    except:
-        df['time served in years'] = None
+    tsy = []
+    for i in range(0, len(df)):
+        try:
+            x = (present_date - pd.to_datetime(df['offense end date'][i])).days/365
+            tsy.append(round(x,1))
+        except:
+            tsy.append(None)
+    df['time served in years'] = tsy
+    print(" Calculation complete for: 'time served in years'")
+    
     # Age at the time of offense
-    try:
-        df['age during offense'] = [x.days/365 for x in pd.to_datetime(df['offense end date'], errors = 'coerce') - pd.to_datetime(df['birthday'], errors = 'coerce')]
-    except:
-        df['age during offense'] = None
+    ao = []
+    for i in range(0, len(df)):
+        try:
+            x = (pd.to_datetime(df['offense end date'][i]) - pd.to_datetime(df['birthday'][i])).days/365
+            ao.append(round(x,1))
+        except:
+            ao.append(None)
+    df['age during offense'] = ao
+    print(" Calculation complete for: 'age during offense'")
+    
+    # Expected release date
+    est = []
+    for i in range(0, len(df)):
+        try:
+            est.append(pd.to_datetime(df['offense end date'][i]) + relativedelta(months = df['aggregate sentence in months'][i]))
+        except:
+            est.append(None)
+    df['expected release date'] = est
+    print(" Calculation complete for: 'expected release date'")
         
     # Store all the time columns calculated above
-    calc_t_cols = ['aggregate sentence in years', 'age in years', 'time served in years', 'age during offense']
-  
-    # Return the resulting dataframe with the calculated time columns and the data with NaN/NaTs in these columns
+    calc_t_cols = ['aggregate sentence in years', 'age in years', 'time served in years', 'age during offense', 'expected release date']
     
-    # If time variables are to be added to the input dataframe
+    # Return the resulting dataframe with the calculated time columns and the data with NaN/NaTs in these columns
+    # If time variables are to be added to the entire input dataframe
     if merge: 
         return df, utils.incorrect_time(df = df, cols = calc_t_cols)
     # If time variables are to be stored in a separate dataframe
     else:
-        return df[[id_label, 'birthday', 'aggregate sentence in months', 'offense end date']+calc_t_cols], utils.incorrect_time(df = df, cols = calc_t_cols)
+        return df[use_t_cols+calc_t_cols], utils.incorrect_time(df = df, cols = calc_t_cols)
         
-
-def gen_summary(cdcr_nums, 
-                id_label, 
-                current_commits, 
-                prior_commits, 
-                merit_credit, 
-                milestone_credit,
-                rehab_credit, 
-                voced_credit, 
-                rv_report, 
-                clean_col_names = True):
-    """
-
-    Parameters
-    ----------
-    cdcr_nums : list
-        List of CDCR numbers to generate summaries for
-    id_label : str
-        Name of the column with the CDCR IDs
-    current_commits : pandas dataframe
-        Data on current offenses of the incarcerated population
-    prior_commits : pandas dataframe
-        Data on prior offenses of the incarcerated population
-    merit_credit : pandas dataframe
-        Data on education credits attained during incarceration
-    milestone_credit : pandas dataframe
-        Data on rehabilitation milestones attained during incarceration
-    rehab_credit : pandas dataframe
-        Data on credits received from institution for participating in rehabilitative programs
-    voced_credit : pandas dataframe
-        Data on credits received from institution for participating in vocational training programs
-    rv_report : pandas dataframe
-        Data on rules violations during incarceration
-    clean_col_names : boolean, optional
-        Specify whether to clean column names. Applies the utils.clean() function on the column headers
-        Default is True
-        
-    Returns
-    -------
-    df : pandas dataframe
-        Data on convictions, rules violations, programming for each CDCR number passed in the input list
-
-    """
-    # Clean the column names in all input dataframes
-    if clean_col_names:
-        for df in [current_commits, prior_commits, merit_credit, milestone_credit, rehab_credit, voced_credit, rv_report]:
-            df.columns = [utils.clean(col, remove = ['\n']) for col in df.columns]
-        # Clean the id label
-        id_label = utils.clean(id_label)
-    else:
-        print('Input column names are not cleaned, so the required variables for summary generation cannot be found')
     
-    
-    # Initialize lists for other variables
-    current_conv = []
-    prior_conv = []
-    programming = []
-    rvr = []
-    
-    # Get summary variables for each CDCR number
-    for cn in cdcr_nums:
-      # Current convictions
-      current_conv.append(', '.join(current_commits[current_commits[id_label] == cn]['offense'].tolist()))
-      # Previous convictions
-      prior_conv.append(', '.join(prior_commits[prior_commits[id_label] == cn]['offense'].tolist()))
-      # Participation in programming
-      if (cn in merit_credit[id_label]) or (cn in milestone_credit[id_label]) or (cn in rehab_credit[id_label]) or (cn in voced_credit[id_label]):
-        programming.append('Yes')
-      else:
-        programming.append('No')
-      # Rule violation reports
-      ext = rv_report[rv_report[id_label] == cn][['rule violation date', 'division', 'rule violation']].reset_index(drop = True).to_dict('index')
-      rvr.append("\n\n".join("\n".join(k_b + ': ' + str(v_b) for k_b, v_b in v_a.items()) for k_a, v_a in ext.items()))
-    
-    # Initialize a dataframe to store the summaries of each CDCR number
-    df = pd.DataFrame()
-    # Store lists in dataframe
-    df[id_label] = cdcr_nums
-    df['current convictions'] = current_conv
-    df['prior convictions'] = prior_conv
-    df['programming'] = programming
-    df['rules violations'] = rvr
-    
-    return df
-
-
-def comp_output(read_path, comp_val, label, merge = True, clean_col_names = True, pop_label = None, to_excel = True, write_path = None):
+def compare_output(read_path, comp_col, label_col, df_objs = None, merge = False, result = 'disagree', direction = 'single', clean_col_names = True, pop_label = None, to_excel = True, write_path = None):
     """
 
     Parameters
     ----------
     read_path : list of strs
         Paths with input dataframes to compare. Dataframe in the 0th position is evaluated against the remaining dataframes 
-    comp_val : str
-        Column name or variable to be compared
-    label : list of strs
-        Labels or tags to associate with each input. Should correspond 1:1 with the dataframes passed in read_path
+    df_objs : list of pandas dataframes
+        Input dataframes to compare. If result = 'base differences', df_objs[0] is evaluated for differences against the remaining dataframes 
+    comp_col : str
+        Single column name or variable to be compared
+    label_col : list of strs
+        Labels or tags associated with each input dataframe. Should correspond 1:1 with the dataframes passed
     merge : boolean, optional
-        Specify whether to return the differences only or with the input dataframe in 0th position. The default is True.
+        Specify whether to return only the differences or the differences outer-joined with the base dataframe. 
+        Default is True. 
+    result : str, optional 
+        Specify to return only the differences, i.e. when at least one label is False or all entries evaluated for differences. 
+        Takes 'disagree' or 'all'. Default is 'disagree'.
+    direction : str, optional
+        Specify whether to evaluate differences against the base dataframe defined as df_objs[0]: 'single', or ONLY or find differences between all dataframes: 'multi'
+        Default is 'single'.
     clean_col_names : boolean, optional
         Specify whether to clean the column name strings before any operations. The default is True.
     pop_label : str
@@ -261,39 +279,31 @@ def comp_output(read_path, comp_val, label, merge = True, clean_col_names = True
     Returns
     -------
     diff : pandas dataframe
-        Dataframe with differences in the input
+        Dataframe with differences boolean values for the differences
 
     """
-    print('Comparing data in ', read_path[0], ' with data in : {}'.format(read_path[1:]))
+    if read_path:
+        print('Comparing data in ', read_path[0], ' with data in : {}'.format(read_path[1:]), '\n')
+        df_objs = []
+        
+        # Loop through input file paths to extract data
+        for r in read_path:
+            # Extract dataframe 
+            df = pd.read_excel(r)
+            # Clean all the column names
+            if clean_col_names:
+                df.columns = [utils.clean(col, remove = ['\n']) for col in df.columns]
+                comp_col = utils.clean(comp_col)
+            # Store dataframes in a list
+            df_objs.append(df)
     
-    # Initialize list of dataframes to compare
-    df_objs = []
-    
-    # Loop through input file paths to extract data
-    for r in read_path:
-        # Extract dataframe 
-        df = pd.read_excel(r)
-        # Clean all the column names
-        if clean_col_names:
-            df.columns = [utils.clean(col, remove = ['\n']) for col in df.columns]
-            comp_val = utils.clean(comp_val)
-        # Store dataframes in a list
-        df_objs.append(df)
-    
-    # Get the missing values in comp_val
-    diff = utils.df_diff(df_objs = df_objs, comp_val = comp_val, label = label)
-    
-    # Return the input dataframe or just the differences
-    if merge:
-        diff = df_objs[0][df_objs[0][comp_val].isin(diff[comp_val])]
-    else: 
-        pass
+    # Get the missing values
+    df_diff = utils.df_diff(df_objs = df_objs, comp_col = comp_col, label_col = label_col,
+                            merge = merge, direction = direction)
     
     # Generate write paths if excel output is requested
     if to_excel:
-        if write_path: 
-            pass
-        else:
+        if not write_path:
             write_path = "/".join(read_path[0].split("/")[0:-1])
     
         # If directory does not exist, then first create it
@@ -302,9 +312,10 @@ def comp_output(read_path, comp_val, label, merge = True, clean_col_names = True
             
     # Write demographics data to excel file
     with pd.ExcelWriter(write_path+'/'+pop_label+'_differences.xlsx') as writer:
-        diff.to_excel(writer, sheet_name = 'Differences', index = False)
-        pd.DataFrame(read_path, columns = ['comparison']).to_excel(writer, sheet_name = 'Input', index = True)
-        print('Data differences written to: ', write_path+'/'+pop_label+'_differences.xlsx')
+        df_diff.to_excel(writer, sheet_name = 'Differences', index = False)
+        if read_path:
+            pd.DataFrame(read_path, columns = ['comparison']).to_excel(writer, sheet_name = 'Input', index = True)
+        print('Data differences written to: ', write_path+'/'+pop_label+'_differences.xlsx\n')
    
-    return diff
+    return df_diff
     
