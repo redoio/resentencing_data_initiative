@@ -1,0 +1,18 @@
+services:
+  redo:
+    build: .
+    container_name: redo_eligibility
+    volumes:
+      - type: bind
+        source: ${CONFIG_FILE_PATH}
+        target: /app/config.json
+        read_only: true
+    networks:
+      - backend
+    environment:
+      DATA_CONN: ${DATA_CONN}
+      CONFIG_FILE_PATH: /app/config.json
+    init: true
+
+networks:
+  backend:

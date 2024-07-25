@@ -2,7 +2,7 @@
 import importlib
 import helpers
 import utils
-import config
+from config import config
 from scenarios import rules
 import extract 
 import eligibility
