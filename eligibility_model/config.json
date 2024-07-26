@@ -1,6 +1,6 @@
 
 {
-    "GOOLGE_DRIVE":{
+    "GOOGLE_DRIVE":{
         "county_name": "Los Angeles County",
         "month": ["Rough", "Data_05_2021", "21_05"],
         "read_data_path": "/content/drive/My Drive/Redo.io/Stanford Law 3XP/Data",
@@ -12,8 +12,8 @@
     },
     "AWS_EC2":{
         "county_name": "los_angeles",
-        "month": ["input"],
-        "read_data_path": ".",
+        "month": ["ALL LA INMATE DATA SETS-20240120T003310Z-001", "ALL LA INMATE DATA SETS", "24_03"],
+        "read_data_path":  "D:/Users/3xProject/Documents/Redo.io/Stanford Law 3XP/data/county",
         "naming_convention": "naming_convention/file_names.txt",
         "comp_path": {
             "adult": [
