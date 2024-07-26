@@ -1,7 +1,7 @@
 services:
   redo:
     build: .
-    container_name: redo_eligibility
+    container_name: eligibility_model
     volumes:
       - type: bind
         source: ${CONFIG_FILE_PATH}
