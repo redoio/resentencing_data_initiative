@@ -7,7 +7,7 @@ PIP_DISABLE_PIP_VERSION_CHECK=on \
 PIP_DEFAULT_TIMEOUT=120
 
 WORKDIR /app
-COPY ./requirements.txt /app/
+COPY ./eligibility_model/requirements.txt /app/
 
 RUN apt-get -y update \
 && apt-get -y upgrade \
