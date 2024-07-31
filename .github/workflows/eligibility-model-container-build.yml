@@ -1,15 +1,58 @@
-name: eligibilty model image build
-run-name: Build final run image for the eligibilty model 🚀
+name: eligibilty model container build process
+run-name: Build & push docker container for the eligibilty model 🚀
 on: [push]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_TAG: ${{ github.run_number }}
+
 jobs:
   Build-Eligibility-Model-Container:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
 
-      - name: Build docker image
-        working-directory: eligibility_model
-        run: docker build . --file Dockerfile --tag eligibility_model:$(date +%s)
+      - name: Log in to the Github container registry
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Build and push Docker image
+        id: push
+        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          # This step uses the docker/build-push-action action to build the image, based on your repository's Dockerfile. If the build succeeds, it pushes the image to GitHub Packages. It uses the context parameter to define the build's context as the set of files located in the specified path. For more information, see "Usage" in the README of the docker/build-push-action repository. It uses the tags and labels parameters to tag and label the image with the output from the "meta" step.
+
+      - name: Generate artifact attestation
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: true
+
+      # - name: Build docker image
+      #   working-directory: eligibility_model
+      #   run: docker build . --file Dockerfile --tag eligibility_model:$(date +%s)
 
       - run: echo "🍏 This job's status is ${{ job.status }}."
