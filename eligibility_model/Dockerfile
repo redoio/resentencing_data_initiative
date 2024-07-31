@@ -17,6 +17,6 @@ RUN apt-get -y update \
 && rm -rf /var/lib/apt/lists/*
 
 SHELL ["/bin/bash", "-c"] 
-COPY ./code /app/
+COPY ./eligibility_model/code /app/
 
 ENTRYPOINT [ "python", "-m", "run" ]
