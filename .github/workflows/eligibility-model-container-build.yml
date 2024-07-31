@@ -1,0 +1,15 @@
+name: eligibilty model image build
+run-name: Build final run image for the eligibilty model 🚀
+on: [push]
+jobs:
+  Build-Eligibility-Model-Container:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Build docker image
+        working-directory: eligibility_model
+        run: docker build . --file Dockerfile --tag eligibility_model:$(date +%s)
+
+      - run: echo "🍏 This job's status is ${{ job.status }}."
