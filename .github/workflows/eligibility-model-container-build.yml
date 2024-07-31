@@ -57,6 +57,9 @@ jobs:
           push-to-registry: true
 
       - name: List the container tags from ghcr.io
-        run: curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}}" https://ghcr.io/v2/USER/IMAGE/tags/list
+        run: |
+          curl --request GET \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          --url https://ghcr.io/v2/USER/IMAGE/tags/list
 
       - run: echo "🍏 This job's status is ${{ job.status }}."
