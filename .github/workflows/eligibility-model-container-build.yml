@@ -56,8 +56,7 @@ jobs:
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
 
-      # - name: Build docker image
-      #   working-directory: eligibility_model
-      #   run: docker build . --file Dockerfile --tag eligibility_model:$(date +%s)
+      - name: List the container tags from ghcr.io
+        run: curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}}" https://ghcr.io/v2/USER/IMAGE/tags/list
 
       - run: echo "🍏 This job's status is ${{ job.status }}."
