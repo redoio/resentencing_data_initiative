@@ -45,10 +45,6 @@ jobs:
         run: |
           ls ${{ github.workspace }}
 
-      - name: Show tags and labels output
-        run: |
-          echo ${{ steps.meta.outputs.tags }}
-
       - name: Build and push Docker image
         id: push
         uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
