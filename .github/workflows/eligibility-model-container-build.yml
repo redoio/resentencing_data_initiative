@@ -36,9 +36,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             # dynamically set the branch name and sha as a custom tag
-            type=raw,value=mytag-{{branch}}-{{sha}}
-            type=schedule,pattern={{date 'YYYYMMDD-hhmmss' tz='Asia/Tokyo'}}
-            type=ref,event=branch
+            type=raw,value=eligibility_model-{{branch}}-{{sha}}-pattern={{date 'YYYYMMDD-hhmmss' tz='Asia/Tokyo'}}
             
 
       - name: List files in the repository
@@ -66,11 +64,5 @@ jobs:
           subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
-
-      - name: List the container tags from ghcr.io
-        run: |
-          curl --request GET \
-          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
-          --url 'https://ghcr.io/v2/${{ env.USERNAME }}/${{ env.IMAGE_TAG }}/tags/list'
 
       - run: echo "🍏 This job's status is ${{ job.status }}."
