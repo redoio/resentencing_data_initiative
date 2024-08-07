@@ -2,7 +2,7 @@
 import importlib
 import helpers
 import utils
-from config import config
+from config import config, dev_config
 from scenarios import rules
 import extract 
 import eligibility
@@ -30,7 +30,7 @@ if __name__ == "__main__":
                                                                                                                                                               month = config.month,
                                                                                                                                                               county_name = config.county_name,
                                                                                                                                                               file_convention = config.naming_convention,
-                                                                                                                                                              pickle = config.pickle_input) 
+                                                                                                                                                              pickle = dev_config.ENV_VARS['pickle_input'])
     
     print('\n######################################################################')
     print('################################ COMPLETE ##############################')
@@ -54,7 +54,7 @@ if __name__ == "__main__":
                                                             comp_int = rules.comp_int,
                                                             write_path = config.write_data_path,
                                                             to_excel = config.to_excel, 
-                                                            parallel = config.parallel)
+                                                            parallel = dev_config.ENV_VARS['parallel'])
     
     print('\n######################################################################')
     print('################################ COMPLETE ##############################')
@@ -78,7 +78,7 @@ if __name__ == "__main__":
                                                                comp_int = rules.comp_int,
                                                                write_path = config.write_data_path,
                                                                to_excel = config.to_excel,
-                                                               parallel = config.parallel)
+                                                               parallel = dev_config.ENV_VARS['parallel'])
     
     print('\n######################################################################')
     print('################################ COMPLETE ##############################')
@@ -102,7 +102,7 @@ if __name__ == "__main__":
                                                           comp_int = rules.comp_int,
                                                           write_path = config.write_data_path,
                                                           to_excel = config.to_excel,
-                                                          parallel = config.parallel)
+                                                          parallel = dev_config.ENV_VARS['parallel'])
     
     print('\n######################################################################')
     print('################################ COMPLETE ##############################')

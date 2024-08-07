@@ -7,12 +7,19 @@ from loguru import logger
 
 load_dotenv()
 
-DATA_CONN = os.getenv('DATA_CONN')
-CONFIG_FILE_PATH = os.getenv('CONFIG_FILE_PATH')
+@dataclass
+class DevConfig:
+    ENV_VARS = {
+        "data_conn": os.getenv('DATA_CONN'),
+        "config_file_path": os.getenv('CONFIG_FILE_PATH'),
+        "pickle_input": os.getenv('PICKLE_INPUT'),
+        "parallel": os.getenv('PARALLEL')
+    }
+
 
 
 @dataclass
-class Config:
+class UserConfig:
     """
     This dataclass defines all the plausible fields required in a config, as to be
     intilaized on successful loadig of the config.
@@ -24,10 +31,8 @@ class Config:
     comp_path: Dict
     comp_info: List
     write_data_path: str
-    pickle_input: bool
     to_excel: bool
     id_label: str
-    parallel: bool
 
     def __post_init__(self):
         self.month = '/'.join(self.month)
@@ -52,13 +57,14 @@ def load_config():
     """
     try:
         loaded_config = None
-        with open(CONFIG_FILE_PATH, 'r') as config_file:
+        with open(DevConfig.ENV_VARS['config_file_path'], 'r') as config_file:
             all_config = json.load(config_file)
-            loaded_config = Config(**all_config.get(DATA_CONN))
+            loaded_config = UserConfig(**all_config.get(DevConfig.ENV_VARS['data_conn']))
         return loaded_config
     except Exception as e:
-        logger.error(f"Failed to load config from {CONFIG_FILE_PATH} - {e}")
+        logger.error(f"Failed to load config from {DevConfig.ENV_VARS['config_file_path']} - {e}")
 
 
 # This is an instance of loaded config to be imported nad consumed further
 config = load_config()
+dev_config = DevConfig()

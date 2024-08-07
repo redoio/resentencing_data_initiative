@@ -10,7 +10,7 @@
         "id_label": "CDCNo",
         "parallel": false
     },
-    "AWS_EC2":{
+    "AWS_WORKSPACE":{
         "county_name": "los_angeles",
         "month": ["ALL LA INMATE DATA SETS-20240120T003310Z-001", "ALL LA INMATE DATA SETS", "24_03"],
         "read_data_path":  "D:/Users/3xProject/Documents/Redo.io/Stanford Law 3XP/data/county",
