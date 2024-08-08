@@ -5,10 +5,8 @@
         "month": ["Rough", "Data_05_2021", "21_05"],
         "read_data_path": "/content/drive/My Drive/Redo.io/Stanford Law 3XP/Data",
         "write_data_path": null,
-        "pickle_input": false,
         "to_excel": true,
-        "id_label": "CDCNo",
-        "parallel": false
+        "id_label": "CDCNo"
     },
     "AWS_WORKSPACE":{
         "county_name": "los_angeles",
@@ -31,9 +29,7 @@
         },
         "comp_info": ["2024_03 eligible cohort", "2024_02 eligible cohort"],
         "write_data_path": null,
-        "pickle_input": false,
         "to_excel": true,
-        "id_label": "CDCNo",
-        "parallel": false
+        "id_label": "CDCNo"
     }
 }
