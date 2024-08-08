@@ -82,7 +82,7 @@ What it is not:
 
 An example of the solution pipeline implemented for the Los Angeles County District Attorney's Office: 
 
-<img src= "https://github.com/redoio/resentencing_data_initiative/assets/124313756/69bf0453-2a2d-4969-8bc4-f77aa5c5dcf3" width = "80%" height = "80%">
+<img src= "https://github.com/user-attachments/assets/71b8801d-67ad-4e49-a1b6-0591063b10fa" width = "80%" height = "80%">
 
 # Data 
 
