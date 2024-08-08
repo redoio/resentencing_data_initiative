@@ -1,6 +1,6 @@
 services:
   redo:
-    build: .
+    image: ${IMAGE_REGISTRY_PATH}
     container_name: eligibility_model
     volumes:
       - type: bind
