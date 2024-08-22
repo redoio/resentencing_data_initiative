@@ -130,6 +130,59 @@ Personal information on the individual. Note that we do not utilize any demograp
 `Offense Begin Date`: Date when offense was committed<br>
 `Aggregate Sentence in Months`: Total sentence length in months<br>
 
+# Structure 
+
+resentencing_data_initiative/
+├─ LICENSE
+├─ README.md
+├─ citation.cff
+├─ eligibility_model/
+│  ├─ code/
+│  │  ├─ cohort.py
+│  │  ├─ compare.py
+│  │  ├─ config.py
+│  │  ├─ eligibility.py
+│  │  ├─ exec.ipynb
+│  │  ├─ extract.py
+│  │  ├─ helpers.py
+│  │  ├─ impl.py
+│  │  ├─ naming_convention/
+│  │  │  └─ file_names.txt
+│  │  ├─ offense_classification/
+│  │  │  └─ county/
+│  │  │     └─ los_angeles/
+│  │  │        ├─ LA CDCR POP PIR ELIGIBILITY CRITERIA.pdf
+│  │  │        ├─ selection_criteria.xlsx
+│  │  │        └─ tables.txt
+│  │  ├─ run.py
+│  │  ├─ scenarios/
+│  │  │  ├─ county/
+│  │  │  │  └─ los_angeles/
+│  │  │  │     ├─ adult.py
+│  │  │  │     ├─ juvenile.py
+│  │  │  │     └─ robbery.py
+│  │  │  ├─ rules.py
+│  │  │  └─ utils.py
+│  │  ├─ summary.py
+│  │  ├─ utils.py
+│  │  └─ validation.py
+│  └─ sample/
+│     ├─ input.zip
+│     ├─ input/
+│     │  ├─ CoreandReentryCOMPAS.xlsx
+│     │  ├─ CurrentAssignments.xlsx
+│     │  ├─ CurrentCommitments.xlsx
+│     │  ├─ Demographics.xlsx
+│     │  ├─ EducationMeritCredits.xlsx
+│     │  ├─ MilestoneCompletionCredits.xlsx
+│     │  ├─ PriorCommitments.xlsx
+│     │  ├─ RehabilitativeAchievementCredits.xlsx
+│     │  ├─ RulesViolationReports.xlsx
+│     │  └─ VocEd_TrainingCerts.xlsx
+│     └─ summary_sheet/
+│        └─ Summary Sheet_Sample (LA).pdf
+└─ opportunities.md
+
 # More information
 
 Three Strikes Law and Prosecutor Initiated Resentencing (PIR):
