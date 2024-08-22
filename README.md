@@ -132,56 +132,56 @@ Personal information on the individual. Note that we do not utilize any demograp
 
 # Structure 
 
-resentencing_data_initiative/
-├─ LICENSE
-├─ README.md
-├─ citation.cff
-├─ eligibility_model/
-│  ├─ code/
-│  │  ├─ cohort.py
-│  │  ├─ compare.py
-│  │  ├─ config.py
-│  │  ├─ eligibility.py
-│  │  ├─ exec.ipynb
-│  │  ├─ extract.py
-│  │  ├─ helpers.py
-│  │  ├─ impl.py
-│  │  ├─ naming_convention/
-│  │  │  └─ file_names.txt
-│  │  ├─ offense_classification/
-│  │  │  └─ county/
-│  │  │     └─ los_angeles/
-│  │  │        ├─ LA CDCR POP PIR ELIGIBILITY CRITERIA.pdf
-│  │  │        ├─ selection_criteria.xlsx
-│  │  │        └─ tables.txt
-│  │  ├─ run.py
-│  │  ├─ scenarios/
-│  │  │  ├─ county/
-│  │  │  │  └─ los_angeles/
-│  │  │  │     ├─ adult.py
-│  │  │  │     ├─ juvenile.py
-│  │  │  │     └─ robbery.py
-│  │  │  ├─ rules.py
-│  │  │  └─ utils.py
-│  │  ├─ summary.py
-│  │  ├─ utils.py
-│  │  └─ validation.py
-│  └─ sample/
-│     ├─ input.zip
-│     ├─ input/
-│     │  ├─ CoreandReentryCOMPAS.xlsx
-│     │  ├─ CurrentAssignments.xlsx
-│     │  ├─ CurrentCommitments.xlsx
-│     │  ├─ Demographics.xlsx
-│     │  ├─ EducationMeritCredits.xlsx
-│     │  ├─ MilestoneCompletionCredits.xlsx
-│     │  ├─ PriorCommitments.xlsx
-│     │  ├─ RehabilitativeAchievementCredits.xlsx
-│     │  ├─ RulesViolationReports.xlsx
-│     │  └─ VocEd_TrainingCerts.xlsx
-│     └─ summary_sheet/
-│        └─ Summary Sheet_Sample (LA).pdf
-└─ opportunities.md
+resentencing_data_initiative/<br>
+├─ LICENSE<br>
+├─ README.md<br>
+├─ citation.cff<br>
+├─ eligibility_model/<br>
+│  ├─ code/<br>
+│  │  ├─ naming_convention/<br>
+│  │  │  ├─ file_names.txt<br>
+│  │  ├─ offense_classification/<br>
+│  │  │  ├─ county/<br>
+│  │  │  │  ├─ los_angeles/<br>
+│  │  │  │  │  ├─ LA CDCR POP PIR ELIGIBILITY CRITERIA.pdf<br>
+│  │  │  │  │  ├─ selection_criteria.xlsx<br>
+│  │  │  │  │  ├─ tables.txt<br>
+│  │  ├─ scenarios/<br>
+│  │  │  ├─ county/<br>
+│  │  │  │  ├─ los_angeles/<br>
+│  │  │  │  │  ├─ adult.py<br>
+│  │  │  │  │  ├─ juvenile.py<br>
+│  │  │  │  │  ├─ robbery.py<br>
+│  │  │  ├─ rules.py<br>
+│  │  │  ├─ utils.py<br>
+│  │  ├─ run.py<br>
+│  │  ├─ cohort.py<br>
+│  │  ├─ compare.py<br>
+│  │  ├─ config.py<br>
+│  │  ├─ eligibility.py<br>
+│  │  ├─ exec.ipynb<br>
+│  │  ├─ extract.py<br>
+│  │  ├─ helpers.py<br>
+│  │  ├─ impl.py<br>
+│  │  ├─ summary.py<br>
+│  │  ├─ utils.py<br>
+│  │  ├─ validation.py<br>
+│  ├─ sample/<br>
+│  │  ├─ input.zip<br>
+│  │  ├─ input/<br>
+│  │  │  ├─ CoreandReentryCOMPAS.xlsx<br>
+│  │  │  ├─ CurrentAssignments.xlsx<br>
+│  │  │  ├─ CurrentCommitments.xlsx<br>
+│  │  │  ├─ Demographics.xlsx<br>
+│  │  │  ├─ EducationMeritCredits.xlsx<br>
+│  │  │  ├─ MilestoneCompletionCredits.xlsx<br>
+│  │  │  ├─ PriorCommitments.xlsx<br>
+│  │  │  ├─ RehabilitativeAchievementCredits.xlsx<br>
+│  │  │  ├─ RulesViolationReports.xlsx<br>
+│  │  │  ├─ VocEd_TrainingCerts.xlsx<br>
+│  │  ├─ summary_sheet/<br>
+│  │  │  ├─ Summary Sheet_Sample (LA).pdf<br>
+├─ opportunities.md<br>
 
 # More information
 
