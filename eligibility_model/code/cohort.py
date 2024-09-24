@@ -52,9 +52,9 @@ def gen_eligible_cohort(demographics,
     clean_col_names : boolean, optional
         Specify whether to clean column names before running the eligibility model. Applies the utils.clean() function on the column headers
         Default is True
-    data_path : str, optional
-        Full path where output data should be written (all parent folders)
-        Default is None.
+    read_path : str, optional
+        Full path where input datataframes (demographics, sorting criteria, commitments, etc.) is extracted from
+        Default is None
     county_name : str, optional
         Name of the county for which eligibility was evaluated, ex: 'Los Angeles County'
         Default is None.
@@ -66,8 +66,8 @@ def gen_eligible_cohort(demographics,
         If True, specify the path information to write the output
         Default is False.
     write_path : str, optional 
-        Specify the full path where the Excel outputs should be written. 
-        If to_excel = True but write_path = None, data outputs are written to the 'county_name/month/output/date folder' by default. To avoid this behavior, pass a value to write_path.
+        Specify the full path where the Excel outputs should be written (all parent folders)
+        If to_excel = True but write_path = None, data outputs are written to the 'county_name/month/output/date folder' by default. To avoid this behavior, pass a value to write_path
     parallel : boolean, optional 
         Specify whether to perform the eligibility determination process using Python parallelization or not.
         Default is True.        
