@@ -143,7 +143,6 @@ resentencing_data_initiative/<br>
 │  │  ├─ offense_classification/<br>
 │  │  │  ├─ county/<br>
 │  │  │  │  ├─ los_angeles/<br>
-│  │  │  │  │  ├─ LA CDCR POP PIR ELIGIBILITY CRITERIA.pdf<br>
 │  │  │  │  │  ├─ selection_criteria.xlsx<br>
 │  │  │  │  │  ├─ tables.txt<br>
 │  │  ├─ scenarios/<br>
@@ -179,8 +178,6 @@ resentencing_data_initiative/<br>
 │  │  │  ├─ RehabilitativeAchievementCredits.xlsx<br>
 │  │  │  ├─ RulesViolationReports.xlsx<br>
 │  │  │  ├─ VocEd_TrainingCerts.xlsx<br>
-│  │  ├─ summary_sheet/<br>
-│  │  │  ├─ Summary Sheet_Sample (LA).pdf<br>
 ├─ opportunities.md<br>
 
 # More information
