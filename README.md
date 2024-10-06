@@ -130,56 +130,6 @@ Personal information on the individual. Note that we do not utilize any demograp
 `Offense Begin Date`: Date when offense was committed<br>
 `Aggregate Sentence in Months`: Total sentence length in months<br>
 
-# Structure 
-
-resentencing_data_initiative/<br>
-├─ LICENSE<br>
-├─ README.md<br>
-├─ citation.cff<br>
-├─ eligibility_model/<br>
-│  ├─ code/<br>
-│  │  ├─ naming_convention/<br>
-│  │  │  ├─ file_names.txt<br>
-│  │  ├─ offense_classification/<br>
-│  │  │  ├─ county/<br>
-│  │  │  │  ├─ los_angeles/<br>
-│  │  │  │  │  ├─ selection_criteria.xlsx<br>
-│  │  │  │  │  ├─ tables.txt<br>
-│  │  ├─ scenarios/<br>
-│  │  │  ├─ county/<br>
-│  │  │  │  ├─ los_angeles/<br>
-│  │  │  │  │  ├─ adult.py<br>
-│  │  │  │  │  ├─ juvenile.py<br>
-│  │  │  │  │  ├─ robbery.py<br>
-│  │  │  ├─ rules.py<br>
-│  │  │  ├─ utils.py<br>
-│  │  ├─ run.py<br>
-│  │  ├─ cohort.py<br>
-│  │  ├─ compare.py<br>
-│  │  ├─ config.py<br>
-│  │  ├─ eligibility.py<br>
-│  │  ├─ exec.ipynb<br>
-│  │  ├─ extract.py<br>
-│  │  ├─ helpers.py<br>
-│  │  ├─ impl.py<br>
-│  │  ├─ summary.py<br>
-│  │  ├─ utils.py<br>
-│  │  ├─ validation.py<br>
-│  ├─ sample/<br>
-│  │  ├─ input.zip<br>
-│  │  ├─ input/<br>
-│  │  │  ├─ CoreandReentryCOMPAS.xlsx<br>
-│  │  │  ├─ CurrentAssignments.xlsx<br>
-│  │  │  ├─ CurrentCommitments.xlsx<br>
-│  │  │  ├─ Demographics.xlsx<br>
-│  │  │  ├─ EducationMeritCredits.xlsx<br>
-│  │  │  ├─ MilestoneCompletionCredits.xlsx<br>
-│  │  │  ├─ PriorCommitments.xlsx<br>
-│  │  │  ├─ RehabilitativeAchievementCredits.xlsx<br>
-│  │  │  ├─ RulesViolationReports.xlsx<br>
-│  │  │  ├─ VocEd_TrainingCerts.xlsx<br>
-├─ opportunities.md<br>
-
 # More information
 
 Three Strikes Law and Prosecutor Initiated Resentencing (PIR):
