@@ -244,7 +244,7 @@ def df_diff(df_objs, comp_col, label_col, merge = True, direction = 'single', re
         Specify to return only the differences, i.e. when at least one label is False or all entries evaluated for differences. 
         Takes 'disagree' or 'all'. Default is 'disagree'
     direction : str, optional
-        Specify whether to evaluate differences against the base dataframe defined as df_objs[0]: 'single', or ONLY or find differences between all dataframes: 'multi'
+        Specify whether to evaluate differences against the base dataframe defined as df_objs[0]: 'single' or find differences between all dataframes: 'multi'
         Default is 'single'.
     
     Returns
@@ -259,10 +259,10 @@ def df_diff(df_objs, comp_col, label_col, merge = True, direction = 'single', re
     # Set up the dataframe with values to compare
     # Compare all dfs against each other
     if direction == 'multi':
-        merge_df = pd.DataFrame(columns = [comp_col])
+        comp_list = []
         for df in df_objs: 
-            merge_df = pd.concat([merge_df, df[[comp_col]]])
-        df_diff[comp_col] = merge_df[comp_col].unique()
+            comp_list.extend(list(df[comp_col]))
+        df_diff[comp_col] = list(set(comp_list))
     # Compare only one df against the others
     elif direction == 'single':
         df_diff[comp_col] = df_objs[0][comp_col].unique() 
