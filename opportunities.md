@@ -1,6 +1,6 @@
 # Projects available (as of March 2024): 
 
-## Three Strikes Project & Resentencing Data Initiative
+## Resentencing Data Initiative
 
 ### 1. Code improvement 
 #### 1.1. Parameterize numerical conditions 
