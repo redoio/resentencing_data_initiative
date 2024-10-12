@@ -25,9 +25,7 @@
 
 # Introduction
 
-<img src= "https://github.com/redoio/.github/assets/124313756/9f405081-081a-4716-b8a6-f90f840fa8f5" width = "25%" height = "15%">
-
-A data science application for the Three Strikes Project at the Stanford University School of Law that proactively and automatically identifies nonviolent offenders in California's prison system who are eligible for Prosecutor Initiated Resentencing (PIR). 
+A data science tool for the Three Strikes Project at the Stanford University School of Law that proactively and automatically identifies nonviolent offenders in California's prison system who are eligible for Prosecutor Initiated Resentencing (PIR). 
 
 # Citation 
 
